@@ -1,0 +1,149 @@
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part VII: The Machine Starts Reasoning}
+\fancyhead[LO]{\textit{Chapter 7 --- Playwright}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\mainmatter
+
+\chapter*{Part VII --- The Machine Starts Reasoning}
+\addcontentsline{toc}{chapter}{Part VII --- The Machine Starts Reasoning}
+
+\section*{Chapter 7 --- Playwright: When Automation Learned to Wait}
+\addcontentsline{toc}{section}{Chapter 7 --- Playwright: When Automation Learned to Wait}
+
+\noindent \initialcap{T}here is a moment in every automation story when the machine becomes less predictable than the thing it is trying to automate. The browser is loading. The page is rendering. JavaScript is running. An element exists, but isn't ready. A request is still in flight. A button is visible, but another layer is covering it. The test clicks. Nothing happens. 
+
+So the engineer adds a delay:
+\begin{center}
+\texttt{sleep(2)}
+\end{center}
+The test passes. Then, three days later, it fails. The engineer changes it:
+\begin{center}
+\texttt{sleep(5)}
+\end{center}
+It passes again. Eventually someone asks the obvious question: \textit{Why are we teaching the machine to wait five seconds when the machine already knows what it is waiting for?}
+
+That question captures an important transition in browser automation. The next generation of tools would not merely control browsers. They would attempt to understand the browser's state. One of the most important examples was Playwright. But the larger story was much bigger than Playwright. Automation was beginning to move from \textit{Do exactly what I say} toward \textit{Do what I mean, and understand enough of the environment to do it reliably.}
+
+\section{7.1 The Browser Had Become Too Complicated}
+\noindent \initialcap{S}elenium had succeeded partly because browsers could be controlled through a relatively clean abstraction: find an element, click it, type into it, read its value, wait for something. The abstraction was powerful. But the web kept evolving. Modern applications became heavily client-side. Pages stopped behaving like documents. They behaved more like applications. 
+
+A click could trigger asynchronous work. A component could appear only after data arrived. Elements could be replaced dynamically. Multiple pages could exist in a single browser context. Frames could contain other applications. Downloads could begin outside the normal page flow. Network requests could continue after the user interface appeared ready. The browser was no longer a static document viewer. It was a distributed runtime. And automation had to catch up.
+
+\section{7.2 The Flaky Test Returns}
+\noindent \initialcap{R}emember the flaky test? It never really went away. Suppose a test does this: open page, sleep 2 seconds, click ``Submit''. What exactly does the two-second delay mean? Nothing. It is a guess. If the application is ready after 200 milliseconds, the test wastes time. If the application needs 2.5 seconds, the test fails. If the application occasionally needs 8 seconds, someone increases the delay. The test becomes slower and still isn't reliable.
+
+The real condition is not \textit{Wait two seconds.} The real condition is \textit{Wait until the button is ready to be clicked.} That distinction sounds trivial. It isn't. It changes what the automation tool is responsible for understanding.
+
+\section{7.3 Waiting Becomes Intelligent}
+\noindent \initialcap{M}odern browser automation frameworks increasingly incorporated automatic waiting. Instead of asking the engineer to manually coordinate every step, the framework could inspect the current state: Is the element present? Is it visible? Is it enabled? Is it stable? Can it receive the action? If not, wait.
+
+The difference is subtle but profound. The old automation model was:
+\begin{center}
+\textit{Human decides timing $\rightarrow$ Machine executes action}
+\end{center}
+The newer model becomes:
+\begin{center}
+\textit{Human describes action $\rightarrow$ Machine evaluates conditions $\rightarrow$ Machine waits $\rightarrow$ Machine executes action}
+\end{center}
+The machine is still following instructions. But it is doing more interpretation between the instruction and the action. That is a new kind of automation.
+
+\section{7.4 Playwright Appears}
+\noindent \initialcap{P}laywright emerged from engineers who had worked on browser automation infrastructure and was introduced by Microsoft in the late 2010s. Its design reflected lessons accumulated from years of browser automation. The browser was no longer treated as a simple remote object. The automation framework needed to understand more of what was happening inside the browser.
+
+Playwright focused on modern web applications and provided automation across major browser engines. Its architecture emphasized direct, reliable browser interaction and modern web capabilities. But its most important contribution to the history of automation was conceptual: \textbf{The automation framework could take responsibility for more of the synchronization problem.}
+
+\section{7.5 The Locator Is No Longer Just a Selector}
+\noindent \initialcap{O}lder browser automation often revolved around selectors. Find an element by ID, CSS selector, XPath, class, or tag. That works. But selectors describe implementation. Suppose the page contains:
+\begin{quote}
+\texttt{<button class="btn-primary-9f83"> Buy now </button>}
+\end{quote}
+The class name may change tomorrow. The human meaning probably won't. The user still sees: \textit{Buy now}. 
+
+Modern frameworks increasingly encouraged locators based on the application's semantics. For example:
+\begin{center}
+\texttt{getByRole("button", \{ name: "Buy now" \})}
+\end{center}
+Now the test describes something closer to what a human means. Not \textit{Find this particular piece of HTML}, but \textit{Find the button named ``Buy now''}. The distinction matters. The more the automation expresses intent rather than implementation, the less brittle it can become.
+
+\section{7.6 Automation Moves Toward Meaning}
+\noindent \initialcap{T}his was happening everywhere. Old style: \texttt{\#submit-button-7}. More semantic style: \texttt{button[name="Submit"]}. Or: \texttt{getByRole("button", \{ name: "Submit" \})}. 
+
+The automation is moving upward in abstraction. That mirrors the entire history of the book: the machine began with coordinates, then objects, then selectors, now semantics. Each generation tries to describe the target at a higher level.
+
+\section{7.7 The Accessibility Tree}
+\noindent \initialcap{T}here was another development hiding underneath this idea. Browsers already had more information about a page than the raw HTML suggested. For accessibility, browsers expose a representation of the interface based on concepts such as roles, names, states, and relationships. 
+
+A screen reader doesn't need to think: \textit{There is a div with a particular CSS class.} It needs to know: \textit{This is a button named ``Checkout.''} That representation became increasingly useful for automation. The automation framework could reason about the interface in terms closer to what users actually perceive. The browser was beginning to expose a second map of the application: not just what is the code, but what does this interface mean? That would become extremely important later.
+
+\section{7.8 One Browser Is Not Enough}
+\noindent \initialcap{P}laywright also made it easier to think in terms of browser contexts. A browser context can be thought of as an isolated browser session. Imagine one test needs User A and another needs User B. In older automation setups, managing multiple isolated sessions could require multiple browser instances, complex profile management, or complicated state-clearing scripts. 
+
+Playwright made isolated contexts lightweight and fast. A single browser instance could run multiple completely independent contexts, each with its own cookies, storage, permissions, and isolation boundaries. The infrastructure was beginning to match the complexity of modern web applications.
+
+\section{7.9 Network Interception Becomes First-Class}
+\noindent \initialcap{W}eb applications communicate constantly with backends via APIs, WebSockets, and background fetches. Testing them often required dealing with network flakiness, slow responses, or external service dependencies. 
+
+Playwright built network interception directly into the core framework. Tests could intercept requests, mock responses, modify headers, simulate offline conditions, or track API traffic alongside UI interactions. Automation was no longer just watching the screen; it was participating in the network traffic that created the screen.
+
+\section{7.10 Tracing and Observability}
+\noindent \initialcap{W}hen an automated test fails on a remote CI server, diagnosing the failure can be agonizing. A screenshot tells you what the page looked like at the moment of failure. A video tells you what happened before. A trace tells you the entire story: network requests, console logs, DOM snapshots, action timelines, and exact execution steps. 
+
+Modern tools like Playwright treated observability as a core feature rather than an afterthought. Debugging automation became an engineering investigation rather than guesswork.
+
+\section{7.11 The Abstraction Ceiling}
+\noindent \initialcap{P}laywright and its contemporaries made browser automation remarkably powerful, reliable, and expressive. But they still shared a fundamental trait with every tool that came before them: \textbf{The human had to write the script.} 
+
+The machine could wait intelligently. It could inspect semantics. It could intercept networks. It could run across multiple engines. But it could not look at a newly redesigned application and figure out what to test. It could not read a product requirement document and generate the test suite. It could not adapt when a workflow completely changed its structure. 
+
+The tool was an exceptionally sophisticated assistant. But the human was still the architect. That limitation would soon encounter the next great wave in computing.
+
+\chapter*{Part VII --- What We Learned}
+\addcontentsline{toc}{chapter}{Part VII --- What We Learned}
+
+\noindent \initialcap{T}he lessons from Part VII:
+\begin{enumerate}
+    \item \textbf{Automatic waiting removes guesswork.} Replacing manual delays with intelligent condition checking eliminates massive sources of test flakiness.
+    \item \textbf{Semantics beat implementation selectors.} Locators based on roles and accessibility trees are more resilient than fragile CSS classes or XPaths.
+    \item \textbf{The browser is a distributed runtime.} Modern apps require automation to handle async requests, network traffic, and isolated contexts natively.
+    \item \textbf{Observability is essential for scale.} Traces, snapshots, and network logs turn remote test debugging from a mystery into data.
+    \item \textbf{Automation moves closer to human perception.} Utilizing accessibility semantics allows tools to understand interfaces the way users experience them.
+    \item \textbf{The tool is not the author.} Even the most advanced automation frameworks require humans to write and maintain the logic.
+    \item \textbf{The next question is inevitable.} If a machine can intelligently wait, inspect semantics, and interact with networks, what happens when it can also reason about goals?
+\end{enumerate}
+
+\noindent \textbf{The Cliffhanger:} We have traveled from mechanical looms and punched cards to commercial testing suites, open-source browser scripts, mobile device farms, API contracts, continuous CI pipelines, and intelligent semantic automation. Every tool along the way increased the machine's capability while keeping the human firmly in charge of intent. But computing is now entering an era where machines don't just follow instructions or evaluate pre-written assertions. They can plan, reason, generate code, evaluate results, and pursue open-ended goals. What happens when automation stops being a script that runs every night, and becomes an agent that acts on your behalf? Next: \textit{Part VIII --- The Agentic Era}.
+
+\end{document}
