@@ -1,0 +1,122 @@
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part VIII: The Agentic Era}
+\fancyhead[LO]{\textit{Chapter 8 --- Vibium}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\mainmatter
+
+\chapter*{Part VIII --- The Agentic Era}
+\addcontentsline{toc}{chapter}{Part VIII --- The Agentic Era}
+
+\section*{Chapter 8 --- Vibium: When the Automation Tool Became a Tool for the Machine}
+\addcontentsline{toc}{section}{Chapter 8 --- Vibium: When the Automation Tool Became a Tool for the Machine}
+
+\noindent \initialcap{F}or most of automation history, there was an assumption hiding in plain sight. The user was human. The programmer was human. The tester was human. The person writing the automation was human. The machine was the thing being controlled. 
+
+That arrangement lasted for decades. Then something changed. Machines started writing code. Machines started calling APIs. Machines started navigating websites. Machines started using terminals. Machines started reading documentation. Machines started deciding which tool to call next. The old automation model had a new participant. Not another browser. Not another device. Not another programming language. An agent. 
+
+And suddenly the question was no longer:
+\begin{center}
+\textit{How do humans automate software?}
+\end{center}
+It became:
+\begin{center}
+\textit{How do we build software that machines can use to automate software?}
+\end{center}
+That sounds like a small distinction. It isn't. It is the beginning of a new era.
+
+\section{8.1 The Programmer Moves One Level Up}
+\noindent \initialcap{F}or most of computing history, programmers gave machines explicit instructions:
+\begin{center}
+\textit{Open browser $\rightarrow$ Go to page $\rightarrow$ Find button $\rightarrow$ Click button $\rightarrow$ Verify result.}
+\end{center}
+Then higher-level programming languages made those instructions easier to express. Frameworks added abstractions. Libraries added reusable capabilities. APIs provided structured interfaces. Automation tools packaged common operations. Each generation moved the programmer farther away from the machine. But the programmer was still writing the instructions.
+
+Generative AI introduced another layer. A human could write:
+\begin{quote}
+\textit{``Check whether the checkout flow is working.''}
+\end{quote}
+And an AI system could potentially turn that request into a sequence of actions. The human supplied the goal. The machine constructed the procedure. That is a profound change in the role of automation.
+
+\section{8.2 The Agent}
+\noindent \initialcap{T}he word agent can sound grander than it needs to be. At its simplest, an agent is a system that can observe some environment, decide what to do, take an action, observe the result, and continue until it reaches some stopping condition.
+
+A traditional script looks like:
+\begin{center}
+\textit{Step 1 $\rightarrow$ Step 2 $\rightarrow$ Step 3 $\rightarrow$ Step 4}
+\end{center}
+An agent looks more like:
+\begin{center}
+\textit{Goal $\rightarrow$ Observe $\rightarrow$ Choose action $\rightarrow$ Act $\rightarrow$ Observe $\rightarrow$ Choose next action $\rightarrow$ \dots}
+\end{center}
+The sequence isn't completely predetermined. The machine participates in constructing it. That is why agentic automation feels different.
+
+\section{8.3 The Tool Becomes an Interface}
+\noindent \initialcap{A}n agent cannot interact with the world through intention alone. It needs tools. A tool might be:
+\begin{center}
+\texttt{open\_page(url)} \quad or \quad \texttt{click(element)} \quad or \quad \texttt{read\_page()} \quad or \quad \texttt{run\_query(sql)}
+\end{center}
+The agent decides when to use a tool. The tool performs the operation. The result returns to the agent. This creates a new architecture:
+\begin{center}
+\textit{Human $\rightarrow$ Agent $\rightarrow$ Tool $\rightarrow$ Software $\rightarrow$ Result $\rightarrow$ Agent}
+\end{center}
+The automation tool has become part of the agent's vocabulary.
+
+\section{8.4 MCP Enters the Story}
+\noindent \initialcap{T}his problem became particularly visible with the rise of the Model Context Protocol, or MCP. The underlying idea is straightforward. Instead of every AI application inventing a completely different way to connect models to external capabilities, tools can expose structured interfaces that models can discover and use.
+
+Conceptually:
+\begin{center}
+\textit{Agent $\rightarrow$ MCP $\rightarrow$ [Browser, Files, Database, Git, Other services]}
+\end{center}
+The important historical shift is not the protocol itself. It is the abstraction. For decades, APIs had been designed primarily for software. Now tools were increasingly being designed so that AI systems could operate them. The API had acquired a new consumer: the machine itself.
+
+\section{8.5 The Browser Gets a New User}
+\noindent \initialcap{T}his is where the story comes back to the browser. The browser had started as a document viewer for humans. Then it became a target for automated scripts written by engineers using Selenium and Playwright. Now, the browser was becoming an interface for autonomous agents. 
+
+An agent didn't necessarily need a pre-written test suite. Given a goal, it could open a browser, inspect the DOM, locate elements using semantics or vision, interact with buttons, handle unexpected dialogs, and evaluate whether the outcome matched expectations. The browser was no longer just a runtime environment; it was an interactive workspace for reasoning systems.
+
+\chapter*{Part VIII --- What We Learned}
+\addcontentsline{toc}{chapter}{Part VIII --- What We Learned}
+
+\noindent \initialcap{T}he lessons from Part VIII:
+\begin{enumerate}
+    \item \textbf{The user of automation changed.} For the first time in history, the primary consumer of automation tools is no longer a human developer or tester, but an autonomous agent.
+    \item \textbf{Intent replaces procedure.} Humans supply high-level goals; machines dynamically construct the sequence of actions.
+    \item \textbf{Tools are designed for machines.} Protocols like MCP allow models to discover and operate software capabilities programmatically.
+    \item \textbf{The browser becomes a workspace.} Browsers transition from human documents and script targets into interactive environments for AI agents.
+\end{enumerate}
+
+\end{document}
