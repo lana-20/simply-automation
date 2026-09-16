@@ -1,3 +1,5 @@
+<img width="3392" height="5056" alt="cover-front" src="https://github.com/user-attachments/assets/86a26b60-ba9b-4422-b871-ceacebda6d33" />
+
 # Simply Automation
 
 ### A History of Automation, One Tool at a Time
