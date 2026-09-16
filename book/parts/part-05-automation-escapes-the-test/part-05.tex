@@ -1,0 +1,150 @@
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part V: Automation Escapes the Test}
+\fancyhead[LO]{\textit{Chapter 5 --- API Automation}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\mainmatter
+
+\chapter*{Part V --- Automation Escapes the Test}
+\addcontentsline{toc}{chapter}{Part V --- Automation Escapes the Test}
+
+\section*{Chapter 5 --- When the UI Became Optional}
+\addcontentsline{toc}{section}{Chapter 5 --- When the UI Became Optional}
+
+\noindent \initialcap{F}or a long time, automation had a simple picture of the application. There was a screen. A human looked at it. The automation looked at it too. The automation found a button, clicked it, waited, typed something, clicked another button, and checked the result. It was a remarkably useful model. It was also incomplete. Because the screen was never the application. The screen was only the place where the application happened to meet the human. 
+
+Underneath it were databases, services, queues, authentication systems, payment systems, search engines, recommendation engines, notification systems, and dozens of other components that could continue working even if nobody opened a browser. Eventually, automation engineers started asking a dangerous question: \textit{What if we don't test the screen at all?} That question changed everything.
+
+\section{5.1 The Application Behind the Button}
+\noindent \initialcap{I}magine an online store. A customer searches for a product. They click Add to Cart. They proceed to checkout. They enter a credit card. They click Place Order. The browser shows: \textit{Order confirmed.} A traditional UI test sees exactly that. 
+
+\noindent But what actually happened? Somewhere behind the button:
+\begin{itemize}
+    \item The browser sent a request.
+    \item A server authenticated the customer.
+    \item A product service checked inventory.
+    \item A cart service updated state.
+    \item A pricing service calculated the total.
+    \item A payment service authorized the transaction.
+    \item An order service created an order.
+    \item A database stored it.
+    \item A message entered a queue.
+    \item Another service sent an email.
+\end{itemize}
+The button was merely the trigger. The real application was the system behind it. And suddenly, clicking the button became a surprisingly inefficient way to test what the button caused.
+
+\section{5.2 The API Was Already There}
+\noindent \initialcap{T}his wasn't a new invention. Software had been talking to software for decades. An API, or Application Programming Interface, is simply a defined way for one piece of software to communicate with another. Humans have interfaces. Computers have APIs. A web browser is, in large part, an API client with a very elaborate visual interface attached to it. 
+
+When a user clicks \textit{Log in}, the browser might send something conceptually like:
+\begin{quote}
+\texttt{POST /login} \\
+\texttt{\{\ "username": "lana", "password": "..." \}}
+\end{quote}
+The server responds with \texttt{200 OK} and authentication information. The browser then turns that response into a screen saying \textit{Welcome back.} The automation engineer can choose either side. They can test the screen. Or they can talk directly to the system. That distinction would become enormously important.
+
+\section{5.3 The UI Had a Problem}
+\noindent \initialcap{U}I automation was powerful, but it carried baggage. To test a login through the browser, you needed a browser, a driver, a running application, a page, elements, locators, timing, network connectivity, browser state, test data, and sometimes an entire cloud environment. And then there was the waiting. The browser had to load. The JavaScript had to execute. The element had to appear. The animation had to finish. The test had to click. The server had to respond. The page had to update. Then the test could finally make its assertion.
+
+\noindent None of this was wrong; it was simply a lot of machinery for testing a relatively small piece of logic. API automation removed much of the machinery. Instead of \textit{Open browser $\rightarrow$ find button $\rightarrow$ click $\rightarrow$ wait $\rightarrow$ inspect page}, the test could say: \textit{Send request $\rightarrow$ inspect response.} That was a radically smaller experiment.
+
+\section{5.4 Faster Was Only the Beginning}
+\noindent \initialcap{T}he obvious advantage was speed. But speed wasn't the most important change. The deeper advantage was control. Suppose you want to test what happens when an account has no remaining credit. Through the UI, you may need to create an account, navigate through several screens, purchase something, modify the account state, return to the relevant page, and finally perform the operation. At the API layer, you can often construct the required state directly. The test becomes much closer to the question: \textit{What happens when the account has zero credit and this request arrives?} That is a better experiment.
+
+\section{5.5 The Test Gets Closer to the Code}
+\noindent \initialcap{U}I automation tested behavior from the outside. API automation could test the same behavior one layer closer to the system, making failures easier to interpret. A failed UI test often tells you that something went wrong somewhere between the browser and the application. An API test can narrow that boundary: \textit{This request returned HTTP 409 instead of HTTP 201.} That is a much smaller mystery. And smaller mysteries are easier to automate.
+
+\section{5.6 Enter Postman}
+\noindent \initialcap{T}he API world had one particularly important problem: APIs were powerful, but not always friendly. Developers used command-line clients, libraries, and custom scripts. For everyone else, APIs could feel like a door without a handle. Then tools emerged that made API interaction visual. One of the most recognizable became Postman. Instead of writing an entire program to make an HTTP request, you could construct it directly: choose \textit{GET}, enter a URL, send, see the response, add headers, add authentication, write assertions, and organize requests into collections. The API stopped being hidden behind the application; it became something you could touch.
+
+\section{5.7 The API Becomes a First-Class Citizen}
+\noindent \initialcap{T}his changed more than testing; it changed how teams thought about software. An API wasn't merely an implementation detail anymore. It could become a product. A service could expose an interface consumed by mobile apps, web apps, other services, third-party developers, and automated tests. The screen was becoming just another client.
+
+\section{5.8 The Automation Pyramid Gets Real}
+\noindent \initialcap{T}his reinforced an idea that not every behavior needs to be tested through the UI. Imagine three layers: UI at the top, API/Service in the middle, Unit/Component at the bottom. The higher you go, the more of the system you exercise, but the more environmental complexity you introduce. The pyramid offered a clear rule: \textbf{Put each test at the lowest layer that can meaningfully answer the question.} That single idea could eliminate enormous amounts of unnecessary browser automation.
+
+\section{5.9 The API Test Is Not a UI Test Without a Browser}
+\noindent \initialcap{T}here was a temptation to think of API testing as simply UI testing with the browser removed. It wasn't. The questions changed. A UI test asks if the user can complete a workflow. An API test asks if the endpoint rejects malformed input, preserves authorization boundaries, or maintains its contract when unexpected fields arrive. The test became explicit, describing what the system should accept, reject, create, return, and guarantee.
+
+\section{5.10 Status Codes Become Assertions}
+\noindent \initialcap{T}he browser had trained automation engineers to look for visual evidence: green checkmarks, confirmation messages, updated tables. API testing introduced a different vocabulary: HTTP status codes, headers, payloads, schemas, response times, authentication tokens, and contracts. A response such as \texttt{201 Created} or a structured JSON payload could itself be part of the assertion.
+
+\section{5.11 Authentication Changes the Game}
+\noindent \initialcap{O}f course, APIs introduced complications. Authentication was one of them. A browser could hide a surprising amount of complexity behind cookies. An API test has to know what authentication actually means: bearer tokens, session cookies, API keys, or multi-service trust chains. Suddenly, the test engineer wasn't merely automating clicks; they were learning how the application communicated.
+
+\section{5.12 The Test Data Problem Returns}
+\noindent \initialcap{T}here was a familiar enemy waiting underneath the new abstraction: state. A test might need an existing customer, product, available inventory, valid token, or particular database record. API automation didn't eliminate test-data problems; it made them more visible. And visibility was useful, proving that reliable automation requires deliberate control of state.
+
+\section{5.13 Mocking the World}
+\noindent \initialcap{S}ometimes the service you wanted to test depended on another unreliable or expensive service. For example, testing an order service that calls a shipping provider doesn't require sending a real package request every time. Instead, external dependencies can be mocked or simulated, letting the test isolate and examine specific behavior without external interference.
+
+\section{5.14 The Microservice Explosion}
+\noindent \initialcap{T}hen software architecture changed underneath the tests. Applications increasingly became collections of independent microservices handling users, payments, search, recommendations, and notifications. Every arrow in the architecture diagram became a potential contract, and every contract became a potential test.
+
+\section{5.15 Contract Testing}
+\noindent \initialcap{T}his created contract testing. If Service A expects Service B to return specific fields, a change in Service B might break Service A even if both services pass individual unit tests. Contract testing asks: \textit{Does this service continue to communicate in the way its consumer expects?} Automation had moved another level deeper.
+
+\section{5.16 CI Finally Gets Interesting}
+\noindent \initialcap{A}PI automation also fit beautifully into continuous integration. While browser tests took significant infrastructure to run, API tests could execute quickly and frequently inside CI pipelines, tightening the feedback loop and making testing an integrated part of software delivery.
+
+\section{5.17 The API Is Everywhere}
+\noindent \initialcap{O}nce engineers learned to automate APIs, they discovered something surprising: almost everything had an API. Cloud infrastructure, databases, container platforms, deployment systems, monitoring tools, and source-control systems could all be programmed. The browser was no longer the center of automation; it was just one node in a much larger network.
+
+\section{5.18 Automation Moves Down the Stack}
+\noindent \initialcap{T}he progression was unmistakable: Screen $\rightarrow$ Browser $\rightarrow$ API $\rightarrow$ Service $\rightarrow$ Infrastructure. Each step offered more control. Furthermore, automation was moving sideways: the same interfaces used for testing could be used for deployment, monitoring, provisioning, and release orchestration.
+
+\section{5.19 The Tester Becomes a Systems Engineer}
+\noindent \initialcap{T}his changed the required skills. An API-focused engineer needed to understand HTTP, JSON, authentication, service architecture, databases, networking, contracts, and test data. Automation was no longer about making a computer imitate a user; it was about understanding a system well enough to control it programmatically.
+
+\section{5.20 The Next Boundary}
+\noindent \initialcap{I}f automation could control the application, the API, and the infrastructure, why stop there? Why should a human still have to manually start automation, select test suites, deploy environments, or inspect results? Connecting all of these pieces together would create something much bigger: continuous integration, continuous delivery, and a machine that runs the entire factory.
+
+\chapter*{Part V --- What We Learned}
+\addcontentsline{toc}{chapter}{Part V --- What We Learned}
+
+\noindent \initialcap{T}he lessons from Part V:
+\begin{enumerate}
+    \item \textbf{The screen is not the application.} The UI is merely an interface; the real logic lives in services and APIs behind it.
+    \item \textbf{API automation removes unnecessary machinery.} Eliminating browsers and rendering overhead makes tests faster and more reliable.
+    \item \textbf{Control beats simulation.} Setting up state directly via API is cleaner than driving through UI workflows.
+    \item \textbf{Status codes and payloads become assertions.} Testing shifts from visual evidence to structural verification.
+    \item \textbf{Microservices require contract testing.} Verifying communication between services is just as important as verifying internal logic.
+    \item \textbf{Automation escapes the test suite.} The same programmable interfaces used for testing power deployment, provisioning, and CI pipelines.
+    \item \textbf{The tester becomes a systems engineer.} Understanding HTTP, networking, and service architecture becomes essential.
+    \item \textbf{The interface is optional.} You don't need to imitate the user to verify what the system does.
+\end{enumerate}
+
+\noindent \textbf{The Cliffhanger:} If a test can send a request directly, if a pipeline can run that test automatically, if infrastructure can create itself, and if deployment can happen without a human---then why stop at testing? Why not automate the entire journey from code to production? That question would turn a collection of automated tests into something much bigger. It would create a machine that watches the codebase, builds the software, runs the tests, packages the result, deploys it, and reports what happened. The automation engineer had started by teaching a machine to click a button. Now the machine was preparing to run the entire factory. Next: \textit{Part VI --- Automation Becomes Continuous}.
+
+\end{document}
