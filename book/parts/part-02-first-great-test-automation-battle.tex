@@ -1,0 +1,212 @@
+% --- PRINT-READY BOOK CHAPTER: PART II ---
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part II: The First Great Test Automation Battle}
+\fancyhead[LO]{\textit{Chapter 2 --- Selenium vs. UFT}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\mainmatter
+
+\chapter*{Part II --- The First Great Test Automation Battle}
+\addcontentsline{toc}{chapter}{Part II --- The First Great Test Automation Battle}
+
+\section*{Chapter 2 --- Selenium vs. UFT}
+\addcontentsline{toc}{section}{Chapter 2 --- Selenium vs. UFT}
+
+\noindent \initialcap{T}here are many ways to start a revolution. You can write a manifesto. You can organize a movement. Or you can release a little piece of software and let people download it for free. Selenium did the third. That sounds harmless. It wasn't.
+
+At the beginning of the twenty-first century, browser automation was already a real business. Companies had commercial testing platforms, specialized teams, training programs, consultants, and licensing agreements. Then an open-source project appeared with a deceptively simple proposition: \textit{What if controlling a browser were just programming?}
+
+That question would eventually reshape the automation industry. But first, Selenium had to survive in a world that had already decided what professional test automation looked like.
+
+\section{2.1 The Enterprise Had a Plan}
+\noindent \initialcap{B}efore Selenium became synonymous with browser automation, organizations already had sophisticated commercial tools. One of the most prominent was Mercury WinRunner, followed by Mercury QuickTest Professional, later known as HP QuickTest Professional and eventually UFT --- Unified Functional Testing.
+
+The philosophy was familiar. A tester should be able to interact with an application. The tool should understand the application's objects. The tester should be able to record actions. The tool should turn those actions into automation. The platform should provide the surrounding machinery required to manage and execute the tests.
+
+It was a reasonable proposition. And for many organizations, it worked. Commercial automation wasn't stupid. It solved a real problem. It packaged difficult technology into something organizations could buy, deploy, support, and standardize. That distinction matters. Selenium didn't overthrow a useless technology. It challenged a successful business model.
+
+\section{2.2 The Commercial Automation Dream}
+\noindent \initialcap{I}magine an enterprise manager in the early 2000s. The company has hundreds of testers. The application changes constantly. Regression testing takes weeks. Management wants automation. The manager doesn't necessarily want to assemble a collection of open-source projects. They want a product. A vendor. Documentation. Training. Support. Someone to call when production is on fire.
+
+Commercial automation vendors understood this. Their pitch wasn't merely:
+\begin{center}
+\textit{``Our tool can click a button.''}
+\end{center}
+It was closer to:
+\begin{center}
+\textit{``We can give your organization an automation platform.''}
+\end{center}
+That distinction would become increasingly important. Because open source could provide software. Enterprise automation needed to provide confidence. Or at least the appearance of it.
+
+\section{2.3 The Record Button}
+\noindent \initialcap{O}ne of the most seductive ideas in early automation was the record button. A human tester performs a workflow. The tool watches. The tool records. The test can later be replayed. It feels almost like magic. Open an application. Click here. Type this. Click that. Verify something. Stop recording. Now you have an automated test.
+
+For people who didn't identify as programmers, this was revolutionary. You didn't necessarily have to learn a programming language before you could start automating. The tool attempted to translate human interaction into machine instructions. This approach became one of the defining characteristics of commercial GUI automation. And it worked---until applications became complicated enough that recording wasn't enough.
+
+\section{2.4 The Problem With Recording}
+\noindent \initialcap{S}uppose you record a test today. Tomorrow, a developer changes the page. The button moves. The text changes. The HTML changes. A new container appears. The application loads more slowly. Your recorded test may fail. Not because the business behavior is broken. Because the implementation changed.
+
+This is one of the fundamental problems of automation: \textbf{Automation is only as stable as the assumptions it makes about the system.}
+
+Commercial tools attempted to solve this through increasingly sophisticated object recognition, repositories, synchronization mechanisms, scripting capabilities, and other abstractions. But the underlying tension remained: How much of the application's complexity should the automation tool hide? And how much should the tester understand?
+
+\section{2.5 Meanwhile, Developers Were Writing Code}
+\noindent \initialcap{W}hile commercial test automation was developing its own ecosystem, software development was changing too. Programming languages were becoming more accessible. Open-source software was becoming increasingly important. Web applications were exploding. Developers were collaborating through increasingly sophisticated version-control systems.
+
+The distinction between ``tester'' and ``programmer'' was beginning to blur. And a new generation of engineers was increasingly comfortable with an idea that enterprise testing tools sometimes treated as secondary: \textbf{the test is software.}
+
+If a test is software, why shouldn't it be developed like software? Why shouldn't it live in source control? Why shouldn't it be reviewed? Why shouldn't it be refactored? Why shouldn't it run from the command line? Why shouldn't it execute in continuous integration? And perhaps most provocatively: \textit{why should a test require a special commercial environment at all?}
+
+\section{2.6 Enter Selenium}
+\noindent \initialcap{T}he origins of Selenium are unusually appropriate for this story. Jason Huggins was working at ThoughtWorks in 2004 when he encountered a familiar problem: automating web applications. The existing tools weren't providing the experience he wanted. So he started building something.
+
+The original project was called JavaScriptTestRunner. It was eventually renamed Selenium. The name itself came from a joke about the mercury used in some competing products: selenium can counteract mercury poisoning. The joke was memorable. The idea was more important.
+
+Selenium was open source. And it approached browser automation from a different direction. Instead of beginning with:
+\begin{center}
+\textit{``How can we make a commercial testing platform?''}
+\end{center}
+it began with:
+\begin{center}
+\textit{``How can we control a browser?''}
+\end{center}
+That sounds like a small difference. It wasn't.
+
+\section{2.7 Selenium RC}
+\noindent \initialcap{T}he early Selenium project evolved into Selenium Remote Control, commonly known as Selenium RC. The basic idea was wonderfully simple. A test could send commands to Selenium. Selenium could communicate with a browser. The browser could perform the requested actions. The test could then inspect what happened.
+
+The architecture had limitations. It relied heavily on JavaScript and a server component. Browser security restrictions made the problem more complicated. Different browsers behaved differently. But Selenium had something increasingly valuable: a programmable interface.
+
+\section{2.8 The Browser Becomes an API}
+\noindent \initialcap{T}his is the conceptual breakthrough. A browser had traditionally been something a human operated. Selenium treated it as something software could operate. Click. Type. Navigate. Find. Submit. Verify. The browser became programmable. That may sound obvious now. It was not.
+
+The importance of Selenium wasn't simply that it automated browsers. It helped normalize the idea that the browser itself could become an automation surface. Once that idea took hold, an entire ecosystem became possible: libraries, frameworks, language bindings, plugins, CI integrations, cloud browser providers, mobile automation, grid infrastructure, and eventually, entire generations of browser automation frameworks built on similar concepts.
+
+\section{2.9 Selenium's Secret Weapon}
+\noindent \initialcap{S}elenium's most important feature wasn't necessarily technical. It was cultural. Open source changes the cost of experimentation. Want to try Selenium? Download it. Want to inspect how it works? Read the source. Want to contribute? You can. Want to build another tool around it? Go ahead. Want to integrate it with another programming language? Build the binding.
+
+This creates a fundamentally different ecosystem from traditional commercial software. A commercial product asks: \textit{``What features should the vendor build?''} An open-source project can inspire a different question: \textit{``What can the community build?''} That difference compounds.
+
+\section{2.10 The Language Problem}
+\noindent \initialcap{S}elenium also benefited from a powerful idea: the automation language doesn't have to be the automation product. Developers could interact with Selenium through programming languages: Java, Python, Ruby, JavaScript, C\#, and others.
+
+This mattered because it allowed automation to fit into existing development ecosystems. A Java team could write tests in Java. A Python team could write tests in Python. A JavaScript team could write tests in JavaScript. Automation stopped being isolated inside a proprietary environment. It could live alongside the rest of the software. That was a profound shift.
+
+\section{2.11 The Test Joins the Codebase}
+\noindent \initialcap{C}onsider the difference.
+\begin{itemize}
+    \item \textbf{Model A:} Tester opens automation tool. Tester edits test. Tester runs test. Results live inside the tool.
+    \item \textbf{Model B:} Engineer edits source code. Test is committed to version control. CI executes it. Results become part of the build.
+\end{itemize}
+The second model sounds normal today. It wasn't always. Selenium fit naturally into it. Tests could become ordinary software artifacts. They could be committed, branched, reviewed, merged, refactored, and executed automatically. The automation tool was no longer the center of the universe. The software repository was.
+
+\section{2.12 The Economic Argument}
+\noindent \initialcap{N}ow we get to the uncomfortable part. Commercial automation tools cost money. Open-source Selenium did not require a traditional per-seat license. That changed the economics of experimentation.
+
+A small team could begin using Selenium without negotiating a large software purchase. A developer could download it independently. A consultant could build expertise without buying an enterprise license. A startup could automate without making a major tooling investment. This did not make Selenium free. Companies still needed engineers. Infrastructure still cost money. Maintenance still cost money. Training still cost money. But the economics of access had changed. And once access changes, markets can change with it.
+
+\section{2.13 The Enterprise Pushes Back}
+\noindent \initialcap{T}he obvious response was: \textit{``Free software is not the same as enterprise software.''} And that's true. Open source creates different responsibilities: Who maintains your test framework? Who upgrades dependencies? Who handles browser changes? Who supports your infrastructure? Who fixes your custom integration? Who is responsible when the automation breaks at 2 a.m.?
+
+A commercial vendor can sell answers to those questions. Open source generally doesn't promise them in the same way. This is why the Selenium-vs-commercial-tools story shouldn't be reduced to: free good, expensive bad. The real comparison is about where responsibility lives. With commercial software, more responsibility can be outsourced to the vendor. With open source, more responsibility can move toward the engineering organization and community.
+
+\section{2.14 The Tester Becomes a Programmer}
+\noindent \initialcap{S}elenium's rise also participated in a larger transformation in testing. If browser automation is code, someone has to write the code. That created demand for testers who could program, and created opportunities for programmers to become involved in testing.
+
+The old question---``Can testers code?''---started to become less interesting. The new question became: ``Can the team engineer reliable automation?'' This was a cultural change as much as a technical one. Test automation increasingly became software engineering: framework design, dependency management, version control, CI, code review, architecture, design patterns, debugging, performance, and observability. The test suite became another software system. And software systems need engineering.
+
+\section{2.15 The Automation Pyramid Appears}
+\noindent \initialcap{A}s automation became more engineering-oriented, teams also began reconsidering where tests should live. Why test everything through the UI? UI tests are valuable, but they are often slower and more coupled to implementation details. Why not test lower layers? Unit tests. API tests. Integration tests. UI tests.
+
+This thinking eventually became associated with the test automation pyramid popularized by Mike Cohn. The metaphor was simple: many fast tests at the bottom, fewer expensive tests at the top. The underlying idea was important: \textbf{Don't make the UI carry the entire burden of verification.} Selenium didn't create this idea, but the growth of programmable browser automation helped make it practical to build a broader automated testing strategy around code.
+
+\section{2.16 Selenium Doesn't Replace Everything}
+\noindent \initialcap{H}istory is rarely as clean as product timelines make it appear. Selenium didn't suddenly make commercial automation disappear. UFT remained important. Commercial platforms continued evolving. Organizations kept using them. Some teams used both. Some migrated. Some built hybrid strategies.
+
+The result wasn't a clean victory. It was something more interesting: the market diversified, and the definition of professional automation expanded.
+
+\section{2.17 Then Selenium Changed}
+\noindent \initialcap{O}ne of Selenium's own limitations eventually became an opportunity. Selenium RC was powerful, but it was also complicated. The architecture depended on a Selenium server. Browser security models created problems. The interaction model was not as direct as people wanted. The next generation of Selenium would rethink the architecture. Enter: \textbf{WebDriver.}
+
+\section{2.18 The WebDriver Idea}
+\noindent \initialcap{T}he WebDriver concept was radically simpler. Instead of injecting JavaScript into a page and controlling the browser indirectly, automation could communicate with the browser through a standardized driver interface. The architecture looked more like Test $\rightarrow$ WebDriver $\rightarrow$ Browser rather than Test $\rightarrow$ Selenium Server $\rightarrow$ injected automation $\rightarrow$ browser. Automation was becoming a standardized protocol for controlling browsers.
+
+\section{2.19 Why Standards Matter}
+\noindent \initialcap{T}his is one of the quiet themes of automation history. A tool can become important. A protocol can become infrastructure. WebDriver eventually became standardized through the W3C WebDriver specification. That matters because standards can outlive individual projects. A company can disappear. A framework can be replaced. A product can be renamed. A standard can continue to define how the ecosystem communicates.
+
+\section{2.20 The Selenium Ecosystem Explodes}
+\noindent \initialcap{O}nce browser automation became accessible through a standard interface and multiple programming languages, the ecosystem expanded dramatically: test frameworks, Page Object patterns, grid systems, cloud testing platforms, CI integrations, reporting tools, parallel execution, browser farms, mobile automation, and eventually Playwright, Cypress, Puppeteer, and WebdriverIO.
+
+\section{2.21 The Great Irony}
+\noindent \initialcap{T}here is a delightful irony in Selenium's story. Selenium was created to solve a practical testing problem, but its greatest impact was helping change the identity of automation: from tool to code, from vendor to ecosystem, from tester-only to engineering.
+
+\section{2.22 What UFT Represented}
+\noindent \initialcap{T}o understand the story, it is worth giving the commercial model its due. UFT represented a philosophy of automation in which the tool provides a substantial amount of infrastructure. For organizations that value centralized tooling and vendor support, this model can be attractive. Its limitation is that the tool becomes a significant part of the automation architecture.
+
+\section{2.23 What Selenium Represented}
+\noindent \initialcap{S}elenium inverted that relationship. The browser automation capability became a component. The organization could build the rest: language, test framework, reporting, CI, infrastructure, and architecture. The tool became part of the stack rather than the stack itself.
+
+\section{2.24 The Hidden Cost of Freedom}
+\noindent \initialcap{O}pen source gives you freedom, and freedom comes with responsibility. A Selenium-based organization may need to build frameworks, infrastructure, reporting, and maintenance processes. Commercial tools package more of those things. The real equation isn't commercial = expensive vs. open source = free. It is commercial = pay the vendor to own more of the problem vs. open source = own more of the problem yourself.
+
+\section{2.25 The Browser Wins}
+\noindent \initialcap{T}here was another winner in this battle: the browser. Once browsers became programmable, they became one of the most important automation surfaces in computing---serving as a software platform, an application runtime, and a development environment.
+
+\section{2.26 The Battle Was Bigger Than Selenium}
+\noindent \initialcap{T}he history of Selenium vs. UFT is really about four shifts: Proprietary $\to$ Open, Tool $\to$ Code, Tester $\to$ Engineering Team, and Product $\to$ Ecosystem.
+
+\section{2.27 The New Automation Engineer}
+\noindent \initialcap{A} new kind of automation engineer emerged from this transformation: not simply a tester who knows a tool, but someone who understands software, testing, infrastructure, and automation.
+
+\section{2.28 The Seven-Tool Pattern Begins}
+\noindent \initialcap{T}he first great battle reveals a pattern that will repeat throughout automation history: a new tool rarely succeeds merely because it has more features. It succeeds when it changes an assumption.
+
+\section{2.29 The One-Sentence History}
+\noindent \initialcap{S}elenium helped turn browser automation from a proprietary testing product into a programmable engineering capability.
+
+\chapter*{Part II --- What We Learned}
+\addcontentsline{toc}{chapter}{Part II --- What We Learned}
+
+\noindent \initialcap{T}he lessons from the first great test automation battle:
+\begin{enumerate}
+    \item \textbf{A tool can change an industry by changing its assumptions.} Selenium challenged the idea that browser automation belonged inside a commercial testing platform.
+    \item \textbf{Open source changes more than price.} It changes experimentation, modification, integration, and contribution.
+    \item \textbf{Automation becomes powerful when it becomes ordinary software.} Version control, code review, and CI become available.
+    \item \textbf{Freedom has a cost.} Open-source tooling transfers responsibility from the vendor to the organization.
+    \item \textbf{Standards can matter more than products.} WebDriver's evolution gave browser automation an interoperability layer.
+    \item \textbf{Automation follows the dominant computing surface.} When software moved into browsers, automation followed.
+    \item \textbf{Every successful generation creates conditions for the next.} Selenium made browser automation common, creating the need for modern web frameworks.
+\end{enumerate}
+
+\end{document}
