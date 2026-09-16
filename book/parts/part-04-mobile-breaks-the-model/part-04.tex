@@ -1,0 +1,193 @@
+% --- PRINT-READY BOOK CHAPTER: PART IV ---
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part IV: Mobile Breaks the Model}
+\fancyhead[LO]{\textit{Chapter 4 --- Appium}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\mainmatter
+
+\chapter*{Part IV --- Mobile Breaks the Model}
+\addcontentsline{toc}{chapter}{Part IV --- Mobile Breaks the Model}
+
+\section*{Chapter 4 --- Appium}
+\addcontentsline{toc}{section}{Chapter 4 --- Appium}
+
+\noindent \initialcap{T}he browser had been tamed. At least, that was the story. WebDriver gave automation engineers a standard way to interact with browsers. Selenium had become an ecosystem. Teams were writing tests in Java, Python, C\#, Ruby, JavaScript, and other languages. Browsers could be automated locally, remotely, and at scale. 
+
+Then everyone bought a phone. And automation discovered that the browser was the easy part.
+
+\section{4.1 The Computer in Your Pocket}
+\noindent \initialcap{A} smartphone is a strange thing from an automation perspective. To a user, it feels like one device. To an automation engineer, it can feel like several completely different computers sharing a piece of glass. 
+
+There is the operating system. There are native applications. There is a browser. There are hybrid applications. There are system dialogs. There are keyboards. There are permissions. There are notifications. There is a network connection. There are sensors. There is hardware. And there are thousands of possible combinations of devices and operating-system versions. 
+
+The desktop web had a browser problem. Mobile had a world problem.
+
+\section{4.2 The Two Kingdoms}
+\noindent \initialcap{T}wo mobile ecosystems quickly became dominant: iOS and Android. They were not simply different brands. They had different architectures, development environments, UI frameworks, automation mechanisms, and rules. 
+
+For an organization supporting both platforms, the obvious question was: \textit{How do we automate both without maintaining two completely different automation universes?} That question created an opportunity.
+
+\section{4.3 The Selenium Analogy}
+\noindent \initialcap{T}he WebDriver philosophy had already demonstrated something powerful. A test shouldn't necessarily need to know every implementation detail of the environment underneath it. The test can express an action. An automation layer translates that action. The target system performs it. 
+
+So why not do something similar for mobile? Instead of building separate iOS and Android automation stacks, could we build a common automation interface bridging the test to the mobile platform? That was the bet behind Appium.
+
+\section{4.4 Appium Appears}
+\noindent \initialcap{A}ppium emerged in 2011, initially developed at Zoosk. The project was inspired by Selenium and WebDriver and aimed to bring a similar automation philosophy to mobile applications. The name itself made the relationship clear: Selenium became Appium. 
+
+The idea was not to pretend that iOS and Android were identical. The idea was to create a common automation interface across them. That distinction is important. Abstraction doesn't mean eliminating differences. It means creating a layer through which those differences can be managed.
+
+\section{4.5 The Appium Promise}
+\noindent \initialcap{A}ppium's philosophy can be summarized simply: \textit{Automate mobile applications using a WebDriver-style interface.} That sounds modest. It wasn't. Because the target was no longer a browser. It was an application running on a physical device. 
+
+Devices have batteries. They have screens. They have networks. They have sensors. They can be locked. They can be disconnected. They can be slow. They can be broken. Mobile automation immediately inherited problems that browser automation could mostly ignore.
+
+\section{4.6 Native, Hybrid, Web}
+\noindent \initialcap{M}obile applications generally fall into three broad categories:
+\begin{itemize}
+    \item \textbf{Native:} Built specifically for a platform.
+    \item \textbf{Hybrid:} A mixture of native components and web technology.
+    \item \textbf{Mobile web:} A website accessed through a mobile browser.
+\end{itemize}
+From a user's perspective, all three can look similar. From an automation perspective, they are very different. A button rendered by a native UI framework isn't necessarily the same thing as a button rendered inside a web view. Automation therefore needs to understand context.
+
+\section{4.7 Context}
+\noindent \initialcap{A}ppium introduced the concept of different automation contexts. A session might interact with native application content, switch into a web view, and then switch back:
+\begin{center}
+\textit{NATIVE\_APP $\rightarrow$ WEBVIEW $\rightarrow$ NATIVE\_APP}
+\end{center}
+This seems like a small feature. It actually captures one of the central problems of mobile automation: one screen can contain multiple technological worlds. The automation must know which world it is currently operating in.
+
+\section{4.8 The Mobile Element}
+\noindent \initialcap{W}ebDriver taught automation engineers to think about elements. Mobile added another dimension. A UI element might have accessibility information, resource identifiers, labels, class names, platform-specific properties, and coordinates. 
+
+Again, the automation engineer faced the same fundamental question: \textit{How do I identify the thing the human can see?} But now the answer depended on the platform. Android had its own UI hierarchy; iOS had its own. The abstraction was useful, but the underlying differences never disappeared.
+
+\section{4.9 The Device Problem}
+\noindent \initialcap{A} browser can often be launched on demand. A physical phone cannot always be treated that way. A real device has state. It might be locked, disconnected, charging, low on battery, running a different app, or displaying a permission dialog. 
+
+Mobile automation therefore became partly an infrastructure discipline. You don't just automate an application; you automate an application inside a device state.
+
+\section{4.10 Real Device vs. Simulator}
+\noindent \initialcap{T}hen came another familiar automation argument: real device or simulator? A simulator or emulator is convenient. It can be automated quickly, reset, and managed programmatically. A real device behaves like an actual physical device with real hardware, real sensors, and real network behavior. 
+
+Neither is a complete substitute for the other. So mobile automation introduced a principle that would recur later: \textbf{The environment is part of the test.}
+
+\section{4.11 The Five-Minute Demo}
+\noindent \initialcap{M}obile automation demos are seductive. Install an app. Start a session. Find a button. Tap it. Assert something. Done in five minutes. 
+
+Then you run the same test on thirty devices with different OS versions, screen sizes, permissions, keyboards, and network conditions. Suddenly the five-minute demo becomes an infrastructure project. This is one of automation's oldest tricks: The first test is easy; the thousandth test is the product.
+
+\section{4.12 Appium's Greatest Idea}
+\noindent \initialcap{A}ppium's most important contribution wasn't any individual command. It was the transfer of an abstraction. WebDriver had been successful in browser automation, and Appium proved that the same general model could control mobile applications. 
+
+This is a recurring pattern in technology: a successful abstraction escapes its original environment and becomes more important than the original implementation.
+
+\section{4.13 Write Once?}
+\noindent \initialcap{N}aturally, the dream was: \textit{write one test, run it everywhere.} This phrase has appeared in software for decades. If Appium provides one interface, perhaps the same test can run on iOS and Android. 
+
+Sometimes it can. Sometimes it shouldn't. Platform conventions, permissions, and user experiences may intentionally differ. A shared automation API doesn't guarantee identical applications. \textbf{Cross-platform automation can unify the mechanism without unifying the product.}
+
+\section{4.14 The Cost of Abstraction}
+\noindent \initialcap{E}very abstraction hides something---that's its purpose. But a WebDriver-style API can conceal the fact that iOS and Android remain radically different underneath. The automation layer has to translate, and translation introduces complexity. When something goes wrong, engineers may need to understand Appium, the platform driver, the operating system, the application, and the device. \textbf{The abstraction makes ordinary work easier; debugging the abstraction can make unusual work harder.}
+
+\section{4.15 The Driver Stack}
+\noindent \initialcap{A} mobile automation session involves several layers. For Android, the path may involve Appium and an Android-specific driver such as UiAutomator2. For iOS, it involves Appium and Apple's XCUITest automation stack. 
+
+Conceptually:
+\begin{center}
+\textit{Test $\rightarrow$ Appium $\rightarrow$ Platform Driver $\rightarrow$ Platform Framework $\rightarrow$ OS $\rightarrow$ App $\rightarrow$ Device}
+\end{center}
+That's a lot of machinery between ``Tap Login'' and the physical action. The user sees one action; the system executes a chain.
+
+\section{4.16 Why This Matters}
+\noindent \initialcap{T}his is a pattern worth remembering. Automation APIs are often tiny, but the systems underneath them are not. A command like \texttt{findElement()} can represent a remarkable amount of infrastructure. This is why automation engineering is not simply about writing commands, but about understanding the layers between intention and execution.
+
+\section{4.17 Gestures Break the Metaphor}
+\noindent \initialcap{B}rowsers are mostly click-and-type environments. Phones aren't. Phones require swipes, taps, long presses, drags, pinches, zooms, scrolls, rotates, shakes, and more. Mobile automation expanded the vocabulary of interaction, modeling physical gestures rather than merely reproducing desktop GUI actions.
+
+\section{4.18 Coordinates Come Back}
+\noindent \initialcap{R}emember the locator problem? Mobile brought coordinates back into the conversation. Sometimes an element is difficult to identify semantically, or a gesture is inherently spatial (e.g., swipe from here to there). 
+
+Now automation had to understand both \textit{what} and \textit{where}. That distinction becomes increasingly important as automation moves toward computer vision and AI.
+
+\section{4.19 Permissions}
+\noindent \initialcap{M}obile applications introduced another category of automation problem: the operating system can interrupt the application. Allow notifications? Allow camera? Allow location? The user sees a dialog, but the test sees a completely different UI hierarchy. An application test may need to interact with the system surrounding the application, escaping the app boundary.
+
+\section{4.20 The Network Becomes Part of the Test}
+\noindent \initialcap{M}obile applications depend heavily on networks: Wi-Fi, cellular, VPNs, offline mode, slow connections, and intermittent switching. The same application can behave differently depending on connectivity. Automation engineers had to think beyond UI state into device state, application state, and network state combined.
+
+\section{4.21 Appium and the Automation Community}
+\noindent \initialcap{A}ppium demonstrated another characteristic of successful open-source projects: they become communities. People contribute drivers, create plugins, write language bindings, build cloud integrations, and publish tutorials. Automation stops being a vendor's product roadmap and becomes a collective laboratory.
+
+\section{4.22 The Mobile Automation Profession}
+\noindent \initialcap{A}s Appium adoption grew, mobile automation became a specialization. Engineers had to master Android debugging, ADB, iOS tooling, Xcode, device provisioning, app signing, mobile logs, network inspection, and real-device farms. The SDET role expanded again into systems engineering for software behavior.
+
+\section{4.23 The Unexpected Lesson}
+\noindent \initialcap{A}ppium proved that automation doesn't have to be designed around the system being automated; it can be designed around the concept of interaction. A browser has clickable elements; a mobile app has clickable elements. A WebDriver-style API can represent both because the abstraction is the interaction model.
+
+\section{4.24 From Browser to Device}
+\noindent \initialcap{L}ook at the progression: Selenium RC automated a browser, Selenium WebDriver standardized browser interaction, and Appium applied the interaction model to mobile. Each generation asks: \textit{What else can we automate using the same fundamental idea?}
+
+\section{4.25 The UI Isn't the Whole Application}
+\noindent \initialcap{M}obile automation exposed an uncomfortable truth: the UI is only the visible part of the system. Behind it are APIs, databases, authentication, queues, and external dependencies. Testing everything through the UI means testing the entire system through its most expensive interface.
+
+\section{4.26 The API Is Waiting}
+\noindent \initialcap{I}magine a login test. The UI version launches the app, types credentials, taps login, and waits for the screen. But underneath, the app may simply be making an API request: \texttt{POST /login}. Why make the entire UI participate every time? Why not test the service directly?
+
+\section{4.27 The API Revolution}
+\noindent \initialcap{M}odern software increasingly became distributed collections of services communicating through APIs. Web, mobile, desktop, and CLI all could call the same backend. The API became a shared automation surface, validating behavior used by many different interfaces and making the automation pyramid practical.
+
+\section{4.28 The New Question}
+\noindent \initialcap{T}he first generations of automation asked how to automate the user, then the browser, then the device. Now the question became: \textit{Why automate the interface at all?} If behavior exists underneath, automation should move closer to it.
+
+\chapter*{Part IV --- What We Learned}
+\addcontentsline{toc}{chapter}{Part IV --- What We Learned}
+
+\noindent \initialcap{T}he lessons from Part IV:
+\begin{enumerate}
+    \item \textbf{Successful abstractions travel.} WebDriver began with browsers; Appium proved the model applied to mobile.
+    \item \textbf{Cross-platform doesn't mean identical.} A common automation interface can hide platform differences without eliminating them.
+    \item \textbf{The environment is part of automation.} Device, OS, app, and network states all affect behavior.
+    \item \textbf{UI automation is only one layer.} The visible interface is backed by deeper system behavior.
+    \item \textbf{Every abstraction has a cost.} Simplifying ordinary interactions can make unusual failures harder to diagnose.
+    \item \textbf{The first demo is never the real problem.} Running one mobile test is easy; scaling across devices is the engineering challenge.
+    \item \textbf{Automation follows the computing surface.} When users moved to phones, automation followed.
+    \item \textbf{Automation eventually moves below the interface.} Once engineers can automate underlying systems, they don't need to click every button to verify behavior.
+\end{enumerate}
+
+\noindent \textbf{The Cliffhanger:} The automation industry spent years teaching machines to imitate users (click, type, swipe, tap). But there was another possibility. What if the machine didn't need to imitate the user at all? What if it could communicate directly with the system? Instead of opening an app, tapping a button, and reading a screen, we could send a request, inspect a response, and verify behavior. The interface disappears, the automation gets faster, and automation becomes about controlling what software says to other software. Next: \textit{Chapter 5 --- API Automation: When the UI Became Optional}.
+
+\end{document}
