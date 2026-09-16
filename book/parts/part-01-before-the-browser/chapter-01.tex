@@ -1,0 +1,227 @@
+% --- PRINT-READY BOOK CHAPTER: PART I ---
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part I: Before the Browser}
+\fancyhead[LO]{\textit{Chapter 1: The Machine That Repeated Itself}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\frontmatter
+\begin{titlepage}
+\centering
+\vspace*{4cm}
+{\Huge\bfseries\sffamily SIMPLY AUTOMATION}\\[1.5cm]
+{\Large\sffamily The World of Automation History Explained Through Seven Tools}\\[2cm]
+{\large\itshape By Lana Begunova}\\[3cm]
+\vfill
+{\small Part I: Before the Browser --- Print-Ready Edition}
+\end{titlepage}
+
+\mainmatter
+
+\chapter*{Part I --- Before the Browser}
+\addcontentsline{toc}{chapter}{Part I --- Before the Browser}
+
+\section*{Chapter 1 --- The Machine That Repeated Itself}
+\addcontentsline{toc}{section}{Chapter 1 --- The Machine That Repeated Itself}
+
+\noindent \initialcap{B}efore there was software, the history of automation already had a long and storied past. Long before Selenium, long before test cases, and long before anyone had to argue about whether a flaky test should be quarantined, humans have always looked for ways to make machines repeat work. The reason is embarrassingly simple: people get tired. Machines don't.
+
+A human can perform the same operation ten times. A machine can perform it ten thousand times. And if the operation can be described precisely enough, the machine doesn't even need to understand what it is doing. It just needs instructions. That distinction---between understanding a task and repeating a task---will quietly shape the entire history of automation.
+
+\section{1.1 The First Automation Problem}
+\noindent \initialcap{I}magine a worker doing the same physical operation all day. Pick something up. Move it. Place it. Repeat. The work isn't intellectually difficult. It is difficult because it is repetitive.
+
+The first automation question isn't:
+\begin{center}
+\textit{``Can a machine think?''}
+\end{center}
+It is:
+\begin{center}
+\textit{``Can a machine repeat?''}
+\end{center}
+
+That is a much easier problem. And humans became very good at solving it. Machines could be designed to perform predictable movements. Mechanisms could encode sequences of actions. Instructions could be represented physically.
+
+The machine didn't need to know why it was performing the operation. It only needed to know what came next. That is already recognizable as automation.
+
+\section{1.2 The Instruction Becomes the Product}
+\noindent \initialcap{O}ne of the most important developments in automation was not a particular machine. It was the idea that instructions could be represented separately from the machine performing them.
+
+Once instructions could be stored, changed, copied, and reused, automation became programmable. A machine no longer had to be permanently designed for one sequence of operations. The sequence itself could become something you could modify.
+
+That sounds obvious now. It wasn't always obvious. The difference is profound:
+\begin{itemize}
+    \item A fixed machine says: \textit{``This is what I do.''}
+    \item A programmable machine says: \textit{``Tell me what to do.''}
+\end{itemize}
+
+That second idea is the ancestor of every script, test case, pipeline, macro, and automation agent that comes later in this book.
+
+\section{1.3 Automation by Holes}
+\noindent \initialcap{O}ne of the most elegant examples of programmable automation came from an unlikely place: textiles. In the nineteenth century, Joseph Marie Jacquard's loom used punched cards to control weaving patterns. The cards contained holes. The holes represented instructions. The loom followed them. A different set of cards could produce a different pattern. The machine remained largely the same. The program changed.
+
+There is something almost comically familiar about this. A modern automation engineer writes a script. The script contains instructions. A runtime executes them. Change the script, and the machine performs a different sequence. The technology is radically different. The idea isn't.
+
+The punched card is an early reminder that automation doesn't necessarily require intelligence. It requires a way to encode intent into repeatable instructions.
+
+\section{1.4 The Program Before the Computer}
+\noindent \initialcap{T}he word program eventually became associated with computers. But the underlying concept is older. A program, in the broadest sense, is simply an ordered set of instructions: do this, then this, then this, then stop.
+
+That pattern appears everywhere in automation:
+\begin{itemize}
+    \item A loom follows a pattern.
+    \item A machine follows a sequence.
+    \item A calculator follows operations.
+    \item A computer follows instructions.
+    \item A test script follows actions.
+    \item A CI pipeline follows stages.
+    \item An AI agent follows a goal and generates actions.
+\end{itemize}
+
+The sophistication changes. The fundamental relationship remains: \textbf{instructions $\rightarrow$ execution $\rightarrow$ result}. For most of automation history, the difficult part wasn't making the machine execute instructions. The difficult part was figuring out how much of the world could be reduced to instructions.
+
+\section{1.5 The Rise of the Computer}
+\noindent \initialcap{T}hen came computers. For automation, computers were revolutionary for one particular reason: instructions became much easier to change.
+
+A physical mechanism might require new hardware. A programmable computer could require only new software. That made automation dramatically more flexible. Instead of building a machine for every process, you could increasingly build general-purpose machines and change their behavior through programs.
+
+The machine became the platform. The instructions became the automation. This is the moment when automation begins to look recognizably modern.
+
+\section{1.6 Batch Processing: Automation Without a User}
+\noindent \initialcap{E}arly computing did not necessarily look like today's interactive software. You didn't always sit in front of a screen, click a button, and watch a program respond. Instead, you could prepare a collection of instructions and data, submit them to a computer, and let the machine process them. Then you waited. The machine did the work.
+
+This is an important conceptual step. Automation doesn't need a person standing next to it. In fact, one of its greatest benefits is precisely that the person can leave:
+\begin{enumerate}
+    \item Give the machine the instructions.
+    \item Start it.
+    \item Walk away.
+    \item Come back later.
+\end{enumerate}
+If everything worked, wonderful. If it didn't---well, that problem would become the entire software testing industry.
+
+\section{1.7 The Macro}
+\noindent \initialcap{A}s computers became more accessible, people began finding increasingly simple ways to automate repetitive interactions. One of the simplest was the macro. A macro records or represents a sequence of operations so that they can be executed again. Press this. Type that. Move here. Run this command. Repeat.
+
+Macros became popular because they solved a very human problem:
+\begin{center}
+\textit{``I already know how to do this. I just don't want to do it 500 times.''}
+\end{center}
+That sentence is practically the mission statement of automation. Macros also introduced a distinction that would become increasingly important: Automation doesn't always need to understand the task. It can simply reproduce the task. That works beautifully when the environment stays predictable. And spectacularly badly when it doesn't.
+
+\section{1.8 The First Flaky Automation}
+\noindent \initialcap{T}he word \textit{flaky} belongs to modern software testing. The problem doesn't. Imagine an automation sequence that expects to open something, find something, click something, type something, and continue.
+
+Now imagine the machine is slightly slower today. Or the window is in a different position. Or the application hasn't finished loading. Or someone changed the interface. The automation doesn't know that the world changed. It only knows that instruction number three says: click here.
+
+There is no human intuition to compensate. A person sees a button that moved. A simple automation sees an unexpected coordinate. A person notices that a screen is still loading. A simple automation sees that the next instruction has not become possible yet. This is one of the oldest problems in automation: \textbf{The instructions are precise, but the world isn't.}
+
+\section{1.9 Automation Meets Software}
+\noindent \initialcap{A}s software became more complex, people naturally wanted to automate software itself. Why manually repeat the same operation when a computer could perform it? Why manually verify the same calculation? Why manually execute the same regression? Why manually enter the same data?
+
+The answer was obvious: \textit{automate it}. And so software testing gradually acquired its own automation tools and techniques. At first, many of them were still based on the fundamental automation model: \textbf{record what a human does $\rightarrow$ replay it later}.
+
+This made intuitive sense. A tester performs an action. The tool records the action. The tool repeats it. The computer becomes the tireless tester. Except there was a problem. The computer wasn't actually testing. It was repeating. Those are not the same thing.
+
+\section{1.10 Record and Playback}
+\noindent \initialcap{R}ecord-and-playback became one of the defining ideas of early test automation. The appeal was obvious. You didn't necessarily need to know how to program. You demonstrated the workflow. The tool captured it. Later, the tool reproduced it. For a stable application and a simple workflow, this could feel almost magical:
+\begin{itemize}
+    \item \textbf{Human:} ``Watch me.''
+    \item \textbf{Machine:} ``Got it.''
+    \item \textbf{Human:} ``Do it again.''
+    \item \textbf{Machine:} ``Done.''
+\end{itemize}
+The dream of test automation had arrived. But so had its first great trap.
+
+\section{1.11 The Script Doesn't Know Why}
+\noindent \initialcap{S}uppose a human tester clicks ``Login.'' A human understands what happened. They know they clicked a login control. They know why they clicked it. They know what should happen next. They can recognize that the application is loading. They can notice that an error message appeared. They can decide that something looks wrong even when nobody explicitly told them what ``wrong'' looks like.
+
+A recorded automation sequence knows none of this. It may know: \textit{Click at position X,Y}, or \textit{Find object with identifier Z}. That is enough to reproduce an action. It isn't enough to understand a result. This distinction will eventually separate simple automation from intelligent automation. But before we get there, software itself was about to create a completely new playground.
+
+\section{1.12 Enter the Graphical User Interface}
+\noindent \initialcap{F}or many years, computers were largely operated through commands. Then graphical user interfaces became mainstream: windows, menus, buttons, icons, dialogs, pointers. Suddenly, software became something a person could manipulate visually. That was wonderful for users. It was complicated for automation.
+
+A command-line program might accept \texttt{process(input)}. A graphical application might require locating a window, finding a control, moving a pointer, clicking, waiting, typing, reading a result, and navigating to another window. The software had become easier for humans to use. For automation, it had become a world to navigate.
+
+\section{1.13 The Object}
+\noindent \initialcap{G}UI automation introduced another important concept: \textbf{the object}. Instead of thinking only in coordinates---click at $(240, 315)$---automation tools increasingly tried to identify the thing being manipulated: button, textbox, menu, window, dialog.
+
+This was a major improvement. Coordinates describe where something is. Objects can describe what something is. That distinction would become crucial when software started moving around. A button can change position. A button with a meaningful identity is still a button. At least, that was the theory.
+
+\section{1.14 Enterprise Automation Arrives}
+\noindent \initialcap{B}y the 1990s and early 2000s, software had become critical to businesses. And businesses had a familiar problem: software keeps changing. New releases, new features, new operating systems, new integrations, new customers, new browsers, new bugs. Every change created something testing teams already knew too well: more things to test. Manual regression testing could become enormous.
+
+Organizations therefore invested in commercial test automation platforms. These tools promised a more industrial approach to automation: not just scripts, but a system; not just commands, but an environment; not just technical capability, but enterprise support. This is where one of the great philosophical divisions in test automation begins to emerge.
+
+\section{1.15 Automation Becomes an Industry}
+\noindent \initialcap{T}he automation tool was no longer merely a clever way to save time. It became a product. A company could sell automation software. Organizations could purchase licenses. Consultants could specialize in it. Training companies could teach it. Teams could build careers around it.
+
+Automation had become an industry with its own vocabulary, methodologies, certifications, conferences, experts, and arguments. And whenever an industry forms around a technology, something predictable happens: people start arguing about the right way to do it.
+
+\section{1.16 The Web Changes Everything}
+\noindent \initialcap{T}hen the software world moved onto the web. At first, the web looked deceptively simple: pages, links, forms, buttons, a browser. But web applications quickly became much more than documents connected by hyperlinks. They became applications with rich interfaces, dynamic content, client-side JavaScript, asynchronous requests, sessions, authentication, and multiple browsers.
+
+Now automation had a new problem. The thing humans interacted with was no longer just a desktop application. It was a browser-controlled application living inside another application. And the browser itself was constantly changing.
+
+\section{1.17 The Browser Is Not Your Friend}
+\noindent \initialcap{A} desktop automation tool could often work with a relatively stable operating-system environment. The web had no such luxury. A test might encounter Internet Explorer, Firefox, Safari, or Chrome across different versions, rendering engines, behaviors, and JavaScript implementations.
+
+Automation therefore inherited a new responsibility: control the browser reliably. And that was harder than it sounded.
+
+\section{1.18 The Selenium Problem}
+\noindent \initialcap{A}round the beginning of the twenty-first century, a group of developers started working on a different approach to browser automation. Instead of treating browser automation purely as an enterprise GUI-testing problem, they approached it more like a programming problem.
+
+The browser could be controlled. The actions could be expressed in code. Tests could be written as software. The project that emerged would become known as Selenium. But Selenium did not arrive in an empty world. Commercial automation already existed, and the debate was about to become fierce.
+
+\section{1.19 The World Selenium Entered}
+\noindent \initialcap{I}magine being an automation engineer at the time. Your organization wants automated browser testing. Established commercial tools offer integrated environments, vendor support, enterprise contracts, and familiar workflows. And then someone asks: \textit{``Why don't we just use this open-source project?''}
+
+That question contains several others: Who supports it? Who maintains it? Who trains people? Who is responsible when it breaks? The technical debate was only part of the story. The economic debate was much bigger.
+
+\section{1.20 The Door Opens}
+\noindent \initialcap{B}y now, automation had traveled a remarkable distance: from mechanical repetition, to programmable machines, to macros, to software scripts, to GUI automation, to commercial test automation, to browser automation. At every stage, the same basic idea remained: make the machine perform work humans would otherwise have to repeat.
+
+\chapter*{Part I --- What We Learned}
+\addcontentsline{toc}{chapter}{Part I --- What We Learned}
+
+\noindent \initialcap{B}efore the browser, automation already had most of the ideas that would later define software automation:
+\begin{enumerate}
+    \item \textbf{Automation starts with repetition.} If a task can be described precisely, a machine can potentially repeat it.
+    \item \textbf{Instructions can be separated from machines.} Once instructions become programmable, automation becomes flexible.
+    \item \textbf{Recorded actions are not understanding.} Replaying a workflow is easier than determining whether it succeeded.
+    \item \textbf{Coordinates became objects.} Automation moved from describing where to describing what.
+    \item \textbf{The environment matters.} The more dynamic the environment, the more fragile simple automation becomes.
+    \item \textbf{Automation creates an economic question.} If automation becomes essential, somebody will sell it---and someone else will make it free.
+    \item \textbf{Every generation raises abstraction.} From mechanical movements to software instructions, GUI interactions, browser control, and agentic reasoning.
+\end{enumerate}
+
+\end{document}
