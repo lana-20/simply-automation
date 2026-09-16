@@ -1,0 +1,109 @@
+% --- PRINT-READY BOOK CHAPTER: PART VI ---
+\documentclass[11pt, a4paper, openany]{book}
+\usepackage[a4paper, top=3cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+% Set default/Latin font to Serif for a book feel
+\babelfont{rm}{Noto Serif}
+\babelfont{sf}{Noto Sans}
+
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+% Custom command for initial cap
+\newcommand{\initialcap}[1]{{\fontfamily{lmss}\selectfont\huge\textbf{#1}}}
+
+% Page styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\textit{Simply Automation} --- Part VI: Automation Becomes Continuous}
+\fancyhead[LO]{\textit{Chapter 6 --- Jenkins}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\sffamily}
+  {\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\sffamily}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\mainmatter
+
+\chapter*{Part VI --- Automation Becomes Continuous}
+\addcontentsline{toc}{chapter}{Part VI --- Automation Becomes Continuous}
+
+\section*{Chapter 6 --- Jenkins: The Machine That Never Stopped}
+\addcontentsline{toc}{section}{Chapter 6 --- Jenkins: The Machine That Never Stopped}
+
+\noindent \initialcap{T}here was a moment when software automation changed its most important word. It stopped being about when someone ran the automation. It became about whenever something changed. That sounds like a small distinction. It wasn't.
+
+\noindent For decades, automation had usually been someone's initiated activity: run the macro, run the test, run the script, run the regression suite, run the deployment. Someone had to press the button. Then software teams started asking a different question: \textit{What if the button disappeared? What if every change to the software could automatically trigger a sequence of machines?} Build it, test it, package it, deploy it, report it, and then do it again. That idea became the foundation of continuous integration and, eventually, continuous delivery. One of the tools that became synonymous with this transformation was Jenkins. But Jenkins was not really the story. The story was the moment automation stopped being an occasional activity and became a permanent process.
+
+\section{6.1 The Problem With Waiting}
+\noindent \initialcap{I}magine a team of ten developers working on the same application. Each developer makes changes independently. On Monday morning, everyone starts coding. On Tuesday, more code arrives. By Wednesday, several branches contain different features. By Thursday, someone decides it is time to integrate everything. And then the fun begins.
+
+\noindent One change breaks another. A dependency is incompatible. A test fails. Nobody knows exactly when it started failing. Someone says, \textit{``It worked yesterday.''} Someone else says, \textit{``It works on my machine.''} The team searches through commits, compares environments, runs tests manually, and discovers that three unrelated changes have accumulated. The longer the team waits to integrate, the harder it becomes to understand what happened. This was not primarily a testing problem; it was a feedback problem. The team needed to know about problems sooner---much sooner.
+
+\section{6.2 Continuous Integration}
+\noindent \initialcap{T}he idea behind continuous integration was surprisingly simple: \textbf{integrate changes frequently and verify them automatically.} A developer commits code. The system notices. The system builds the software. The system runs automated checks. If something breaks, the team finds out quickly.
+
+\noindent The important part wasn't the dashboard, the server, or even the test suite. It was the feedback loop. Instead of days of changes leading to mysterious integration failures, the process becomes a continuous loop of code, build, test, and feedback. Automation had acquired a heartbeat.
+
+\section{6.3 Before Jenkins}
+\noindent \initialcap{T}he idea existed before Jenkins. Build automation systems such as Make and Ant had already been helping software teams compile projects and run repeatable processes. Continuous integration servers automated the larger workflow. The principle was broader than any individual product: a machine should continuously verify the state of the codebase. But Jenkins would become particularly important because it was flexible, extensible, and open source, inheriting a useful trait from earlier tools: it didn't need to know what your application was, only what commands to run.
+
+\section{6.4 Hudson}
+\noindent \initialcap{B}efore there was Jenkins, there was Hudson, emerging at Sun Microsystems as a continuous integration server. Its job was straightforward: watch for changes, build software, run tests, and report results. When a disagreement arose over governance and future direction, contributors created a fork that became Jenkins. The details mattered to those involved, but historically, the lesson was familiar: open source split software as a product from software as a community. The code could be forked, the project could move, and the name could change, but the automation itself survived.
+
+\section{6.5 The Pipeline}
+\noindent \initialcap{J}enkins helped popularize a crucial idea: the pipeline. Instead of thinking about automation as a single script, teams could think in stages:
+\begin{center}
+\textit{Checkout $\rightarrow$ Build $\rightarrow$ Unit Tests $\rightarrow$ API Tests $\rightarrow$ UI Tests $\rightarrow$ Package $\rightarrow$ Deploy}
+\end{center}
+Each stage became another automated step. The software wasn't merely tested; it was processed. A traditional test suite answers whether software behaves correctly, while a pipeline asks what should happen to the software from the moment code changes until the resulting artifact is delivered. Automation had moved from verification into orchestration.
+
+\section{6.6 The Build Server Becomes the Team's Clock}
+\noindent \initialcap{O}nce a CI server ran continuously, it became a shared clock for the development organization. Something changed; the machine noticed; the build started; tests ran; results appeared. Developers began to organize around the feedback. A failed build was a signal that the shared state might no longer be healthy, establishing a new cultural rule: \textbf{keep the build green.}
+
+\section{6.7 Green Is Not the Same as Correct}
+\noindent \initialcap{T}here was an important trap. A green pipeline does not prove that software is correct; it proves that the automated checks that ran did not report a failure. If tests miss a bug, if environments differ from production, if test data is unrealistic, or if assertions are wrong, the pipeline can still be completely green. Automation solved repeatability, but not knowing what to verify.
+
+\section{6.8 The Test Suite Gets a New Job}
+\noindent \initialcap{I}nside a pipeline, tests became infrastructure. They had to be repeatable, predictable, executable without human intervention, diagnosable, fast, and isolated. A flaky test that failed randomly in CI was no longer just annoying; it was an obstacle to delivery, as trust is the currency of continuous automation.
+
+\section{6.9 Parallelism and Agents}
+\noindent \initialcap{A}s test suites grew, parallel execution turned testing into a resource-allocation problem involving CPUs, memory, browsers, devices, containers, and shared state. Furthermore, Jenkins introduced workers or agents, allowing the controller to distribute work across machines. The automation wasn't just controlling a browser anymore; it was controlling other machines.
+
+\section{6.10 The Cloud and Infrastructure as Code}
+\noindent \initialcap{C}loud platforms made computing resources temporary, transforming infrastructure into code where environments could be described, versioned, reviewed, and recreated automatically. The distinction between code that runs the application and code that creates the environment started disappearing.
+
+\section{6.11 Continuous Delivery and the Machine}
+\noindent \initialcap{C}ontinuous delivery asked whether software could always be kept ready to release. Deployment stopped being a high-ceremony event and became a routine, reliable operation. The pipeline became a complete production machine handling every step from commit to monitoring without human supervision.
+
+\chapter*{Part VI --- What We Learned}
+\addcontentsline{toc}{chapter}{Part VI --- What We Learned}
+
+\noindent \initialcap{T}he lessons from Part VI:
+\begin{enumerate}
+    \item \textbf{Automation acquired a heartbeat.} Moving from manual triggers to event-driven continuous integration changed feedback loops.
+    \item \textbf{Pipelines orchestrate delivery.} Software isn't just tested; it is processed through a sequence of stages from code to production.
+    \item \textbf{Green does not mean correct.} A successful pipeline only proves that executed checks passed, not that the software is bug-free.
+    \item \textbf{Tests become infrastructure.} In a CI pipeline, flakiness directly undermines team trust and delivery velocity.
+    \item \textbf{Automation scales to infrastructure.} CI servers coordinate agents, parallel execution, and ephemeral cloud environments.
+    \item \textbf{Deployment becomes routine.} Repeatable pipelines eliminate uncertainty and ceremonial stress from releasing software.
+    \item \textbf{The feedback loop becomes the product.} Observing production closes the loop between development and reality.
+    \item \textbf{Automation amplifies processes.} A reliable process becomes faster, but an unreliable process simply produces problems more efficiently.
+\end{enumerate}
+
+\noindent \textbf{The Cliffhanger:} Continuous automation successfully synchronized code, tests, infrastructure, and delivery into a reliable engine. But every machine built so far followed explicit instructions. It could execute a script, trigger a pipeline, or evaluate an assertion. Yet software engineering was about to encounter a technology that changed how instructions were written entirely. Instead of telling the machine \textit{how} to do something step by step, what if you could simply tell it \textit{what} you want? Next: \textit{Part VII --- The Agentic Era}.
+
+\end{document}
