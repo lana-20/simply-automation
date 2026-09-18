@@ -1,0 +1,139 @@
+\documentclass[11pt,twoside]{book}
+\usepackage[paperwidth=6in,paperheight=9in,margin=0.75in,inner=0.875in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape Prologue}
+\fancyhead[RO]{\small\itshape Simply Automation}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\filcenter}
+  {\vspace{-20pt}\normalfont\normalsize\scshape Prologue\vspace{10pt}\\\Large The Machine That Said ``Again''}
+  {10pt}
+  {\Huge}
+
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\chapter*{The Machine That Said ``Again''}
+\addcontentsline{toc}{chapter}{Prologue — The Machine That Said “Again”}
+
+Before there was a browser, there was repetition.
+Someone lifted the same weight again. Someone copied the same symbol again. Someone moved the same material from one place to another again. Someone performed the same calculation again.
+And eventually, someone looked at the work and asked a deceptively simple question:
+\begin{quote}
+\emph{What if the machine could do this part?}
+\end{quote}
+That question is older than computers.
+It is older than software.
+It is older than the word automation itself.
+The answer has changed enormously over the centuries. The question has barely changed at all.
+
+A mechanism can repeat a movement. A punched card can encode a pattern. A computer can execute instructions. A script can replay a workflow. A browser driver can click a button. A mobile automation framework can operate a phone. A pipeline can run tests while everyone sleeps. An API can bypass the interface entirely. An AI agent can now be given a goal and choose a sequence of actions.
+
+Each step looks revolutionary when it arrives.
+In retrospect, they look strangely familiar.
+That is the story this book follows.
+Not the complete history of automation. That would require several books, and probably a larger definition of the word automation than anyone could comfortably agree on.
+Instead, this book follows seven tools and the ideas surrounding them.
+
+Some became dominant. Some became infrastructure. Some disappeared. Some were absorbed into something else. Some remain surprisingly relevant.
+They were chosen not because they are the only important tools, or even necessarily the most important tools.
+They are useful because they sit at interesting moments in the story.
+They expose the arguments.
+They reveal the trade-offs.
+And, occasionally, they become the center of battles that seem to be about software but are really about something deeper:
+\begin{quote}
+\textbf{Who gets to control the machine?}
+\end{quote}
+
+Consider the history of software testing.
+At one point, enterprise automation meant expensive commercial platforms, record-and-playback systems, vendor support, and carefully constructed environments.
+Then came open-source browser automation.
+Suddenly, automation could look less like a product you purchased and more like software you wrote.
+That difference mattered.
+It changed who could participate. It changed how teams worked. It changed what automation engineers were expected to know. It changed the economics of the industry.
+
+Then the browser became only one surface.
+Mobile arrived.
+APIs became central.
+Continuous integration turned automation into infrastructure.
+Modern browser tools began paying much more attention to state, waiting, isolation, tracing, and evidence.
+And then something stranger happened.
+The user of the automation system started changing.
+For decades, we wrote instructions for machines.
+Now we increasingly write tools that allow other machines to generate instructions.
+That sounds like a small distinction.
+It isn't.
+
+A traditional automation script might say:
+\begin{quote}
+Click this button.\\
+Enter this value.\\
+Submit the form.\\
+Verify the result.
+\end{quote}
+An agent might instead receive:
+\begin{quote}
+\emph{Complete the checkout.}
+\end{quote}
+The first is an instruction sequence.
+The second is a goal.
+Between those two statements lies one of the biggest changes in the history of automation.
+
+But there is a temptation here.
+Whenever a new automation technology appears, we tend to describe it as if history has finally arrived at its destination.
+The newest tool is smarter.
+The newest framework is faster.
+The newest interface is simpler.
+The newest agent is autonomous.
+
+And then, usually sooner than expected, reality arrives.
+The environment changes.
+The application changes.
+The network behaves differently.
+The test passes for the wrong reason.
+The locator breaks.
+The state is unexpected.
+The pipeline is green while something is wrong.
+The agent does exactly what it was asked to do and completely misses what was meant.
+
+Automation has always had this problem.
+The instructions are precise. The world isn't.
+That may be the most important sentence in this book.
+Because automation history is not simply the story of machines becoming more capable.
+It is the story of humans discovering, one layer at a time, that the world contains more ambiguity than their instructions accounted for.
+
+The first solution was repetition.
+Then programmability.
+Then abstraction.
+Then integration.
+Then continuous execution.
+Then observation.
+Then context.
+And now, increasingly, delegation.
+
+The machine keeps moving upward.
+So does the human.
+The human who once operated the mechanism becomes the person who programs it.
+The programmer becomes the person who designs the system.
+The system designer becomes the person who sets the goals, defines the boundaries, and asks whether the machine is solving the right problem.
+
+That is where this story begins.
+
+\end{document}
