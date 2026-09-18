@@ -1,4 +1,5 @@
-<img width="3392" height="5056" alt="cover-front" src="https://github.com/user-attachments/assets/86a26b60-ba9b-4422-b871-ceacebda6d33" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/2fa3c827-0283-480b-8ff5-e212a9e21d65" />
+
 
 # Simply Automation
 
