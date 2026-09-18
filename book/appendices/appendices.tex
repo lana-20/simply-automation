@@ -1,0 +1,453 @@
+\documentclass[11pt,twoside]{book}
+\usepackage[paperwidth=6in,paperheight=9in,margin=0.75in,inner=0.875in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape Appendices}
+\fancyhead[RO]{\small\itshape Simply Automation}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\filcenter}
+  {\vspace{-20pt}\normalfont\normalsize\scshape Appendices\vspace{10pt}\\\Large Appendix}
+  {10pt}
+  {\Huge}
+
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\appendix
+
+\chapter{The Automation Timeline}
+\label{app:timeline}
+
+\section*{From Mechanical Repetition to Agentic Automation}
+
+Automation did not begin with computers.
+It began with a much older idea:
+Make the machine remember the instructions so the human does not have to repeat them.
+The timeline below follows the major transitions discussed in \textit{Simply Automation}.
+
+\subsection*{Before 1800 — Automation Before Computing}
+\begin{description}
+    \item[Ancient world] Mechanical devices, water clocks, self-moving mechanisms, and automated theatrical devices demonstrate that people have experimented with machine-driven behavior for thousands of years. The mechanisms were primitive by modern standards. The idea was not.
+\end{description}
+
+\subsection*{1801 — Jacquard Loom}
+\begin{description}
+    \item[Punch cards] Joseph Marie Jacquard's loom uses punched cards to control weaving patterns. The important innovation is the separation of machine and instructions. The loom does not need a human to manually specify every movement. The pattern becomes programmable. This is one of the clearest ancestors of modern automation.
+\end{description}
+
+\subsection*{1800s — Mechanical Automation Expands}
+Industrial machinery increasingly converts human instructions into repeatable mechanical processes.
+Automation becomes associated with manufacturing, precision, scale, and productivity.
+The basic loop is already familiar:
+\begin{quote}
+\centering
+Instruction $\rightarrow$ Machine $\rightarrow$ Repetition $\rightarrow$ Output
+\end{quote}
+
+\subsection*{1830s — Analytical Engine}
+Charles Babbage designs the Analytical Engine.
+Although the machine is never completed as originally envisioned, its architecture contains ideas recognizable in modern computing:
+\begin{itemize}[nosep]
+    \item programmable instructions,
+    \item memory,
+    \item arithmetic operations,
+    \item conditional behavior,
+    \item punched-card input.
+\end{itemize}
+Ada Lovelace's work on the machine also demonstrates an early understanding that programmable machines could manipulate symbols beyond simple arithmetic.
+The computer is beginning to separate the instruction from the physical machine.
+
+\subsection*{Late 1800s — Tabulation Machines}
+Mechanical and electromechanical tabulation systems demonstrate that information itself can be processed automatically.
+The problem shifts from \emph{``How do we automate physical movement?''} toward \emph{``How do we automate information?''}
+That shift will define the twentieth century.
+
+\subsection*{1940s — Electronic Computers}
+Electronic computers make programmable computation dramatically faster.
+Machines that once required physical mechanisms can now execute stored instructions electronically.
+The automation boundary moves from physical repetition toward information processing.
+
+\subsection*{1950s–1960s — Batch Processing}
+Computers increasingly operate without continuous human interaction.
+Jobs are submitted. The machine processes them. Results appear later.
+This is an important conceptual step: the machine does not need a human sitting beside it.
+
+\subsection*{1960s–1970s — Software Becomes the Automation Layer}
+Programming languages make it easier to describe behavior without directly manipulating machine hardware.
+The programmer increasingly works at a higher level of abstraction.
+The question changes from \emph{``How do I control the machine?''} to \emph{``What should the machine do?''}
+
+\subsection*{1970s–1980s — Macros and Record/Replay}
+Personal computers bring automation to ordinary users.
+Macros record or reproduce sequences of actions.
+Automation becomes accessible outside specialized programming environments.
+The promise is seductive: \emph{Do it once. Let the computer repeat it.}
+The limitations become familiar too. Recorded actions know what happened. They do not necessarily know why.
+
+\subsection*{1980s–1990s — GUI Automation}
+Graphical interfaces become dominant.
+Automation begins interacting with windows, buttons, menus, fields, coordinates, and controls.
+The machine is no longer merely processing data. It is interacting with software interfaces.
+
+\subsection*{1990s — Commercial Test Automation}
+Enterprise testing tools make software automation a formal industry.
+Record/replay, object recognition, scripting, test management, and reporting become integrated into commercial platforms.
+Automation becomes a specialized professional discipline.
+
+\subsection*{1995 — Java}
+Java's portability and ecosystem contribute to the growth of cross-platform software development.
+Programming-based automation becomes increasingly practical across environments.
+
+\subsection*{1990s — The Web Arrives}
+The browser becomes a new universal interface.
+Software is no longer installed only on the desktop. The application can live somewhere else.
+The browser becomes the user's window into it.
+Automation now needs to control the browser.
+
+\subsection*{2004 — Selenium Begins}
+Jason Huggins creates Selenium while working at ThoughtWorks.
+The original project evolves into Selenium.
+The central idea is simple: What if browser automation were programmable rather than locked inside a proprietary testing environment?
+The modern web automation ecosystem begins to take shape.
+
+\subsection*{2004–2008 — Selenium RC Era}
+Selenium Remote Control allows automation to interact with browsers through a remote mechanism.
+Browser automation becomes increasingly integrated with programming languages and test frameworks.
+The test starts looking like software.
+
+\subsection*{2007–2009 — WebDriver Emerges}
+WebDriver introduces a cleaner model for controlling browsers.
+Instead of relying primarily on JavaScript injection and intermediary mechanisms, automation can communicate more directly with browser-specific drivers.
+The architecture becomes:
+\begin{quote}
+\centering
+Test $\rightarrow$ WebDriver $\rightarrow$ Browser Driver $\rightarrow$ Browser
+\end{quote}
+
+\subsection*{2011 — Selenium WebDriver}
+WebDriver becomes a central part of Selenium's evolution.
+Browser automation increasingly becomes a standard engineering capability rather than a specialized recording environment.
+
+\subsection*{2011 — Appium Begins}
+Appium emerges from work at Zoosk.
+The idea extends the WebDriver model beyond browsers.
+Now the automation target is the mobile device.
+The automation boundary moves again.
+
+\subsection*{2010s — Mobile Automation Expands}
+Automation increasingly covers Android, iOS, native applications, hybrid applications, mobile browsers, real devices, simulators, and emulators.
+The phone becomes another programmable computing surface.
+
+\subsection*{2010s — APIs Become First-Class Automation Targets}
+REST APIs and service-oriented architectures become central to modern applications.
+Testing increasingly moves below the UI.
+The automation stack becomes deeper: UI $\rightarrow$ API $\rightarrow$ Service $\rightarrow$ Database.
+The tester no longer has to interact with the screen to test every behavior.
+
+\subsection*{2005–2010s — Continuous Integration Expands}
+Hudson and later Jenkins help popularize continuous integration infrastructure.
+Builds and tests can run automatically whenever software changes.
+Automation stops waiting for humans to start it.
+
+\subsection*{2010s — CI/CD Becomes Infrastructure}
+Build, test, deployment, infrastructure, monitoring, and release processes become increasingly automated.
+Automation moves from testing software to operating software delivery.
+
+\subsection*{2017 — Playwright's Project Begins}
+Microsoft begins work on Playwright.
+The project develops into a modern browser automation framework emphasizing reliable browser control, isolation, auto-waiting, tracing, and cross-browser automation.
+The browser automation problem is being attacked from another direction.
+
+\subsection*{2020s — Browser Automation Becomes More Context-Aware}
+Modern automation frameworks increasingly understand browser state, network activity, accessibility semantics, isolated contexts, traces, screenshots, and richer locators.
+Automation becomes less like replaying mouse movements and more like interacting with a programmable browser environment.
+
+\subsection*{2020s — Generative AI Changes Software Development}
+Large language models become capable of generating code, interpreting natural-language instructions, using tools, and assisting with software tasks.
+The machine becomes a participant in the programming process.
+
+\subsection*{2024–2026 — Agentic Automation Emerges}
+AI systems increasingly operate through tools rather than simply generating text.
+The loop becomes: Observe $\rightarrow$ Reason $\rightarrow$ Act $\rightarrow$ Observe $\rightarrow$ Verify.
+The machine is no longer merely following a predefined script. It can select actions.
+
+\subsection*{2020s — MCP and Tool-Based AI}
+The Model Context Protocol and similar approaches establish standardized ways for AI systems to interact with external tools and systems.
+The interface between AI and automation becomes an important new engineering layer.
+
+\subsection*{2020s — Vibium}
+Vibium explores browser automation designed for the agentic era.
+The browser becomes not just a target for tests, but a tool environment that an AI agent can operate.
+The automation boundary moves again: Human $\rightarrow$ Agent $\rightarrow$ Automation Tools $\rightarrow$ Browser $\rightarrow$ Application.
+
+\subsection*{Today}
+Automation spans nearly every layer of computing: physical machines, operating systems, browsers, mobile devices, APIs, databases, CI/CD, infrastructure, cloud platforms, monitoring, and AI agents.
+The question is no longer whether something can be automated.
+The question is: \emph{Should it be automated, at what layer, under what constraints, and with what evidence?}
+
+\section*{The Timeline in One Line}
+\begin{center}
+Mechanical Repetition $\rightarrow$ Programmable Machines $\rightarrow$ Software $\rightarrow$ Macros $\rightarrow$ GUI Automation $\rightarrow$ Test Automation $\rightarrow$ Browser Automation $\rightarrow$ WebDriver $\rightarrow$ Mobile Automation $\rightarrow$ API Automation $\rightarrow$ CI/CD $\rightarrow$ Cloud Infrastructure $\rightarrow$ Context-Aware Automation $\rightarrow$ AI-Assisted Automation $\rightarrow$ Agentic Automation $\rightarrow$ Intent-Driven Automation
+\end{center}
+The boundary keeps moving.
+
+
+\chapter{The Seven Tools at a Glance}
+\label{app:tools}
+
+The seven tools in \textit{Simply Automation} are not presented because they are the only important automation technologies.
+They are useful because each represents a major shift in what humans asked machines to do.
+
+\noindent\small
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+\textbf{Tool / Technology} & \textbf{Automation Surface} & \textbf{Central Question / Historical Shift} \\
+\midrule
+Selenium / UFT & Software UI & Can repetitive user interaction be automated? Automation becomes a software discipline. \\
+Selenium WebDriver & Browser & Can the browser become programmable infrastructure? Standardized browser automation. \\
+Appium & Mobile & Can browser automation ideas move to devices? Automation escapes the desktop browser. \\
+API Automation / Postman & Services & Do we need the UI at all? Automation moves below the interface. \\
+Jenkins & Delivery pipeline & Can automation run continuously? Automation becomes infrastructure. \\
+Playwright & Modern browser & Can automation understand more of browser state? Automation becomes more context-aware. \\
+Vibium & AI-agent tooling & Can automation become a tool for machines? Automation enters the agentic era. \\
+\bottomrule
+\end{tabularx}
+\normalsize
+
+\section*{1. Selenium / UFT}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} Enterprise software needed repeatable testing.
+    \item \textbf{The Competing Ideas:} Commercial automation suites offered integrated environments; Selenium offered programmable, open-source browser automation.
+    \item \textbf{The Important Shift:} Automation moved toward ordinary software development.
+    \item \textbf{The Lasting Lesson:} Automation becomes more flexible when it becomes programmable.
+\end{itemize}
+
+\section*{2. Selenium WebDriver}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} Browsers needed a reliable automation interface.
+    \item \textbf{The Idea:} Separate the test from browser-specific implementation (Test $\rightarrow$ WebDriver $\rightarrow$ Driver $\rightarrow$ Browser).
+    \item \textbf{The Important Shift:} The browser becomes programmable infrastructure.
+    \item \textbf{The Lasting Lesson:} Interfaces create ecosystems.
+\end{itemize}
+
+\section*{3. Appium}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} Mobile applications created a new automation surface.
+    \item \textbf{The Idea:} Extend WebDriver-style automation to mobile.
+    \item \textbf{The Important Shift:} Automation moves from browser to device.
+    \item \textbf{The Lasting Lesson:} A useful abstraction can travel---but reality underneath it still matters.
+\end{itemize}
+
+\section*{4. API Automation / Postman}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} The UI was often only the visible layer of a much larger system.
+    \item \textbf{The Idea:} Interact directly with the service (Automation $\rightarrow$ API $\rightarrow$ Service).
+    \item \textbf{The Important Shift:} Automation moves below the interface.
+    \item \textbf{The Lasting Lesson:} Automate the behavior, not necessarily the surface.
+\end{itemize}
+
+\section*{5. Jenkins}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} Automation still depended on humans to start it.
+    \item \textbf{The Idea:} Run builds and tests continuously.
+    \item \textbf{The Important Shift:} Automation becomes a permanent process.
+    \item \textbf{The Lasting Lesson:} Automation becomes infrastructure when it no longer needs to be started manually.
+\end{itemize}
+
+\section*{6. Playwright}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} Modern web applications became highly dynamic.
+    \item \textbf{The Idea:} Make browser automation more context-aware.
+    \item \textbf{The Important Shift:} Automation gains better synchronization, isolation, tracing, and semantic interaction.
+    \item \textbf{The Lasting Lesson:} Reliability comes from understanding state.
+\end{itemize}
+
+\section*{7. Vibium}
+\begin{itemize}[nosep]
+    \item \textbf{The Problem:} AI agents need reliable tools for interacting with software environments.
+    \item \textbf{The Idea:} Make browser automation discoverable and usable by agents while preserving deterministic execution and verification.
+    \item \textbf{The Important Shift:} The consumer of automation changes. It is no longer only the human engineer. The machine becomes a user of the automation interface.
+    \item \textbf{The Lasting Lesson:} The next automation interface may be designed for another machine.
+\end{itemize}
+
+
+\chapter{Glossary}
+\label{app:glossary}
+
+\begin{description}
+    \item[Agent] A software system capable of observing information, deciding what to do, taking actions through tools, and responding to the results.
+    \item[Agentic Automation] Automation in which an AI system can determine some of the actions required to accomplish a goal rather than following only a completely predefined sequence.
+    \item[API] Application Programming Interface. A defined way for software systems to communicate with one another.
+    \item[Accessibility Tree] A structured representation of interface elements and their semantic relationships as exposed to accessibility technologies. For automation, it can provide information about what an interface element means, rather than merely where it appears visually.
+    \item[Assertion] A statement that verifies an expected condition (e.g., Expected: user is logged in, Actual: dashboard is visible). Assertions turn execution into verification.
+    \item[Automation] Using machines to perform work that would otherwise require human action. In this book, automation includes everything from mechanical repetition to AI-driven workflows.
+    \item[Automation Boundary] The moving boundary between work performed primarily by humans and work performed primarily by machines. It is one of the central concepts of \textit{Simply Automation}.
+    \item[Batch Processing] A computing model in which jobs are collected and executed without requiring continuous human interaction.
+    \item[CI] Continuous Integration. A practice in which changes are integrated and automatically built and tested on a regular basis.
+    \item[CD] Continuous Delivery or Continuous Deployment. The automation of software delivery processes beyond building and testing.
+    \item[CLI] Command-Line Interface. A text-based interface for interacting with software through commands.
+    \item[Context] The state and surrounding information relevant to an automation action. In browser automation, this can include the current page, session, cookies, frames, network activity, and other state.
+    \item[Continuous Delivery] A software delivery approach in which software can be reliably prepared for release through an automated process.
+    \item[Deterministic Automation] Automation where the actions and expected execution path are explicitly defined and repeatable. Determinism is particularly valuable when predictability matters.
+    \item[DOM] Document Object Model. The structured representation of a web page that browsers expose to scripts and automation tools.
+    \item[Driver] A software component that provides a control interface between an automation framework and a target system. In WebDriver architecture, browser-specific drivers connect the standard automation interface to individual browsers.
+    \item[End-to-End Test] A test that exercises a larger user or system workflow across multiple components.
+    \item[Flaky Test] A test that produces inconsistent results without a corresponding meaningful change in the system under test, caused by timing, state, environment, synchronization, or infrastructure.
+    \item[GUI] Graphical User Interface. A visual interface involving elements such as windows, buttons, menus, forms, and other controls.
+    \item[Hybrid Application] A mobile application combining web technologies with native application capabilities.
+    \item[Locator] A mechanism used by automation to identify an element or target, such as CSS selectors, XPath, text, roles, labels, or accessibility semantics.
+    \item[Macro] A recorded or programmed sequence of actions that can be executed repeatedly.
+    \item[MCP] Model Context Protocol. A protocol designed to provide a standardized way for AI systems to interact with external tools and sources of context.
+    \item[Mobile Automation] Automation targeting mobile devices or mobile applications (native, hybrid, or web).
+    \item[Native Application] An application built specifically for a particular operating system or platform.
+    \item[Observability] The ability to understand the internal behavior and state of a system through information such as logs, metrics, traces, events, and other evidence.
+    \item[Open Source] Software whose source code is made available under a license permitting specified use, modification, and redistribution.
+    \item[Page Object Model] A software design pattern commonly used in UI automation where application pages or components are represented as reusable objects.
+    \item[Pipeline] An automated sequence of software-development or delivery operations (Build $\rightarrow$ Test $\rightarrow$ Package $\rightarrow$ Deploy $\rightarrow$ Verify).
+    \item[Playwright] A modern browser automation framework designed for automated interaction with Chromium, Firefox, and WebKit-based browsers.
+    \item[Postman] A platform widely used for interacting with and testing APIs.
+    \item[Record/Replay] An automation approach in which human actions are recorded and later reproduced by software.
+    \item[Selenium] An open-source ecosystem for browser automation.
+    \item[Selenium Grid] Selenium infrastructure for distributing browser automation across multiple machines and environments.
+    \item[Test Automation] The use of software to execute tests, evaluate results, and produce evidence about software behavior.
+    \item[Trace] A detailed record of execution that can help reconstruct what happened during an automated operation.
+    \item[UFT] Unified Functional Testing, representing the enterprise commercial automation lineage.
+    \item[Vibium] An AI-native browser automation project focused on providing browser capabilities for both developers and AI agents.
+    \item[Vibe Check] In Vibium, a verification-oriented automation action intended to check whether an agent's interaction produced the expected result (action + verification).
+    \item[WebDriver] A standardized browser automation interface that allows software to control browsers through defined commands.
+\end{description}
+
+
+\chapter{The Automation Graveyard}
+\label{app:graveyard}
+
+\section*{Tools That Did Not Exactly Die}
+
+Technology history is full of dead products. Automation history is more complicated.
+Few tools simply disappear. Some are abandoned, some absorbed, some become standards, some survive inside other products, and some leave behind ideas that become universal.
+The automation graveyard is a collection of previous answers to problems that eventually changed.
+
+\subsection*{Mercury WinRunner}
+Once a major commercial functional testing tool, WinRunner represented an early generation of enterprise GUI automation. Its importance is historical: it helped establish the idea that software interfaces could be systematically automated and verified. The category survived; the specific tool did not.
+
+\subsection*{Rational Robot}
+IBM Rational Robot was part of the enterprise automation ecosystem associated with IBM Rational tooling. It offered integrated capabilities for automated functional testing. The larger lesson survived: enterprises wanted automation integrated into the software-development lifecycle.
+
+\subsection*{QTP}
+QuickTest Professional (later UFT) became a prominent commercial functional testing tool, illustrating how enterprise automation evolved through product consolidation and changing ownership.
+
+\subsection*{Selenium IDE}
+Selenium IDE brought record-and-playback automation directly into the browser, demonstrating that browser automation could be accessible. Its deeper idea survived: make automation easy to start.
+
+\subsection*{Selenium RC}
+Selenium Remote Control enabled remote browser automation before WebDriver became dominant. WebDriver eventually provided a cleaner model, but Selenium RC helped reveal what the next architecture needed to solve.
+
+\subsection*{PhantomJS}
+PhantomJS was a headless browser based on WebKit. Its decline illustrated a recurring pattern: when the browser ecosystem changes, automation infrastructure must change with it.
+
+\subsection*{HtmlUnit}
+HtmlUnit provided a Java-based headless browser implementation for automated testing and programmatic web interaction. The need for browser-like automation remained; dominant technologies changed.
+
+\subsection*{Watir}
+Watir was an influential open-source web automation project that established browser automation as a programmable activity and influenced the Ruby automation ecosystem.
+
+\subsection*{Cucumber's Record/Replay Dreams}
+BDD and tools like Cucumber introduced the aspiration that automated behavior could be described in language business stakeholders could understand. The question of whether natural-language specifications should become executable automation remains open.
+
+\subsection*{The ``Sleep Five Seconds'' Era}
+\begin{quote}
+\texttt{sleep(5000)}
+\end{quote}
+was once an extremely common solution to synchronization problems. Modern automation replaced arbitrary delays with condition-based synchronization. The graveyard contains techniques as well as tools.
+
+\subsection*{Record Everything}
+The idea that \emph{``If a human can do it, record the human doing it''} remains useful for prototyping, but serious automation requires resilience and understanding of the target rather than replayed gestures.
+
+\section*{The Graveyard's Real Lesson}
+Technology does not usually disappear because it was useless, but because the problem changes. A tool may solve yesterday's problem perfectly until browsers, operating systems, architectures, standards, scale, and developer demands shift. That is technological succession.
+
+
+\chapter{Further Reading}
+\label{app:reading}
+
+The history of automation is much larger than one book.
+The following resources provide useful starting points for exploring the ideas behind \textit{Simply Automation}.
+
+\section*{Computing and the Origins of Automation}
+\begin{itemize}[nosep]
+    \item \textbf{Charles Babbage — \textit{On the Economy of Machinery and Manufactures}} A foundational nineteenth-century work on mechanization and manufacturing.
+    \item \textbf{Ada Lovelace — \textit{Notes on the Analytical Engine}} Contains some of the earliest widely recognized discussions of programmable machines and algorithmic instructions.
+    \item \textbf{Joseph Marie Jacquard and the Jacquard Loom} Historical material on punched-card control and the separation between machine and program.
+\end{itemize}
+
+\section*{Browser Automation}
+\begin{itemize}[nosep]
+    \item \textbf{Selenium Documentation} The official reference for architecture, WebDriver, Grid, and the Selenium ecosystem.
+    \item \textbf{W3C WebDriver Specification} The standards-level view of browser automation.
+    \item \textbf{Selenium Project History} Background on the evolution from early origins through the WebDriver era.
+\end{itemize}
+
+\section*{Mobile Automation}
+\begin{itemize}[nosep]
+    \item \textbf{Appium Documentation} Technical view of mobile automation, drivers, capabilities, and supported platforms.
+\end{itemize}
+
+\section*{API Automation}
+\begin{itemize}[nosep]
+    \item \textbf{Postman Learning Center} Practical introduction to API requests, collections, testing, scripting, and automation.
+    \item \textbf{IETF HTTP Specifications} The protocol standard underlying modern API automation.
+\end{itemize}
+
+\section*{Continuous Integration and Delivery}
+\begin{itemize}[nosep]
+    \item \textbf{Jenkins Documentation} Technical foundation for pipelines, agents, and distributed execution.
+    \item \textbf{Gene Kim, Patrick Debois, Jez Humble, and John Willis — \textit{The DevOps Handbook}} Broad context for organizational transformation and continuous delivery.
+    \item \textbf{Jez Humble and David Farley — \textit{Continuous Delivery}} An influential reference for automated software delivery as an engineering discipline.
+\end{itemize}
+
+\section*{Modern Browser Automation}
+\begin{itemize}[nosep]
+    \item \textbf{Playwright Documentation} Covers browser contexts, locators, auto-waiting, tracing, and network control.
+\end{itemize}
+
+\section*{AI and Agentic Automation}
+\begin{itemize}[nosep]
+    \item \textbf{Model Context Protocol Documentation} Technical foundation for how AI systems connect to external tools and context.
+    \item \textbf{Vibium} Practical example of browser automation designed with AI agents in mind.
+\end{itemize}
+
+\section*{Automation, Software, and Human Work}
+\begin{itemize}[nosep]
+    \item \textbf{Norbert Wiener — \textit{The Human Use of Human Beings}} Explores automation, communication, and the relationship between technology and human activity.
+    \item \textbf{Marshall McLuhan — \textit{Understanding Media}} Examines technology as an environment-changing medium.
+    \item \textbf{Douglas Engelbart — \textit{Augmenting Human Intellect}} Explores augmentation: machines increasing human capability rather than replacing human activity.
+\end{itemize}
+
+\section*{A Reading Path Through the Book}
+Readers who want to explore the history in roughly the same order as \textit{Simply Automation} can follow this path:
+\begin{center}
+Jacquard Loom $\rightarrow$ Babbage + Lovelace $\rightarrow$ History of Computing $\rightarrow$ GUI Automation $\rightarrow$ Selenium $\rightarrow$ WebDriver $\rightarrow$ Appium $\rightarrow$ HTTP + APIs $\rightarrow$ Jenkins $\rightarrow$ Continuous Delivery $\rightarrow$ Playwright $\rightarrow$ AI Agents $\rightarrow$ MCP $\rightarrow$ Vibium
+\end{center}
+
+\section*{A Final Note on the Sources}
+Tools change. APIs change. Company names change. Features disappear. New frameworks appear.
+The historical ideas are more durable. When exploring resources, look for the concepts underneath the implementations: repetition, programmability, interfaces, abstraction, state, verification, observability, autonomy, and intent. Those are the threads connecting the entire history.
+
+\end{document}
