@@ -1,0 +1,171 @@
+\documentclass[11pt,twoside]{book}
+\usepackage[paperwidth=6in,paperheight=9in,margin=0.75in,inner=0.875in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape Epilogue}
+\fancyhead[RO]{\small\itshape Simply Automation}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\filcenter}
+  {\vspace{-20pt}\normalfont\normalsize\scshape Epilogue\vspace{10pt}\\\Large What Happens After ``Again''?}
+  {10pt}
+  {\Huge}
+
+\titlespacing*{\chapter}{0pt}{0pt}{40pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries}
+  {\thesection}{1em}{}
+
+\begin{document}
+
+\chapter*{What Happens After ``Again''?}
+\addcontentsline{toc}{chapter}{Epilogue — What Happens After “Again”?}
+
+We started with repetition.
+That is where automation always starts.
+Something happens once.
+Then it happens again.
+Then again.
+And eventually, repetition becomes annoying enough to deserve a machine.
+The machine learns the sequence.
+The sequence becomes an instruction.
+The instruction becomes a program.
+The program becomes a tool.
+The tool becomes infrastructure.
+The infrastructure becomes invisible.
+And once something becomes invisible, we start asking what comes next.
+
+That is how automation history moves.
+Not in clean revolutions.
+In layers.
+The Jacquard loom did not make computers inevitable in any simple sense. Selenium did not make AI agents inevitable. Jenkins did not eliminate manual testing. Playwright did not make deterministic automation obsolete.
+New layers accumulated on old ones.
+The future was built on the things that had already become boring.
+
+That is one reason the seven tools in this book matter.
+Their individual APIs will age.
+Their command names will change.
+Their companies may disappear.
+Their competitors will be replaced by competitors of their competitors.
+But the problems they exposed are remarkably durable:
+\begin{itemize}[nosep]
+    \item How do we identify the thing we want to automate?
+    \item How do we express what should happen?
+    \item How do we wait for reality to catch up with our instructions?
+    \item How do we know the result is correct?
+    \item How do we recover when the environment changes?
+    \item How do we make automation observable?
+    \item How much should the machine decide?
+    \item And perhaps the hardest question: Where should automation stop?
+\end{itemize}
+
+For a long time, the answer was relatively straightforward.
+Automate the repetitive work.
+Leave judgment to humans.
+Then automation became better at more complicated work.
+So the boundary moved.
+Humans stopped performing individual actions and started supervising systems.
+Then systems began making decisions within defined boundaries.
+Now agents can increasingly interpret goals, select tools, and generate their own sequences of actions.
+The boundary is moving again.
+
+This does not mean that humans disappear from the process.
+It means their role changes.
+A person who no longer spends the afternoon clicking through a regression suite may spend that afternoon designing what the regression suite should prove.
+A developer who no longer writes every individual interaction may spend more time defining constraints and evaluating results.
+A tester who no longer executes every test manually may spend more time asking whether the test is capable of finding the failures that matter.
+A team that can generate software faster may discover that deciding what software to build has become the slower and more important problem.
+
+Automation changes the economics of execution.
+It does not automatically solve the economics of judgment.
+That distinction matters.
+A machine can execute a thousand instructions.
+It cannot, by execution alone, tell us whether those thousand instructions were worth executing.
+An agent can complete a goal.
+It cannot, merely by completing it, establish that the goal was a good one.
+A green pipeline can tell us that a collection of checks produced expected results.
+It cannot guarantee that we checked the right things.
+
+More automation therefore creates an unexpected demand:
+better questions.
+
+The history of automation is sometimes described as a march toward machines doing more.
+That is true.
+But it misses half the story.
+As machines become capable of doing more, humans become responsible for deciding more carefully what should be delegated, what must be verified, and what should remain human.
+The automation boundary moves upward.
+So does responsibility.
+
+That is why the simplest lessons in this book may also be the most durable:
+\begin{enumerate}[nosep]
+    \item Start with repetition.
+    \item Separate instructions from execution.
+    \item Choose the right layer.
+    \item Observe the environment.
+    \item Expect state to change.
+    \item Verify the result.
+    \item Automate what benefits from automation.
+    \item Do not confuse execution with understanding.
+    \item And never mistake a successful sequence for a successful outcome.
+\end{enumerate}
+
+Those rules survived the move from mechanisms to programs, from desktop applications to browsers, from browsers to mobile devices, from scripts to pipelines, and from deterministic tools to agents.
+There is no reason to expect them to stop mattering now.
+
+The machines will change again.
+They always do.
+Perhaps the next generation of automation will barely look like automation at all. It may be embedded inside development environments, testing systems, operating systems, applications, devices, and agents. The explicit script may disappear. The tool may become a capability. The interface may become a conversation, an intent, or something we have not named yet.
+
+But underneath it, the old pattern will remain.
+Something repeats.
+Someone notices.
+A machine takes over.
+The machine gets better.
+The human moves one level higher.
+And then a new problem appears.
+
+So the history continues.
+Not because we have finally learned how to automate everything.
+But because every time we automate one layer, we discover another layer worth thinking about.
+
+The first question was:
+\begin{quote}
+\emph{Can a machine repeat this?}
+\end{quote}
+Then:
+\begin{quote}
+\emph{Can a machine execute these instructions?}
+\end{quote}
+Then:
+\begin{quote}
+\emph{Can a machine operate this software?}
+\end{quote}
+Then:
+\begin{quote}
+\emph{Can a machine understand the state of the system?}
+\end{quote}
+Then:
+\begin{quote}
+\emph{Can a machine choose the next action?}
+\end{quote}
+And now the question waiting beyond automation is different:
+\begin{quote}
+\textbf{What is worth asking the machine to do?}
+\end{quote}
+
+That is not a question a tool can answer for us.
+It is the question that remains after the automation is finished.
+
+\end{document}
