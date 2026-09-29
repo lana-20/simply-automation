@@ -33,6 +33,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \mainmatter
@@ -42,6 +48,9 @@
 
 \section*{Chapter 7 --- Playwright: When Automation Learned to Wait}
 \addcontentsline{toc}{section}{Chapter 7 --- Playwright: When Automation Learned to Wait}
+
+\epigraphlem{Modeling is an imitation of Nature that takes into account few of its characteristics.}{Stanisław Lem, \textit{Summa Technologiae}, p.~179}
+
 
 \noindent \initialcap{T}here is a moment in every automation story when the machine becomes less predictable than the thing it is trying to automate. The browser is loading. The page is rendering. JavaScript is running. An element exists, but isn't ready. A request is still in flight. A button is visible, but another layer is covering it. The test clicks. Nothing happens. 
 
@@ -80,12 +89,30 @@ The newer model becomes:
 \end{center}
 The machine is still following instructions. But it is doing more interpretation between the instruction and the action. That is a new kind of automation.
 
-\section{7.4 Playwright Appears}
-\noindent \initialcap{P}laywright emerged from engineers who had worked on browser automation infrastructure and was introduced by Microsoft in the late 2010s. Its design reflected lessons accumulated from years of browser automation. The browser was no longer treated as a simple remote object. The automation framework needed to understand more of what was happening inside the browser.
+\section{7.4 The Puppeteer Prelude}
+\noindent \initialcap{T}he story of Playwright begins with another tool. In 2017, the Chrome team at Google released Puppeteer, a Node.js library for controlling Chrome. Around the same time, Chrome gained an official headless mode: a real browser that could run without a visible window.
 
-Playwright focused on modern web applications and provided automation across major browser engines. Its architecture emphasized direct, reliable browser interaction and modern web capabilities. But its most important contribution to the history of automation was conceptual: \textbf{The automation framework could take responsibility for more of the synchronization problem.}
+Puppeteer did not speak WebDriver. It spoke the Chrome DevTools Protocol, the same channel the browser's own developer tools used to inspect pages, watch network traffic, and step through JavaScript. That was a different kind of access. WebDriver had been designed as a remote control for the browser. The DevTools Protocol was closer to a view from inside it.
 
-\section{7.5 The Locator Is No Longer Just a Selector}
+Puppeteer was fast, precise, and popular with developers who needed to generate screenshots, scrape pages, render PDFs, or test Chrome-based applications. But it had an obvious boundary. It was built for one browser family. The web was not.
+
+\section{7.5 Playwright Appears}
+\noindent \initialcap{P}laywright was released by Microsoft in January 2020. Several of its engineers had previously worked on Puppeteer at Google. Its design reflected lessons accumulated from years of browser automation. The browser was no longer treated as a simple remote object. The automation framework needed to understand more of what was happening inside the browser.
+
+Playwright aimed at a single interface across the three major browser engines: Chromium, Firefox, and WebKit. It began in JavaScript and TypeScript, then added Python, Java, and .NET. Its architecture emphasized direct, reliable browser interaction and modern web capabilities. But its most important contribution to the history of automation was conceptual: \textbf{The automation framework could take responsibility for more of the synchronization problem.}
+
+\section{7.6 Talking to the Engine}
+\noindent \initialcap{T}here were now two philosophies of browser control. WebDriver asked the browser vendors to implement a standard interface, and automation tools spoke through it:
+\begin{center}
+\textit{Test $\rightarrow$ WebDriver protocol $\rightarrow$ Browser driver $\rightarrow$ Browser}
+\end{center}
+Playwright chose a closer connection. It communicated with browser engines through their own debugging and automation channels, and for some engines it shipped builds adapted for automation:
+\begin{center}
+\textit{Test $\rightarrow$ Playwright $\rightarrow$ Browser engine}
+\end{center}
+Each choice had a price. The standard approach traded depth for independence: any vendor could implement it, and any tool could use it. The direct approach traded independence for depth: the tool could observe events, network activity, and page state that a request-and-response protocol struggled to expose. Neither was simply better. They were different answers to the question the whole book keeps asking: \textit{At what layer should the machine be controlled?}
+
+\section{7.7 The Locator Is No Longer Just a Selector}
 \noindent \initialcap{O}lder browser automation often revolved around selectors. Find an element by ID, CSS selector, XPath, class, or tag. That works. But selectors describe implementation. Suppose the page contains:
 \begin{quote}
 \texttt{<button class="btn-primary-9f83"> Buy now </button>}
@@ -98,32 +125,73 @@ Modern frameworks increasingly encouraged locators based on the application's se
 \end{center}
 Now the test describes something closer to what a human means. Not \textit{Find this particular piece of HTML}, but \textit{Find the button named ``Buy now''}. The distinction matters. The more the automation expresses intent rather than implementation, the less brittle it can become.
 
-\section{7.6 Automation Moves Toward Meaning}
+\section{7.8 Automation Moves Toward Meaning}
 \noindent \initialcap{T}his was happening everywhere. Old style: \texttt{\#submit-button-7}. More semantic style: \texttt{button[name="Submit"]}. Or: \texttt{getByRole("button", \{ name: "Submit" \})}. 
 
 The automation is moving upward in abstraction. That mirrors the entire history of the book: the machine began with coordinates, then objects, then selectors, now semantics. Each generation tries to describe the target at a higher level.
 
-\section{7.7 The Accessibility Tree}
+\section{7.9 The Accessibility Tree}
 \noindent \initialcap{T}here was another development hiding underneath this idea. Browsers already had more information about a page than the raw HTML suggested. For accessibility, browsers expose a representation of the interface based on concepts such as roles, names, states, and relationships. 
 
 A screen reader doesn't need to think: \textit{There is a div with a particular CSS class.} It needs to know: \textit{This is a button named ``Checkout.''} That representation became increasingly useful for automation. The automation framework could reason about the interface in terms closer to what users actually perceive. The browser was beginning to expose a second map of the application: not just what is the code, but what does this interface mean? That would become extremely important later.
 
-\section{7.8 One Browser Is Not Enough}
-\noindent \initialcap{P}laywright also made it easier to think in terms of browser contexts. A browser context can be thought of as an isolated browser session. Imagine one test needs User A and another needs User B. In older automation setups, managing multiple isolated sessions could require multiple browser instances, complex profile management, or complicated state-clearing scripts. 
+\section{7.10 Assertions Learn to Wait}
+\noindent \initialcap{W}aiting before an action was only half of the problem. The other half came after it. A test clicks ``Save.'' The next line checks that the message ``Saved'' appears. But the message arrives a moment later. An assertion that checks once, immediately, fails. An assertion that checks after \texttt{sleep(3)} passes, slowly, until the day it doesn't.
 
-Playwright made isolated contexts lightweight and fast. A single browser instance could run multiple completely independent contexts, each with its own cookies, storage, permissions, and isolation boundaries. The infrastructure was beginning to match the complexity of modern web applications.
+Playwright's test runner made assertions patient too. Instead of asking once, an assertion such as:
+\begin{center}
+\texttt{expect(page.getByText("Saved")).toBeVisible()}
+\end{center}
+keeps checking until the condition becomes true or a timeout expires. The verification is expressed as a condition about the page, not as a snapshot of a single moment. That changed the shape of the test. The action waits for the page. The assertion waits for the result. The human describes what should become true.
 
-\section{7.9 Network Interception Becomes First-Class}
-\noindent \initialcap{W}eb applications communicate constantly with backends via APIs, WebSockets, and background fetches. Testing them often required dealing with network flakiness, slow responses, or external service dependencies. 
+\section{7.11 The Cost of Waiting}
+\noindent \initialcap{A}utomatic waiting solved a real problem. It also created a quieter one. When a tool waits patiently, it can hide slowness. A button that becomes clickable after four seconds instead of four hundred milliseconds still passes. The test is green. The user is annoyed.
 
-Playwright built network interception directly into the core framework. Tests could intercept requests, mock responses, modify headers, simulate offline conditions, or track API traffic alongside UI interactions. Automation was no longer just watching the screen; it was participating in the network traffic that created the screen.
+This is the automation paradox from Chapter 3 returning in a more polite form. Every piece of intelligence added to the tool is something the tool now decides on the engineer's behalf. Good frameworks make those decisions visible: timeouts are explicit, waits are logged, and traces show where the time went. But the lesson is durable. \textbf{A tool that tolerates the environment can also tolerate problems in it.} Reliability and truthfulness are not the same property.
 
-\section{7.10 Tracing and Observability}
-\noindent \initialcap{W}hen an automated test fails on a remote CI server, diagnosing the failure can be agonizing. A screenshot tells you what the page looked like at the moment of failure. A video tells you what happened before. A trace tells you the entire story: network requests, console logs, DOM snapshots, action timelines, and exact execution steps. 
+\section{7.12 One Browser Is Not Enough}
+\noindent \initialcap{P}laywright also made it easier to think in terms of browser contexts. A browser context can be thought of as an isolated browser session. Imagine one test needs User A and another needs User B. Or imagine a chat application, where the test must watch one user send a message and another user receive it. In older automation setups, managing multiple isolated sessions could require multiple browser instances, complex profile management, or complicated state-clearing scripts.
 
-Modern tools like Playwright treated observability as a core feature rather than an afterthought. Debugging automation became an engineering investigation rather than guesswork.
+Playwright made isolated contexts lightweight and fast. A single browser instance could run multiple completely independent contexts, each with its own cookies, storage, permissions, and isolation boundaries. One test could hold two users in two contexts and watch them interact. The infrastructure was beginning to match the complexity of modern web applications.
 
-\section{7.11 The Abstraction Ceiling}
+\section{7.13 Isolation by Default}
+\noindent \initialcap{C}heap contexts made a cultural change possible. If a fresh browser session costs almost nothing, every test can start with one. No leftover cookies. No logged-in user from the previous test. No shopping cart that remembers yesterday.
+
+Shared state had been one of the oldest sources of flakiness, going back to the first batch jobs that assumed a clean machine. Test A passes alone. Test B passes alone. Run them together, in a particular order, and B fails because A left something behind. Isolation by default turned a best practice that teams had to enforce into the tool's starting assumption. And if a suite needed a logged-in user, it could save authenticated state once and load it into each new context, rather than logging in through the UI a thousand times.
+
+\section{7.14 Network Interception Becomes First-Class}
+\noindent \initialcap{W}eb applications communicate constantly with backends via APIs, WebSockets, and background fetches. Testing them often required dealing with network flakiness, slow responses, or external service dependencies. Earlier teams often solved this with a separate proxy server sitting between the browser and the internet, configured by hand and maintained as yet another piece of infrastructure.
+
+Playwright built network interception directly into the core framework. Tests could intercept requests, mock responses, modify headers, simulate offline conditions, or track API traffic alongside UI interactions. A test could check that the page displays an error when the payment service returns a failure, without needing a payment service that fails on demand. The lessons of Part V had arrived inside the browser test. Automation was no longer just watching the screen; it was participating in the network traffic that created the screen.
+
+\section{7.15 Tracing and Observability}
+\noindent \initialcap{W}hen an automated test fails on a remote CI server, diagnosing the failure can be agonizing. A screenshot tells you what the page looked like at the moment of failure. A video tells you what happened before. A trace tells you the entire story: network requests, console logs, DOM snapshots, action timelines, and exact execution steps.
+
+Playwright's trace viewer let an engineer open a failed run from a CI machine and step through it action by action, inspecting the page as it existed before and after each step. The question changed from \textit{Can you reproduce it?} to \textit{What does the trace show?} Modern tools treated observability as a core feature rather than an afterthought. Debugging automation became an engineering investigation rather than guesswork.
+
+\section{7.16 The Record Button Returns}
+\noindent \initialcap{T}here is a small, ironic moment in this history. Chapter 1 described record and playback. Chapter 2 described why the record button disappointed so many teams: the recording captured actions, not intent, and the resulting scripts were brittle and hard to maintain.
+
+Playwright shipped a recorder. Run \texttt{codegen}, click through the application, and the tool writes the test. But the output was different from the recordings of the past. It was ordinary code in an ordinary language, using role-based and text-based locators wherever it could, meant to be read, edited, and committed. The record button had not been rehabilitated. It had been demoted, from the product to a starting point. That is a pattern worth noticing. Old ideas rarely die. They come back when the layer underneath them becomes good enough.
+
+\section{7.17 The Standards Catch Up}
+\noindent \initialcap{S}uccessful tools put pressure on standards. The classic WebDriver protocol worked by request and response: send a command, wait for an answer. It was not designed for the browser to speak first, to announce that a console message appeared, a request started, or a page navigated.
+
+The response was WebDriver BiDi, a bidirectional protocol developed through the W3C with participation from browser vendors and automation projects. Its goal was to bring event-driven, inside-the-browser capabilities into a shared standard rather than leaving them in engine-specific protocols. Selenium began adopting it. Puppeteer used it to support Firefox. The same cycle from Part III was repeating: a proprietary or engine-specific capability proves its value, then the industry tries to turn it into common infrastructure.
+
+\section{7.18 Not a Funeral}
+\noindent \initialcap{I}t is tempting to tell this chapter as a succession story: Selenium was the past, Playwright is the future. That is not what happened. Selenium continued to run enormous test suites across languages, grids, clouds, and browsers. Many organizations had years of investment in it. The WebDriver standard remained the one browser vendors had committed to implement. Playwright grew quickly, especially among teams building modern JavaScript applications, and it raised expectations for what a browser automation tool should do out of the box.
+
+Both projects pushed each other. That is the healthier way to read automation history. New tools rarely replace old ones cleanly. They move the baseline. After Playwright, auto-waiting, isolation, semantic locators, and traces stopped being clever extras. They became the expected minimum.
+
+\section{7.19 A Map Machines Can Read}
+\noindent \initialcap{O}ne development in this chapter deserves a second look. Role-based locators and the accessibility tree were designed to make tests less brittle and more aligned with users. But they also produced something new: a compact, structured description of what an interface means.
+\begin{center}
+\textit{button ``Checkout'' $\rightarrow$ textbox ``Email'' $\rightarrow$ link ``Order history''}
+\end{center}
+That is a description a human can read. It is also a description a machine can read. Raw HTML is noisy and full of implementation. Pixels require interpretation. The accessibility tree sits in between: it says what can be done on a page, in words. Nobody designed it for autonomous software. But when that software arrived, it would find this map waiting.
+
+\section{7.20 The Abstraction Ceiling}
 \noindent \initialcap{P}laywright and its contemporaries made browser automation remarkably powerful, reliable, and expressive. But they still shared a fundamental trait with every tool that came before them: \textbf{The human had to write the script.} 
 
 The machine could wait intelligently. It could inspect semantics. It could intercept networks. It could run across multiple engines. But it could not look at a newly redesigned application and figure out what to test. It could not read a product requirement document and generate the test suite. It could not adapt when a workflow completely changed its structure. 
@@ -135,13 +203,18 @@ The tool was an exceptionally sophisticated assistant. But the human was still t
 
 \noindent \initialcap{T}he lessons from Part VII:
 \begin{enumerate}
-    \item \textbf{Automatic waiting removes guesswork.} Replacing manual delays with intelligent condition checking eliminates massive sources of test flakiness.
+    \item \textbf{Automatic waiting removes guesswork.} Replacing manual delays with condition checks, before actions and inside assertions, eliminates a major source of test flakiness.
+    \item \textbf{Helpful tools can hide problems.} A framework that waits patiently can also tolerate real slowness; reliability and truthfulness are different properties.
+    \item \textbf{The control layer is a design choice.} Standard protocols trade depth for independence; engine-level access trades independence for depth.
     \item \textbf{Semantics beat implementation selectors.} Locators based on roles and accessibility trees are more resilient than fragile CSS classes or XPaths.
+    \item \textbf{Isolation should be the default.} Cheap, independent browser contexts remove one of the oldest sources of flaky automation: shared state.
     \item \textbf{The browser is a distributed runtime.} Modern apps require automation to handle async requests, network traffic, and isolated contexts natively.
     \item \textbf{Observability is essential for scale.} Traces, snapshots, and network logs turn remote test debugging from a mystery into data.
-    \item \textbf{Automation moves closer to human perception.} Utilizing accessibility semantics allows tools to understand interfaces the way users experience them.
+    \item \textbf{Old ideas return when the layer underneath improves.} Record and playback came back as a code generator, not as the product.
+    \item \textbf{Standards follow successful tools.} WebDriver BiDi brought event-driven capabilities toward a shared, vendor-supported protocol.
+    \item \textbf{New tools move the baseline.} Selenium and Playwright pushed each other; succession in automation is rarely clean.
     \item \textbf{The tool is not the author.} Even the most advanced automation frameworks require humans to write and maintain the logic.
-    \item \textbf{The next question is inevitable.} If a machine can intelligently wait, inspect semantics, and interact with networks, what happens when it can also reason about goals?
+    \item \textbf{The next question is inevitable.} If a machine can intelligently wait, read the meaning of an interface, and interact with networks, what happens when it can also reason about goals?
 \end{enumerate}
 
 \noindent \textbf{The Cliffhanger:} We have traveled from mechanical looms and punched cards to commercial testing suites, open-source browser scripts, mobile device farms, API contracts, continuous CI pipelines, and intelligent semantic automation. Every tool along the way increased the machine's capability while keeping the human firmly in charge of intent. But computing is now entering an era where machines don't just follow instructions or evaluate pre-written assertions. They can plan, reason, generate code, evaluate results, and pursue open-ended goals. What happens when automation stops being a script that runs every night, and becomes an agent that acts on your behalf? Next: \textit{Part VIII --- The Agentic Era}.

@@ -1,9 +1,11 @@
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/2fa3c827-0283-480b-8ff5-e212a9e21d65" />
+<img width="360" alt="Simply Automation cover: a pilot stands on a red flying craft docked at a towering yellow wall" src="book/cover-front.png" />
 
 
 # Simply Automation
 
 ### A History of Automation, One Tool at a Time
+
+*By Serene Dipster* · **[Read the book online](https://lana-20.github.io/simply-automation/)** · Free under [CC BY 4.0](LICENSE)
 
 **Simply Automation** is a nonfiction book about the history of automation — told through the tools, technologies, and ideas that changed what machines could do.
 
@@ -150,13 +152,32 @@ That question is where the history of automation becomes the story of the future
 
 ## Repository
 
-This repository contains the working materials for **Simply Automation**, including manuscript chapters, illustrations, research, supporting assets, and book-development artifacts.
+```text
+book/                 The manuscript, in LaTeX
+  prologue/           Prologue — The Machine That Said "Again"
+  parts/part-01…12/   Parts I–XII, one chapter each
+  epilogue/           Epilogue — What Happens After "Again"?
+  appendices/         Timeline, the seven tools, glossary, graveyard, further reading
+  cover-front.png     Front cover
+  cover-wrap.png      Full wraparound cover (back, spine, front)
+site/                 The web edition: build script, styles, assets
+docs/                 Generated website (built by site/build.py, not committed)
+```
 
-The project is intentionally developed in the open.
+The book is developed in the open. Corrections, suggestions, and translations are welcome as issues or pull requests.
 
-The repository may evolve as the manuscript evolves.
+### Reading and building
 
-Expect drafts, experiments, revisions, diagrams, visual concepts, and occasional changes in structure.
+The web edition is generated from the LaTeX sources with no dependencies beyond Python 3:
+
+```sh
+python3 site/build.py      # writes the static site to docs/
+open docs/index.html
+```
+
+Every push to `main` rebuilds and publishes the site through GitHub Pages (see `.github/workflows/pages.yml`).
+
+Each `.tex` file under `book/` is also a standalone LaTeX document for print; files that use `fontspec` need XeLaTeX or LuaLaTeX.
 
 ---
 
@@ -269,31 +290,32 @@ The book tries to make those questions simple without making the history simplis
 
 ## Status
 
-🚧 **Work in progress**
-
-The manuscript is being developed chapter by chapter.
-
-The structure is established, but individual chapters, illustrations, historical references, and supporting material may continue to evolve.
+**Complete first edition draft.** All twelve parts, the prologue, the epilogue, and the appendices are written. Revisions, illustrations, and fact-checking continue in the open.
 
 ---
 
 ## Author
 
-**Lana Begunova**
+**Serene Dipster** is a pen name.
 
-AI-focused SDET, test automation engineer, and founder of Daisy Lady Bug.
-
-The book grows out of years of working with browser automation, mobile automation, APIs, CI/CD, and emerging AI-native testing tools.
+The book grows out of years of hands-on work with browser automation, mobile automation, APIs, CI/CD, and emerging AI-native testing tools.
 
 ---
 
 ## License
 
-The manuscript and original book materials are **all rights reserved** unless otherwise stated.
+The text of *Simply Automation* and its original illustrations are licensed under the
+[Creative Commons Attribution 4.0 International License](LICENSE) (CC BY 4.0).
 
-Code, examples, and other explicitly marked open-source materials may have their own licenses.
+You are free to read, share, copy, translate, adapt, and build on this work for any purpose, including commercially, as long as you give credit:
 
-Please check individual files for applicable licensing information.
+> *Simply Automation* by Serene Dipster, licensed under CC BY 4.0. https://github.com/lana-20/simply-automation
+
+**Exceptions:**
+
+- **Quoted material is not covered by this license.** This includes the chapter epigraphs from Stanisław Lem's *Summa Technologiae*, which remain the property of their copyright holders and are quoted here for commentary.
+- **Code** in `site/` is released under the [MIT License](site/LICENSE).
+- Product and project names (Selenium, Appium, Jenkins, Playwright, Postman, Vibium, and others) are trademarks of their respective owners and are used here only to discuss their history.
 
 ---
 
@@ -312,4 +334,4 @@ The next question may be more important:
 ---
 
 *Simply Automation — A History of Automation, One Tool at a Time.*
-*By Lana Begunova*
+*By Serene Dipster*

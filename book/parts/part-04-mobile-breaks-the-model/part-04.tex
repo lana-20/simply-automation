@@ -33,6 +33,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \mainmatter
@@ -42,6 +48,9 @@
 
 \section*{Chapter 4 --- Appium}
 \addcontentsline{toc}{section}{Chapter 4 --- Appium}
+
+\epigraphlem{The lateral branches attempt to penetrate into environments in which competition is comparatively weaker.}{Stanisław Lem, \textit{Summa Technologiae}, p.~15}
+
 
 \noindent \initialcap{T}he browser had been tamed. At least, that was the story. WebDriver gave automation engineers a standard way to interact with browsers. Selenium had become an ecosystem. Teams were writing tests in Java, Python, C\#, Ruby, JavaScript, and other languages. Browsers could be automated locally, remotely, and at scale. 
 

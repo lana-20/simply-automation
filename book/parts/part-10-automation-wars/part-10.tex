@@ -28,9 +28,18 @@
   {\normalfont\Large\bfseries}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \chapter{The Battles Were Never Just About Tools}
+
+\epigraphlem{The only way to deal with technology is with another technology.}{Stanisław Lem, \textit{Summa Technologiae}, p.~6}
+
 
 Automation history is usually told as a sequence.
 First came one tool.
@@ -734,7 +743,7 @@ That is where the history of automation becomes something else entirely.
 
 \begin{center}
 \vspace{1em}
-\textit{Next: Part XI — Intent and the Final Boundary.}
+\textit{Next: Part XI — The Simple Rules.}
 \end{center}
 
 \end{document}

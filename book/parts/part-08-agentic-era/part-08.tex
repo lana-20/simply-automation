@@ -33,6 +33,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \mainmatter
@@ -42,6 +48,9 @@
 
 \section*{Chapter 8 --- Vibium: When the Automation Tool Became a Tool for the Machine}
 \addcontentsline{toc}{section}{Chapter 8 --- Vibium: When the Automation Tool Became a Tool for the Machine}
+
+\epigraphlem{It works in a probabilistic manner, which means that if it is placed in the same situation twice, it does not have to behave in the same way.}{Stanisław Lem, \textit{Summa Technologiae}, p.~103}
+
 
 \noindent \initialcap{F}or most of automation history, there was an assumption hiding in plain sight. The user was human. The programmer was human. The tester was human. The person writing the automation was human. The machine was the thing being controlled. 
 
@@ -108,15 +117,141 @@ The important historical shift is not the protocol itself. It is the abstraction
 
 An agent didn't necessarily need a pre-written test suite. Given a goal, it could open a browser, inspect the DOM, locate elements using semantics or vision, interact with buttons, handle unexpected dialogs, and evaluate whether the outcome matched expectations. The browser was no longer just a runtime environment; it was an interactive workspace for reasoning systems.
 
+That sounds exciting. It is also where the trouble begins. A browser built for human eyes is not automatically a good interface for a machine that reasons in text.
+
+\section{8.6 Raw HTML Is a Terrible Interface}
+\noindent \initialcap{A} human looking at a checkout page sees a few things: a cart, a total, a button that says \textit{Place order}. The page underneath might contain thousands of lines of markup, dozens of nested containers, generated class names, tracking scripts, hidden elements, and inline styles. The human never notices. The human's eyes do the filtering.
+
+An agent handed the raw page gets all of it. Every wrapper. Every attribute. Every invisible element. It has to find the meaningful parts inside an enormous amount of noise, and every extra line costs time, money, and attention. Worse, the markup describes implementation, not meaning. We have seen this problem before. Chapter 3 called it the locator war. Chapter 7 answered it with roles and accessible names. The agentic era inherits the same lesson in a sharper form:
+\begin{center}
+\textit{The quality of the interface determines the quality of the automation.}
+\end{center}
+If the machine is going to use the browser, somebody has to give it a better view of the browser.
+
+\section{8.7 Developer Experience Meets Agent Experience}
+\noindent \initialcap{F}or twenty years, automation tools competed on developer experience. Is the API readable? Are the error messages clear? Is installation painless? Does the documentation make sense? Can a tester write the first script before lunch?
+
+An agent cares about some of the same things and some very different ones. It needs capabilities it can discover without reading a tutorial. It needs inputs with clear structure. It needs outputs it can parse. It needs errors that say what went wrong and what to try next. It needs actions that do the same thing every time. And it needs to know what it is \textit{not} allowed to do.
+
+This is the idea sometimes called \textbf{agent experience}, or AX. It doesn't replace developer experience. A tool that is clear enough for a machine is usually clear enough for a person. But it changes the design question. The old question was:
+\begin{center}
+\textit{Can an engineer learn this tool?}
+\end{center}
+The new question is:
+\begin{center}
+\textit{Can a machine use this tool correctly without a human filling in the gaps?}
+\end{center}
+Humans are extraordinarily good at filling gaps. Agents fill them too---sometimes with things that aren't true.
+
+\section{8.8 The Story Rhymes}
+\noindent \initialcap{I}n 2004, an engineer at ThoughtWorks got tired of testing a web application by hand. He wrote a JavaScript tool to drive the browser. That tool became Selenium. His name was Jason Huggins.
+
+Two decades later, the same person returned to the same problem with a different user in mind. The new project was called Vibium. As Huggins put it: \textit{``I started the Selenium project 21 years ago. Vibium is what I'd build if I started over today.''}
+
+History does not repeat itself very often. But it rhymes. The first time, the question was whether a human could stop clicking through the browser by hand. This time, the question was whether a machine could click through the browser on a human's behalf---and prove that it had done the right thing. The browser was the same kind of place. The person at the keyboard had changed. Sometimes there wasn't a person at the keyboard at all.
+
+\section{8.9 What Vibium Is}
+\noindent \initialcap{A}t its simplest, Vibium is browser automation designed for AI agents first and humans second, without abandoning either. Its project page describes it in one line: \textit{the verification layer for coding agents.}
+
+The architecture is deliberately plain. A single small binary manages the browser, so there is no tangle of drivers and dependencies to install. It speaks WebDriver BiDi, the modern standard for talking to browsers. It includes a built-in MCP server, so an agent can discover and use the browser as a tool without custom glue code. And it offers client libraries for JavaScript and TypeScript, Python, and Java, for humans who still want to write the script themselves.
+
+Conceptually:
+\begin{center}
+\textit{Agent $\rightarrow$ MCP $\rightarrow$ Vibium $\rightarrow$ WebDriver BiDi $\rightarrow$ Browser}
+\end{center}
+Place that line next to the one from Chapter 3:
+\begin{center}
+\textit{Test $\rightarrow$ WebDriver $\rightarrow$ Browser}
+\end{center}
+The shape is almost the same. The thing on the left has changed.
+
+\section{8.10 The Standard Comes Back}
+\noindent \initialcap{T}here is a quiet irony here. Many of the newer browser tools of the late 2010s went around the WebDriver standard to get speed, events, and deeper browser access. They talked directly to browser internals. It worked. It also meant each tool was betting on private protocols.
+
+WebDriver BiDi was the standards world's answer: keep the interoperability of WebDriver, add the two-way, event-driven communication that modern tools needed. The browser could now tell the automation what was happening instead of waiting to be asked.
+
+Vibium built on that standard rather than around it. Huggins was clear that Selenium was not obsolete; he described depending on it as a base layer and pointed to BiDi as part of its evolution. The lesson from Part II returns: \textbf{standards outlive products.} An agent tool built on an open protocol can outlast the agent frameworks that call it.
+
+\section{8.11 Deterministic Tools, Nondeterministic Minds}
+\noindent \initialcap{A}n AI model is not a deterministic machine in the way a loom or a batch job is. Ask it the same question twice and it may take two different paths. That is part of what makes it useful. It is also what makes it dangerous as a direct operator of software.
+
+The emerging answer is a division of labor:
+\begin{center}
+\textit{Agent decides $\rightarrow$ Tool executes exactly $\rightarrow$ Tool reports exactly $\rightarrow$ Agent decides again}
+\end{center}
+The reasoning is flexible. The actions are not. When the agent says \textit{click the button named Checkout}, the tool either clicks that button or reports precisely why it couldn't. It does not improvise. The tool is where decades of automation discipline---waiting, locating, isolating, reporting---live on underneath the new layer.
+
+That sounds like a small distinction. It isn't. It is the difference between an agent that acts and an agent that flails.
+
+\section{8.12 The Tool Must Speak Clearly}
+\noindent \initialcap{W}hen a Selenium test fails, a human reads the stack trace, opens the screenshot, and makes an educated guess. Humans are patient detectives.
+
+An agent reads the error and immediately acts on it. A vague error produces a confused next step. \texttt{Element not found} tells the agent almost nothing. \textit{No button named ``Checkout'' is visible; a dialog titled ``Accept cookies'' is covering the page} tells the agent exactly what to do next. The quality of failure messages, which had always been a courtesy to humans, became a control mechanism for machines.
+
+This is Rule Thirteen from later in the book arriving early: \textbf{the machine should fail clearly.} In the agentic era, a clear failure is not just good manners. It is steering.
+
+\section{8.13 ``The Agent Said It Worked''}
+\noindent \initialcap{E}very automation generation had its own version of a false positive. Record-and-playback replayed the clicks and never noticed the error message. A pipeline turned green while a bug shipped. The agentic version is simpler and more unsettling. The agent finishes the task and reports:
+\begin{quote}
+\textit{``Done. The checkout flow works.''}
+\end{quote}
+Did it? Or did it click the button, see a page change, and conclude success? Did it reach the confirmation page, or an error page with a friendly design? Did it test the flow, or describe what it expected to happen?
+
+A statement is not evidence. An agent's confidence is not a test result. This is why Vibium's own framing puts verification at the center: the job is not only to act in the browser, but to check claims against what the browser actually shows---screenshots, page state, recordings. The machine's report has to point to something the human can inspect.
+\begin{center}
+\textit{Act $\rightarrow$ Observe $\rightarrow$ Verify $\rightarrow$ Show the evidence}
+\end{center}
+The older tools asked whether the test passed. The new tools also have to ask whether the agent is telling the truth.
+
+\section{8.14 Boundaries}
+\noindent \initialcap{A} script can only do what its author wrote. That was always its weakness. It was also, quietly, its greatest safety feature. An agent can choose actions nobody wrote down. It can click \textit{Delete}. It can submit a real payment. It can email a customer. It can follow a link into a system it was never meant to touch.
+
+So the questions change again. Which sites may the agent visit? Which actions require confirmation? Is this a test environment or production? Whose account is it using? What happens if it is wrong? Boundaries stop being an afterthought and become part of the tool's design: allowed domains, read-only modes, sandboxed browser profiles, approval steps for irreversible actions, clear logs of everything that was done.
+
+The machine may know \textit{how} to perform an action without being authorized to perform it. Capability and permission are not the same thing.
+
+\section{8.15 The Human Moves to the Edges}
+\noindent \initialcap{W}here is the human in all of this? Not gone. Moved. In the Selenium era, the human wrote every step. In the Playwright era, the human wrote fewer steps and trusted the framework with timing. In the agentic era, the human increasingly works at the two ends of the loop:
+\begin{center}
+\textit{Human defines the goal and the limits $\rightarrow$ Agent works $\rightarrow$ Human reviews the evidence}
+\end{center}
+Huggins has described the ambition with a driving metaphor: something more like a self-driving car that still has a steering wheel than an autopilot that removes human control. The steering wheel matters. The best agentic automation is not the kind that never needs a human. It is the kind that knows exactly when to ask for one.
+
+\section{8.16 The Cost of Autonomy}
+\noindent \initialcap{A}utonomy is not free. Every decision an agent makes is a small computation that costs money and time. An agent exploring a page may take ten actions where a script would take three. It may take a different route on Tuesday than it took on Monday, which makes failures harder to reproduce. It may be brilliant on a new workflow and wasteful on a boring one.
+
+That leads to a practical conclusion that sounds almost old-fashioned: \textbf{once an agent has found a reliable path, it is often better to turn that path back into deterministic automation.} Let the agent explore, discover, and draft. Let a stable script, a stable test, or a stable pipeline repeat. Exploration is expensive. Repetition should be cheap. We have seen this pattern since the loom.
+
+\section{8.17 The Seventh Tool}
+\noindent \initialcap{W}ith Vibium, the seven-tool story closes its first loop. Selenium and UFT asked whether repetitive interaction could be automated. WebDriver made the browser programmable infrastructure. Appium carried the idea to devices. API automation went beneath the interface. Jenkins made automation continuous. Playwright made it context-aware. And Vibium asked the newest question:
+\begin{center}
+\textit{Can automation itself become a tool for machines?}
+\end{center}
+It is fitting that the question came back to the browser, and back to the person who first made the browser programmable. The automation boundary had moved again. For the first time, the thing on the other side of the boundary could move too.
+
+\section{8.18 The One-Sentence History}
+\noindent \initialcap{I}f Part VIII had to fit in a single sentence, it would be this:
+\begin{center}
+\textit{Automation stopped being only something humans wrote for machines, and became something machines could use---which made verification, boundaries, and human judgment more important, not less.}
+\end{center}
+
 \chapter*{Part VIII --- What We Learned}
 \addcontentsline{toc}{chapter}{Part VIII --- What We Learned}
 
 \noindent \initialcap{T}he lessons from Part VIII:
 \begin{enumerate}
-    \item \textbf{The user of automation changed.} For the first time in history, the primary consumer of automation tools is no longer a human developer or tester, but an autonomous agent.
+    \item \textbf{The user of automation changed.} For the first time in history, a major consumer of automation tools is no longer a human developer or tester, but an AI agent.
     \item \textbf{Intent replaces procedure.} Humans supply high-level goals; machines dynamically construct the sequence of actions.
     \item \textbf{Tools are designed for machines.} Protocols like MCP allow models to discover and operate software capabilities programmatically.
     \item \textbf{The browser becomes a workspace.} Browsers transition from human documents and script targets into interactive environments for AI agents.
+    \item \textbf{Agent experience is interface design.} Discoverable capabilities, structured results, and clear errors decide whether an agent succeeds.
+    \item \textbf{Flexible reasoning needs deterministic tools.} The agent chooses; the tool executes exactly and reports exactly.
+    \item \textbf{A claim is not evidence.} ``The agent said it worked'' must be backed by something a human can inspect.
+    \item \textbf{Capability is not permission.} More autonomy requires explicit boundaries, approvals, and logs.
+    \item \textbf{Standards return.} Building agent tools on open protocols such as WebDriver BiDi keeps the lessons of the Selenium era alive.
+    \item \textbf{Explore with agents, repeat with automation.} Once a reliable path is found, it is often cheaper and safer to make it deterministic again.
 \end{enumerate}
+
+\noindent \textbf{The Cliffhanger:} Seven tools. Two decades of browsers, devices, APIs, pipelines, semantic locators, and agents. Each one looked like a separate revolution when it arrived, with its own champions, critics, conferences, and job titles. But step back far enough and the tools start to look strangely similar. The same problems keep coming back wearing new names: state, waiting, identity, interfaces, verification, trust. The same trade keeps being made: more abstraction in exchange for new kinds of failure. If that is true, then the history of automation is not really a history of tools at all. It is a pattern. And once you can see the pattern, you can start to predict what comes next. Next: \textit{Part IX --- The Pattern Hidden Inside the Tools}.
 
 \end{document}

@@ -28,9 +28,18 @@
   {\normalfont\Large\bfseries}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \chapter{What Happens When the Machine Has the Work?}
+
+\epigraphlem{Conversely, how can man be doing something that can be done the same way, or even better, by a machine?}{Stanisław Lem, \textit{Summa Technologiae}, p.~38}
+
 
 There is a strange assumption hidden inside the word automation.
 It sounds like an ending.

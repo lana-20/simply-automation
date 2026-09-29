@@ -28,10 +28,19 @@
   {\normalfont\Large\bfseries}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \chapter*{The Machine That Said ``Again''}
 \addcontentsline{toc}{chapter}{Prologue — The Machine That Said “Again”}
+
+\epigraphlem{Yet we are doing everything we can to mechanize, automatize, and self-activate any kind of work.}{Stanisław Lem, \textit{Summa Technologiae}, p.~38}
+
 
 Before there was a browser, there was repetition.
 Someone lifted the same weight again. Someone copied the same symbol again. Someone moved the same material from one place to another again. Someone performed the same calculation again.

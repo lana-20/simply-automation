@@ -33,6 +33,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \frontmatter
@@ -40,8 +46,8 @@
 \centering
 \vspace*{4cm}
 {\Huge\bfseries\sffamily SIMPLY AUTOMATION}\\[1.5cm]
-{\Large\sffamily The World of Automation History Explained Through Seven Tools}\\[2cm]
-{\large\itshape By Lana Begunova}\\[3cm]
+{\Large\sffamily A History of Automation, One Tool at a Time}\\[2cm]
+{\large\itshape By Serene Dipster}\\[3cm]
 \vfill
 {\small Part I: Before the Browser --- Print-Ready Edition}
 \end{titlepage}
@@ -53,6 +59,9 @@
 
 \section*{Chapter 1 --- The Machine That Repeated Itself}
 \addcontentsline{toc}{section}{Chapter 1 --- The Machine That Repeated Itself}
+
+\epigraphlem{It is commonly said that an algorithm is a scientific, repeatable, and reproducible prescription that shows how to solve a particular task step by step.}{Stanisław Lem, \textit{Summa Technologiae}, p.~97}
+
 
 \noindent \initialcap{B}efore there was software, the history of automation already had a long and storied past. Long before Selenium, long before test cases, and long before anyone had to argue about whether a flaky test should be quarantined, humans have always looked for ways to make machines repeat work. The reason is embarrassingly simple: people get tired. Machines don't.
 

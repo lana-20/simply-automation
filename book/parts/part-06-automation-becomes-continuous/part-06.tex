@@ -34,6 +34,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \mainmatter
@@ -43,6 +49,9 @@
 
 \section*{Chapter 6 --- Jenkins: The Machine That Never Stopped}
 \addcontentsline{toc}{section}{Chapter 6 --- Jenkins: The Machine That Never Stopped}
+
+\epigraphlem{\dots{}such a production unit is supposed to be an ultrastable homeostat, which responds to every deviation from the state of equilibrium with inner reorganization, thus restoring this state.}{Stanisław Lem, \textit{Summa Technologiae}, p.~101}
+
 
 \noindent \initialcap{T}here was a moment when software automation changed its most important word. It stopped being about when someone ran the automation. It became about whenever something changed. That sounds like a small distinction. It wasn't.
 
@@ -56,38 +65,134 @@
 \section{6.2 Continuous Integration}
 \noindent \initialcap{T}he idea behind continuous integration was surprisingly simple: \textbf{integrate changes frequently and verify them automatically.} A developer commits code. The system notices. The system builds the software. The system runs automated checks. If something breaks, the team finds out quickly.
 
-\noindent The important part wasn't the dashboard, the server, or even the test suite. It was the feedback loop. Instead of days of changes leading to mysterious integration failures, the process becomes a continuous loop of code, build, test, and feedback. Automation had acquired a heartbeat.
+\noindent The important part wasn't the dashboard, the server, or even the test suite. It was the feedback loop. Instead of days of changes leading to mysterious integration failures, the process becomes a continuous loop:
+\begin{center}
+\textit{Code $\rightarrow$ Build $\rightarrow$ Test $\rightarrow$ Feedback $\rightarrow$ Code}
+\end{center}
+Automation had acquired a heartbeat.
 
 \section{6.3 Before Jenkins}
-\noindent \initialcap{T}he idea existed before Jenkins. Build automation systems such as Make and Ant had already been helping software teams compile projects and run repeatable processes. Continuous integration servers automated the larger workflow. The principle was broader than any individual product: a machine should continuously verify the state of the codebase. But Jenkins would become particularly important because it was flexible, extensible, and open source, inheriting a useful trait from earlier tools: it didn't need to know what your application was, only what commands to run.
+\noindent \initialcap{T}he idea existed before Jenkins. Build automation systems such as Make and Ant had already been helping software teams compile projects and run repeatable processes. Extreme Programming made continuous integration one of its core practices, and early CI servers such as CruiseControl automated the larger workflow. The principle was broader than any individual product: a machine should continuously verify the state of the codebase.
 
-\section{6.4 Hudson}
-\noindent \initialcap{B}efore there was Jenkins, there was Hudson, emerging at Sun Microsystems as a continuous integration server. Its job was straightforward: watch for changes, build software, run tests, and report results. When a disagreement arose over governance and future direction, contributors created a fork that became Jenkins. The details mattered to those involved, but historically, the lesson was familiar: open source split software as a product from software as a community. The code could be forked, the project could move, and the name could change, but the automation itself survived.
+\noindent But the early tools were often demanding. Configuration lived in large files. Setting up a new project could take a specialist. Jenkins would become particularly important because it was flexible, extensible, and open source, and because it inherited a useful trait from earlier build tools: it didn't need to know what your application was. It only needed to know what commands to run.
 
-\section{6.5 The Pipeline}
+\section{6.4 The Nightly Build}
+\noindent \initialcap{B}efore integration became continuous, many teams settled for daily. The nightly build was a compromise. Developers worked during the day. At some agreed hour, a machine pulled everything together, compiled it, and ran whatever tests existed. In the morning, the team read the results.
+
+\noindent That was a real improvement. A problem introduced on Tuesday was discovered on Wednesday instead of next month. But the nightly build had a familiar weakness: it batched the feedback. If twenty changes arrived in one day and the build failed, which change caused it? The machine had noticed a problem. It could not yet say whose problem it was.
+
+\noindent The logic of the next step was almost inevitable. If once a day is better than once a month, why not once per change?
+\begin{center}
+\textit{Monthly $\rightarrow$ Weekly $\rightarrow$ Nightly $\rightarrow$ Every commit}
+\end{center}
+Each step made the feedback smaller. And small feedback is easier to understand.
+
+\section{6.5 Hudson}
+\noindent \initialcap{B}efore there was Jenkins, there was Hudson. It was created by Kohsuke Kawaguchi, an engineer at Sun Microsystems, in the mid-2000s. Its job was straightforward: watch for changes, build software, run tests, and report results. What made it spread was not a revolutionary theory. It was approachability. Hudson could be installed quickly, configured through a web interface, and extended with plugins. A developer who had never administered a build server could have one running in an afternoon.
+
+\noindent That mattered more than it sounds. Continuous integration had been a practice associated with disciplined teams and dedicated build engineers. Hudson made it something an ordinary team could simply start doing. Once again, the history of automation turned on lowering the cost of the first step.
+
+\section{6.6 The Fork}
+\noindent \initialcap{T}hen the ownership of the project changed. Oracle acquired Sun Microsystems, and with it, the Hudson name. A disagreement followed over governance, infrastructure, and the future direction of the project. In early 2011, the community voted to continue under a new name: Jenkins. Oracle kept Hudson. Most of the core contributors, and most of the users, followed Jenkins.
+
+\noindent The details mattered to those involved. Historically, the lesson was familiar. We had already seen it with Selenium: open source separates software as a product from software as a community. The code could be forked. The project could move. The name could change. But the automation itself survived, because the people who depended on it could carry it with them.
+
+\section{6.7 The Plugin Economy}
+\noindent \initialcap{J}enkins did not try to know everything. Instead, it became a platform. Plugins connected it to version control systems, build tools, test frameworks, report formats, chat tools, cloud providers, and container platforms. If a team used a tool, there was a good chance somebody had written a Jenkins plugin for it.
+
+\noindent This was the Selenium lesson repeating itself. An open interface created an ecosystem. The core project didn't need to anticipate every use case; the community filled the gaps. But the ecosystem also carried a familiar cost. Plugins had different maintainers, different quality levels, and different upgrade schedules. A Jenkins server with dozens of plugins could become a delicate machine that nobody wanted to update. Freedom, once again, had moved responsibility from the vendor to the team.
+
+\section{6.8 The Pipeline}
 \noindent \initialcap{J}enkins helped popularize a crucial idea: the pipeline. Instead of thinking about automation as a single script, teams could think in stages:
 \begin{center}
 \textit{Checkout $\rightarrow$ Build $\rightarrow$ Unit Tests $\rightarrow$ API Tests $\rightarrow$ UI Tests $\rightarrow$ Package $\rightarrow$ Deploy}
 \end{center}
 Each stage became another automated step. The software wasn't merely tested; it was processed. A traditional test suite answers whether software behaves correctly, while a pipeline asks what should happen to the software from the moment code changes until the resulting artifact is delivered. Automation had moved from verification into orchestration.
 
-\section{6.6 The Build Server Becomes the Team's Clock}
-\noindent \initialcap{O}nce a CI server ran continuously, it became a shared clock for the development organization. Something changed; the machine noticed; the build started; tests ran; results appeared. Developers began to organize around the feedback. A failed build was a signal that the shared state might no longer be healthy, establishing a new cultural rule: \textbf{keep the build green.}
+\section{6.9 Pipeline as Code}
+\noindent \initialcap{E}arly Jenkins jobs were often configured by clicking through web forms. That was convenient at first. It became a problem later. The configuration lived on the server, not in the repository. Nobody reviewed it. Nobody could easily see what had changed. If the server disappeared, the knowledge of how to build the software could disappear with it.
 
-\section{6.7 Green Is Not the Same as Correct}
-\noindent \initialcap{T}here was an important trap. A green pipeline does not prove that software is correct; it proves that the automated checks that ran did not report a failure. If tests miss a bug, if environments differ from production, if test data is unrealistic, or if assertions are wrong, the pipeline can still be completely green. Automation solved repeatability, but not knowing what to verify.
+\noindent The answer was to treat the pipeline the way Selenium had taught teams to treat tests: as code. Jenkins introduced the Jenkinsfile, a pipeline definition stored alongside the application itself. Now the pipeline could be versioned, reviewed, branched, and restored.
+\begin{center}
+\textit{Clicked configuration $\rightarrow$ Scripted jobs $\rightarrow$ Pipeline as code}
+\end{center}
+The pattern is worth noticing. Every time automation becomes important, it eventually gets pulled into the codebase. Tests did. Pipelines did. Infrastructure would too.
 
-\section{6.8 The Test Suite Gets a New Job}
-\noindent \initialcap{I}nside a pipeline, tests became infrastructure. They had to be repeatable, predictable, executable without human intervention, diagnosable, fast, and isolated. A flaky test that failed randomly in CI was no longer just annoying; it was an obstacle to delivery, as trust is the currency of continuous automation.
+\section{6.10 The Build Server Becomes the Team's Clock}
+\noindent \initialcap{O}nce a CI server ran continuously, it became a shared clock for the development organization. Something changed; the machine noticed; the build started; tests ran; results appeared. Developers began to organize their day around that feedback. Commit. Wait for the build. Move on---or fix it.
 
-\section{6.9 Parallelism and Agents}
-\noindent \initialcap{A}s test suites grew, parallel execution turned testing into a resource-allocation problem involving CPUs, memory, browsers, devices, containers, and shared state. Furthermore, Jenkins introduced workers or agents, allowing the controller to distribute work across machines. The automation wasn't just controlling a browser anymore; it was controlling other machines.
+\noindent Some teams put the build status on a large screen in the office. Some used lava lamps or traffic lights. The details were playful, but the message was serious: the state of the shared codebase was now visible to everyone, all the time. A failed build was a signal that the shared state might no longer be healthy. That established a new cultural rule: \textbf{keep the build green.}
 
-\section{6.10 The Cloud and Infrastructure as Code}
-\noindent \initialcap{C}loud platforms made computing resources temporary, transforming infrastructure into code where environments could be described, versioned, reviewed, and recreated automatically. The distinction between code that runs the application and code that creates the environment started disappearing.
+\section{6.11 Who Broke the Build?}
+\noindent \initialcap{V}isibility had a side effect. When the build failed, the pipeline knew which commit triggered it. And so did everyone else. \textit{``Who broke the build?''} became one of the most recognizable questions in software development.
 
-\section{6.11 Continuous Delivery and the Machine}
-\noindent \initialcap{C}ontinuous delivery asked whether software could always be kept ready to release. Deployment stopped being a high-ceremony event and became a routine, reliable operation. The pipeline became a complete production machine handling every step from commit to monitoring without human supervision.
+\noindent At its best, this created healthy ownership. The person closest to the change fixed it quickly, before other work piled on top. At its worst, it created blame, and developers started avoiding commits or batching changes to reduce their exposure---which quietly recreated the integration problem continuous integration was supposed to solve. The machine could report a failure. It could not decide how people should respond to it. Automation changes the process. Culture decides whether the process works.
+
+\section{6.12 Green Is Not the Same as Correct}
+\noindent \initialcap{T}here was an important trap. A green pipeline does not prove that software is correct. It proves that the automated checks that ran did not report a failure. Those are very different statements.
+
+\noindent If tests miss a bug, the pipeline is green. If environments differ from production, the pipeline is green. If test data is unrealistic, if assertions are weak, or if an entire feature has no tests at all, the pipeline can still be completely green. A green build is a statement about the checks, not about the product. Automation solved repeatability. It did not solve the question of what to verify.
+
+\section{6.13 The Test Suite Gets a New Job}
+\noindent \initialcap{I}nside a pipeline, tests became infrastructure. A test that a human runs occasionally can be a little slow, a little messy, a little dependent on the tester's machine. A test that runs on every commit cannot.
+
+\noindent Pipeline tests had to be repeatable, predictable, executable without human intervention, diagnosable, fast, and isolated. When they failed, they had to explain why, because no human had been watching when they ran. The test suite was no longer just a quality activity. It was a gate that decided whether software could move forward.
+
+\section{6.14 The Flaky Test Becomes a Team Problem}
+\noindent \initialcap{T}he flaky test had followed automation since the first macro. Continuous integration made it everyone's problem. A test that failed one run in twenty was an annoyance when a tester ran it by hand. In a pipeline running dozens of times a day, it was a regular, shared interruption.
+
+\noindent Teams responded in familiar ways. Rerun the build. Retry the failing test. Mark it as ``known flaky.'' Move it into quarantine, where it still runs but can no longer block anyone. Each response was reasonable. Together, they revealed something important: trust is the currency of continuous automation. Once developers learn that a red build probably means nothing, they stop reading red builds. And a pipeline nobody believes is just an expensive way to generate noise.
+
+\section{6.15 The Pyramid Inside the Pipeline}
+\noindent \initialcap{T}he automation pyramid now had a physical shape. It became the order of the stages. Fast, cheap checks ran first. Slower, broader checks ran later.
+\begin{center}
+\textit{Static checks $\rightarrow$ Unit tests $\rightarrow$ API tests $\rightarrow$ UI tests $\rightarrow$ Deployment checks}
+\end{center}
+The logic was economic. A unit test that fails in seconds saves the pipeline from spending minutes on browsers and devices. The earlier a problem can be caught, the cheaper it is to report. The layered thinking of Part V---test each thing at the lowest layer that can see it---was no longer just advice. It was built into the machine.
+
+\section{6.16 Parallelism and Agents}
+\noindent \initialcap{A}s test suites grew, a single build machine was no longer enough. A browser suite that took two hours on one machine might take fifteen minutes on eight. So testing became a resource-allocation problem involving CPUs, memory, browsers, devices, containers, and shared state.
+
+\noindent Jenkins handled this with a controller and a set of worker machines, which Jenkins called agents. The controller decided what needed to run. The agents did the work. Parallelism introduced its own discipline: tests that silently depended on each other, or on the order in which they ran, started failing once they ran side by side. The automation wasn't just controlling a browser anymore. It was controlling other machines---and discovering every hidden assumption along the way.
+
+\section{6.17 Containers Make Environments Disposable}
+\noindent \initialcap{O}ne of the oldest sentences in software is \textit{``It works on my machine.''} Continuous integration moved the question to a new place: does it work on the build machine? And build machines had their own history. Software installed years ago. Leftover files from earlier runs. Settings nobody remembered changing.
+
+\noindent Containers, popularized by Docker in the 2010s, changed the equation. An environment could be described in a file, built into an image, started fresh for a single job, and thrown away afterward. The build no longer had to trust whatever was already on the machine. Every run could begin from the same known state. The environment itself had become repeatable. And repeatability, as always, was the precondition for automation.
+
+\section{6.18 The Cloud and Infrastructure as Code}
+\noindent \initialcap{C}loud platforms made computing resources temporary. A team no longer needed to buy servers for the busiest day of the year; it could rent them for an hour. That turned infrastructure into something that could be created and destroyed on demand---by a machine.
+
+\noindent Infrastructure as code completed the idea. Networks, servers, databases, and permissions could be described in text files, versioned, reviewed, and recreated automatically. A pipeline could create a test environment, run the tests against it, and tear it down again. The distinction between code that runs the application and code that creates the environment started disappearing.
+
+\section{6.19 Continuous Delivery and the Machine}
+\noindent \initialcap{C}ontinuous integration asked whether every change could be verified. Continuous delivery asked a bolder question: \textit{Could software always be kept ready to release?}
+
+\noindent For many organizations, releases had been rare, stressful events. A release weekend. A long checklist. A room full of people. A rollback plan nobody wanted to use. Continuous delivery tried to make release boring. If every change passed through the same automated pipeline, then deploying was no longer a special event. It was the last stage of a process that had already run hundreds of times. Some teams went further, into continuous deployment, where every change that passed the pipeline went to production automatically.
+
+\noindent Humans didn't disappear from the process. They moved. Instead of performing each step, they designed the pipeline, decided which checks mattered, and chose where approval was still required.
+
+\section{6.20 Production Talks Back}
+\noindent \initialcap{T}he pipeline could not end at deployment. Real users found problems no test had imagined. Real traffic created load no test environment had reproduced. So automation followed the software into production: monitoring, alerts, health checks, dashboards, gradual rollouts, and automatic rollback when something looked wrong.
+\begin{center}
+\textit{Commit $\rightarrow$ Pipeline $\rightarrow$ Production $\rightarrow$ Monitoring $\rightarrow$ Next commit}
+\end{center}
+This closed the loop. Testing had always been a prediction about how software would behave. Production monitoring was the observation. The feedback loop that started with a single build now included reality itself.
+
+\section{6.21 Jenkins Becomes Boring}
+\noindent \initialcap{E}ventually, continuous integration stopped being a server a team installed. It became a feature of the place where the code already lived. Hosted services such as Travis CI, CircleCI, GitLab CI, and GitHub Actions let teams describe a pipeline in a small file in the repository and let someone else run the machines.
+
+\noindent Jenkins remained widely used, especially in organizations with large existing investments and specific needs. But the idea had won so completely that it no longer needed a dedicated tool to explain it. Nobody had to argue for continuous integration anymore. It was simply expected. This is the same compliment Selenium received: the technology became boring. And boring is what infrastructure looks like when it works.
+
+\section{6.22 The Machine That Never Stopped}
+\noindent \initialcap{L}ook at what had changed. Earlier in this history, automation meant a machine repeating a task when a human told it to. Now there was a machine that was always on. It watched the repository. It built the software. It ran thousands of tests. It created environments and destroyed them. It deployed. It monitored. It reported. It started again.
+
+\noindent No human pressed the button. The button had been replaced by an event. That is the real contribution of this era. Automation stopped being a tool someone used and became a system the organization lived inside.
+
+\section{6.23 What the Pipeline Could Not See}
+\noindent \initialcap{B}ut the machine that never stopped had a weak point. It was only as reliable as the checks it ran. And one stage of the pipeline was consistently more fragile than the rest: the browser tests.
+
+\noindent The pipeline could run them in parallel, inside clean containers, on every commit. It could retry them, quarantine them, and record their failures. What it could not do was make them understand the page they were testing. A browser test still clicked before the button was ready. It still guessed with \texttt{sleep()}. It still failed on a Tuesday for reasons nobody could reproduce. Continuous automation had made the browser test run constantly. Now someone had to make it run reliably.
 
 \chapter*{Part VI --- What We Learned}
 \addcontentsline{toc}{chapter}{Part VI --- What We Learned}
@@ -95,15 +200,18 @@ Each stage became another automated step. The software wasn't merely tested; it 
 \noindent \initialcap{T}he lessons from Part VI:
 \begin{enumerate}
     \item \textbf{Automation acquired a heartbeat.} Moving from manual triggers to event-driven continuous integration changed feedback loops.
+    \item \textbf{Smaller feedback is easier to understand.} From monthly integration to nightly builds to every commit, each step made failures easier to trace.
+    \item \textbf{Communities outlive names.} The Hudson--Jenkins fork showed that open-source automation survives with the people who depend on it.
     \item \textbf{Pipelines orchestrate delivery.} Software isn't just tested; it is processed through a sequence of stages from code to production.
+    \item \textbf{Important automation becomes code.} Tests, pipelines, and infrastructure all eventually moved into version control.
     \item \textbf{Green does not mean correct.} A successful pipeline only proves that executed checks passed, not that the software is bug-free.
-    \item \textbf{Tests become infrastructure.} In a CI pipeline, flakiness directly undermines team trust and delivery velocity.
-    \item \textbf{Automation scales to infrastructure.} CI servers coordinate agents, parallel execution, and ephemeral cloud environments.
-    \item \textbf{Deployment becomes routine.} Repeatable pipelines eliminate uncertainty and ceremonial stress from releasing software.
+    \item \textbf{Trust is the currency of continuous automation.} In a CI pipeline, flakiness directly undermines team trust and delivery velocity.
+    \item \textbf{Automation scales to infrastructure.} CI servers coordinate agents, parallel execution, disposable containers, and ephemeral cloud environments.
+    \item \textbf{Deployment becomes routine.} Repeatable pipelines remove much of the uncertainty and ceremony from releasing software.
     \item \textbf{The feedback loop becomes the product.} Observing production closes the loop between development and reality.
     \item \textbf{Automation amplifies processes.} A reliable process becomes faster, but an unreliable process simply produces problems more efficiently.
 \end{enumerate}
 
-\noindent \textbf{The Cliffhanger:} Continuous automation successfully synchronized code, tests, infrastructure, and delivery into a reliable engine. But every machine built so far followed explicit instructions. It could execute a script, trigger a pipeline, or evaluate an assertion. Yet software engineering was about to encounter a technology that changed how instructions were written entirely. Instead of telling the machine \textit{how} to do something step by step, what if you could simply tell it \textit{what} you want? Next: \textit{Part VII --- The Agentic Era}.
+\noindent \textbf{The Cliffhanger:} Continuous automation had turned code, tests, infrastructure, and delivery into an engine that never stopped. But the engine was only as trustworthy as its most fragile part, and that part was still the browser test. Pages had become applications. Elements appeared, moved, and disappeared while scripts guessed how long to wait. What if the automation tool didn't have to guess? What if it could understand enough of the browser's state to know when a button was actually ready---and what that button actually meant? Next: \textit{Part VII --- The Machine Starts Reasoning}.
 
 \end{document}

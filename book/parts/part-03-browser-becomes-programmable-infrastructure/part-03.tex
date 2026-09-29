@@ -32,6 +32,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \mainmatter
@@ -41,6 +47,9 @@
 
 \section*{Chapter 3 --- Selenium WebDriver}
 \addcontentsline{toc}{section}{Chapter 3 --- Selenium WebDriver}
+
+\epigraphlem{In other words, each generation would encounter an apparently unchanged technology, as ``natural'' as sunrises and sunsets.}{Stanisław Lem, \textit{Summa Technologiae}, p.~11}
+
 
 \noindent \initialcap{S}elenium had already changed the conversation. Browser automation could be open source. Tests could be code. Different programming languages could control the browser. Teams no longer had to purchase a giant automation platform just to make a browser click a button. 
 

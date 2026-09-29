@@ -28,9 +28,18 @@
   {\normalfont\Large\bfseries}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \chapter{What Automation History Actually Teaches Us}
+
+\epigraphlem{A machine is thus a system that manifests some kind of regularity of behavior: statistical, probabilistic, or deterministic.}{Stanisław Lem, \textit{Summa Technologiae}, p.~157}
+
 
 After all the battles, frameworks, standards, platforms, protocols, pipelines, and agents, it is tempting to believe that automation has become complicated.
 It has.
@@ -560,7 +569,7 @@ And that is where automation history ends---and the future of work begins.
 
 \begin{center}
 \vspace{1em}
-\textit{Next: Part XII — Intent and the Final Boundary.}
+\textit{Next: Part XII — After Automation.}
 \end{center}
 
 \end{document}

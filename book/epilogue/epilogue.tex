@@ -28,10 +28,19 @@
   {\normalfont\Large\bfseries}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \chapter*{What Happens After ``Again''?}
 \addcontentsline{toc}{chapter}{Epilogue — What Happens After “Again”?}
+
+\epigraphlem{Even if man is indeed capable of anything, he surely cannot achieve it in just any way.}{Stanisław Lem, \textit{Summa Technologiae}, p.~91}
+
 
 We started with repetition.
 That is where automation always starts.

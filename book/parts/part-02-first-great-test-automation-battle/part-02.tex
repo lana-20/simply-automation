@@ -33,6 +33,12 @@
   {\normalfont\Large\bfseries\sffamily}
   {\thesection}{1em}{}
 
+% Chapter epigraph: \epigraphlem{quotation}{source}
+\providecommand{\epigraphlem}[2]{%
+  \begin{flushright}\begin{minipage}{0.72\textwidth}\raggedleft
+  \itshape #1\par\vspace{0.4em}\normalfont\small --- #2
+  \end{minipage}\end{flushright}\vspace{1.2em}}
+
 \begin{document}
 
 \mainmatter
@@ -42,6 +48,9 @@
 
 \section*{Chapter 2 --- Selenium vs. UFT}
 \addcontentsline{toc}{section}{Chapter 2 --- Selenium vs. UFT}
+
+\epigraphlem{For a period of time, they vegetate in a semisecretive state, barely managing to compete with the established species---which are already optimally adapted to the tasks of the world.}{Stanisław Lem, \textit{Summa Technologiae}, p.~14}
+
 
 \noindent \initialcap{T}here are many ways to start a revolution. You can write a manifesto. You can organize a movement. Or you can release a little piece of software and let people download it for free. Selenium did the third. That sounds harmless. It wasn't.
 
