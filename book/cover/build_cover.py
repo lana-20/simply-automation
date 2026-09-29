@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Build the print-ready wraparound cover for Simply Automation.
 
-    pip install Pillow numpy
+    pip install Pillow numpy segno
     python3 book/cover/build_cover.py --pages 152            # KDP, white paper
     python3 book/cover/build_cover.py --pages 152 --paper cream
     python3 book/cover/build_cover.py --spine 0.42           # spine width from the printer's template
+    python3 book/cover/build_cover.py --no-qr                # leave the barcode box clear for an ISBN
 
 The artwork master (art-master-4x.jpg) is the original wraparound illustration,
 upscaled 4x with Real-ESRGAN (x4plus). The back and front panels are cropped from it
@@ -16,14 +17,15 @@ Outputs go to book/cover/print/:
   cover-print-<trim>-<spine>in.png   the same, lossless
   cover-front-6x9.jpg                front cover alone at trim size, for ebooks and stores
 
-The barcode box on the back cover is left clear: KDP and IngramSpark print the ISBN
-barcode there when you let them assign or supply the ISBN.
+The barcode box on the back cover holds a QR code to the free web edition. For a retail
+edition, pass --no-qr: KDP and IngramSpark print the ISBN barcode in that box.
 """
 
 import argparse
 from pathlib import Path
 
 import numpy as np
+import segno
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = Path(__file__).resolve().parent
@@ -42,6 +44,8 @@ BACK_X = (200, 2900)           # back panel, outer edge to the spine glow
 SPINE_X = (2900, 3304)         # the glowing spine band in the artwork
 FRONT_X = (3304, 6144)         # front panel, spine glow to outer edge
 CLEAN_ROWS = [(0, 400), (3900, 4096)]   # spine rows with no lettering on them
+BARCODE_BOX = (1742, 3186, 2478, 3612)  # clear area inside the back-cover label (x0, y0, x1, y1)
+SITE_URL = "https://lana-20.github.io/simply-automation/"
 
 INK = (28, 26, 23)
 RUST = (156, 59, 39)
@@ -117,11 +121,48 @@ def spine(master, width_px, height_px, spine_in):
     return spine_img
 
 
+def draw_qr(cover, back_x0, scale, url):
+    """Place a QR code and a short caption in the back-cover label box."""
+    x0, y0, x1, y1 = [round(v) for v in ((BARCODE_BOX[0] - back_x0) * scale, BARCODE_BOX[1] * scale,
+                                          (BARCODE_BOX[2] - back_x0) * scale, BARCODE_BOX[3] * scale)]
+    qr = segno.make(url, error="q")
+    modules = qr.symbol_size(border=0)[0]
+    pad = round(0.07 * DPI)
+    module = max(1, (y1 - y0 - 2 * pad) // modules)
+    size = module * modules
+    qr_img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(qr_img)
+    for r, row in enumerate(qr.matrix):
+        for c, dark in enumerate(row):
+            if dark:
+                d.rectangle([c * module, r * module, (c + 1) * module - 1, (r + 1) * module - 1], fill=INK)
+    qx, qy = x0 + pad, y0 + (y1 - y0 - size) // 2
+    cover.paste(qr_img, (qx, qy), qr_img)
+
+    d = ImageDraw.Draw(cover)
+    tx = qx + size + round(0.07 * DPI)
+    caps = font("Jost.ttf", round(0.06 * DPI), 500)
+    small = font("Jost.ttf", round(0.052 * DPI), 400)
+    y = qy + round(0.02 * DPI)
+    for line in ("SCAN TO READ", "FREE ONLINE"):
+        x = tx
+        for ch in line:
+            d.text((x, y), ch, font=caps, fill=INK, anchor="lt")
+            x += d.textlength(ch, font=caps) + round(0.008 * DPI)
+        y += round(0.088 * DPI)
+    y += round(0.05 * DPI)
+    for line in ("Feedback and", "contributions", "welcome."):
+        d.text((tx, y), line, font=small, fill=INK, anchor="lt")
+        y += round(0.072 * DPI)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--pages", type=int, default=152, help="interior page count (default: 152, an estimate)")
     ap.add_argument("--paper", choices=PAGE_THICKNESS, default="white")
     ap.add_argument("--spine", type=float, help="spine width in inches; overrides --pages/--paper")
+    ap.add_argument("--qr", default=SITE_URL, help="URL for the back-cover QR code")
+    ap.add_argument("--no-qr", action="store_true", help="leave the barcode box clear for an ISBN barcode")
     args = ap.parse_args()
 
     spine_in = args.spine if args.spine else args.pages * PAGE_THICKNESS[args.paper]
@@ -140,6 +181,9 @@ def main():
     cover.paste(back, (0, 0))
     cover.paste(spine_img, (panel_w, 0))
     cover.paste(front, (panel_w + spine_w, 0))
+    if not args.no_qr:
+        need_w = round(panel_w * master.height / full_h)
+        draw_qr(cover, BACK_X[1] - need_w, full_h / master.height, args.qr)
 
     OUT.mkdir(exist_ok=True)
     stem = f"cover-print-6x9-{spine_in:.3f}in"
@@ -148,6 +192,8 @@ def main():
     # Front cover alone, trimmed (no bleed), for ebook stores and the website.
     trim = front.crop((0, round(BLEED * DPI), round(TRIM_W * DPI), full_h - round(BLEED * DPI)))
     trim.save(OUT / "cover-front-6x9.jpg", quality=94, dpi=(DPI, DPI))
+    # Screen preview of the whole wrap, for the README and the website.
+    cover.resize((1536, round(1536 * full_h / full_w)), Image.LANCZOS).save(OUT / "cover-wrap-preview.jpg", quality=85)
 
     print(f"Spine {spine_in:.3f} in ({spine_w} px) · cover {full_w / DPI:.3f} × {full_h / DPI:.3f} in "
           f"({full_w} × {full_h} px at {DPI} dpi)")

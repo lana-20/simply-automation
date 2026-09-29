@@ -165,7 +165,7 @@ site/                 The web edition: build script, styles, assets
 docs/                 Generated website (built by site/build.py, not committed)
 ```
 
-The book is developed in the open. Corrections, suggestions, and translations are welcome as issues or pull requests.
+The book is developed in the open, and readers help shape it. See **[CONTRIBUTING.md](CONTRIBUTING.md)** to leave feedback, report a correction, or suggest an edit. Every chapter on the website links straight to the right form.
 
 ### Reading and building
 
@@ -185,12 +185,12 @@ Each `.tex` file under `book/` is also a standalone LaTeX document for print; fi
 The print cover is built to the printer's template from a 4x upscale of the cover art (Real-ESRGAN):
 
 ```sh
-pip install Pillow numpy
+pip install Pillow numpy segno
 python3 book/cover/build_cover.py --pages 152        # 6x9, KDP white paper
 python3 book/cover/build_cover.py --spine 0.42       # or the spine width from your printer's template
 ```
 
-The spine is rebuilt at the exact width for the page count. The barcode box on the back is left clear for the printer's ISBN barcode. Re-run with the final page count once the interior is typeset.
+The spine is rebuilt at the exact width for the page count. The back-cover label carries a QR code to the free web edition; pass `--no-qr` to leave that box clear for a retail ISBN barcode. Re-run with the final page count once the interior is typeset.
 
 ---
 

@@ -1,0 +1,29 @@
+name: Correction
+description: Report a factual error, typo, or broken link.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter or section
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: What the book says
+      description: Paste the sentence or describe the passage.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: What it should say
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: For factual corrections, link documentation, a changelog, a talk, or describe your first-hand experience.

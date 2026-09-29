@@ -10,6 +10,7 @@ center, itemize, enumerate, description, tabularx tables, and inline
 """
 
 import html
+from urllib.parse import quote
 import re
 import shutil
 from pathlib import Path
@@ -485,7 +486,7 @@ def footer():
   <p><em>{TITLE}</em> by {AUTHOR} is licensed under
   <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
   You may share and adapt it with attribution.</p>
-  <p><a href="{REPO}">Source on GitHub</a> · Tools come and go. The pattern remains.</p>
+  <p><a href="{REPO}">Source on GitHub</a> · <a href="{REPO}/blob/main/CONTRIBUTING.md">Contribute</a> · Tools come and go. The pattern remains.</p>
 </footer>"""
 
 
@@ -541,6 +542,14 @@ def build_chapter(idx, ch):
                 f'<span class="pager-dir">{word} · {html.escape(c["label"])}</span>'
                 f'<span class="pager-title">{html.escape(c["title"])}</span></a>')
 
+    where = f"{ch['label']}: {ch['title']}"
+    feedback_url = (f"{REPO}/issues/new?template=feedback.yml"
+                    f"&title={quote('Feedback: ' + where)}&chapter={quote(where)}")
+    edit_url = f"{REPO}/edit/main/book/{ch['src']}"
+    participate = f"""<aside class="participate" aria-label="Help shape this chapter">
+      <p>This book is written in the open. Spot an error, or have a thought about this chapter?</p>
+      <p class="participate-links"><a href="{html.escape(feedback_url)}">Leave feedback</a><a href="{edit_url}">Suggest an edit</a><a href="{REPO}/blob/main/CONTRIBUTING.md">How to contribute</a></p>
+    </aside>"""
     body = f"""{topbar(ch['label'])}
 <div class="reader">
   <aside class="rail" aria-label="In this part">
@@ -557,6 +566,7 @@ def build_chapter(idx, ch):
     <article class="prose">
 {body_html}
     </article>
+    {participate}
     <nav class="pager" aria-label="Chapters">
       {link(prev_ch, 'prev')}
       {link(next_ch, 'next')}
@@ -652,8 +662,8 @@ def build_index():
     <p>Each chapter opens with a passage from Stanisław Lem’s <em>Summa Technologiae</em> (1964), translated by
     Joanna Zylinska (University of Minnesota Press, 2013). Those quotations remain the property of their copyright
     holders and are not covered by the Creative Commons license.</p>
-    <p>The manuscript is written in LaTeX and developed in the open. Corrections and suggestions are welcome as
-    issues or pull requests on <a href="{REPO}">GitHub</a>.</p>
+    <p>The manuscript is written in LaTeX and developed in the open. Readers help shape it: leave feedback on any
+    chapter, report a correction, or suggest an edit. <a href="{REPO}/blob/main/CONTRIBUTING.md">Here’s how to contribute</a>.</p>
   </section>
 </main>
 {footer()}"""
