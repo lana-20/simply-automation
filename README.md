@@ -1,4 +1,4 @@
-<img width="360" alt="Simply Automation cover: a pilot stands on a red flying craft docked at a towering yellow wall" src="book/cover-front.png" />
+<img width="1024" alt="Simply Automation cover: a pilot stands on a red flying craft docked at a towering yellow wall" src="https://github.com/lana-20/simply-automation/blob/main/site/assets/share-card.jpg" />
 
 
 # Simply Automation
