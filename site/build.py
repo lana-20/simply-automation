@@ -24,6 +24,7 @@ TITLE = "Simply Automation"
 SUBTITLE = "A History of Automation, One Tool at a Time"
 AUTHOR = "Serene Dipster"
 REPO = "https://github.com/lana-20/simply-automation"
+SITE_URL = "https://lana-20.github.io/simply-automation/"
 WORDS_PER_MINUTE = 230
 
 # Reading order. `kind` groups the table of contents; `label` is the running head.
@@ -436,7 +437,7 @@ try{var t=localStorage.getItem('sa-theme');if(t)document.documentElement.setAttr
 </script>"""
 
 
-def page(title, body, description, extra_head="", body_class=""):
+def page(title, body, description, extra_head="", body_class="", path="index.html"):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -448,7 +449,14 @@ def page(title, body, description, extra_head="", body_class=""):
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(description)}">
 <meta property="og:type" content="book">
-<meta property="og:image" content="assets/cover.jpg">
+<meta property="og:site_name" content="{TITLE}">
+<meta property="og:url" content="{SITE_URL}{'' if path == 'index.html' else path}">
+<meta property="og:image" content="{SITE_URL}assets/share-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Simply Automation by {AUTHOR}: the book cover beside the title, free to read online.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{SITE_URL}{'' if path == 'index.html' else path}">
 <link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -575,7 +583,8 @@ def build_chapter(idx, ch):
 </div>
 {footer()}"""
     description = f"{ch['label']}: {ch['title']}. From {TITLE} by {AUTHOR}."
-    return page(f"{ch['label']}: {ch['title']} · {TITLE}", body, description, body_class="is-chapter")
+    return page(f"{ch['label']}: {ch['title']} · {TITLE}", body, description, body_class="is-chapter",
+                path=f"{ch['slug']}.html")
 
 
 def build_index():
