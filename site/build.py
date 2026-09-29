@@ -317,7 +317,8 @@ class Converter:
             self.stack.pop()
 
     def emit_table(self, rows):
-        text = " ".join(rows)
+        # Drop the column spec (e.g. {lXX}) that follows \begin{tabularx}{\textwidth}.
+        text = re.sub(r"^\s*\{[^}]*\}", "", " ".join(rows))
         cells = [r.strip() for r in re.split(r"\\\\", text) if r.strip()]
         out = ['<div class="table-wrap"><table>']
         for n, row in enumerate(cells):

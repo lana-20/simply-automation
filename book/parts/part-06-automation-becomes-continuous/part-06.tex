@@ -93,7 +93,7 @@ Each step made the feedback smaller. And small feedback is easier to understand.
 \noindent That mattered more than it sounds. Continuous integration had been a practice associated with disciplined teams and dedicated build engineers. Hudson made it something an ordinary team could simply start doing. Once again, the history of automation turned on lowering the cost of the first step.
 
 \section{6.6 The Fork}
-\noindent \initialcap{T}hen the ownership of the project changed. Oracle acquired Sun Microsystems, and with it, the Hudson name. A disagreement followed over governance, infrastructure, and the future direction of the project. In early 2011, the community voted to continue under a new name: Jenkins. Oracle kept Hudson. Most of the core contributors, and most of the users, followed Jenkins.
+\noindent \initialcap{T}hen the ownership of the project changed. Oracle acquired Sun Microsystems, and with it, the Hudson name. A dispute followed over the Hudson trademark, the project's infrastructure, and who would control its future. In early 2011, the community voted to continue under a new name: Jenkins. Oracle kept Hudson. Most of the core developers, including Kawaguchi, moved to Jenkins. Over time, the users followed.
 
 \noindent The details mattered to those involved. Historically, the lesson was familiar. We had already seen it with Selenium: open source separates software as a product from software as a community. The code could be forked. The project could move. The name could change. But the automation itself survived, because the people who depended on it could carry it with them.
 
@@ -112,7 +112,7 @@ Each stage became another automated step. The software wasn't merely tested; it 
 \section{6.9 Pipeline as Code}
 \noindent \initialcap{E}arly Jenkins jobs were often configured by clicking through web forms. That was convenient at first. It became a problem later. The configuration lived on the server, not in the repository. Nobody reviewed it. Nobody could easily see what had changed. If the server disappeared, the knowledge of how to build the software could disappear with it.
 
-\noindent The answer was to treat the pipeline the way Selenium had taught teams to treat tests: as code. Jenkins introduced the Jenkinsfile, a pipeline definition stored alongside the application itself. Now the pipeline could be versioned, reviewed, branched, and restored.
+\noindent The answer was to treat the pipeline the way teams had already learned to treat tests: as code. Jenkins introduced the Jenkinsfile, a pipeline definition stored alongside the application itself. Now the pipeline could be versioned, reviewed, branched, and restored.
 \begin{center}
 \textit{Clicked configuration $\rightarrow$ Scripted jobs $\rightarrow$ Pipeline as code}
 \end{center}
@@ -153,7 +153,7 @@ The logic was economic. A unit test that fails in seconds saves the pipeline fro
 \section{6.16 Parallelism and Agents}
 \noindent \initialcap{A}s test suites grew, a single build machine was no longer enough. A browser suite that took two hours on one machine might take fifteen minutes on eight. So testing became a resource-allocation problem involving CPUs, memory, browsers, devices, containers, and shared state.
 
-\noindent Jenkins handled this with a controller and a set of worker machines, which Jenkins called agents. The controller decided what needed to run. The agents did the work. Parallelism introduced its own discipline: tests that silently depended on each other, or on the order in which they ran, started failing once they ran side by side. The automation wasn't just controlling a browser anymore. It was controlling other machines---and discovering every hidden assumption along the way.
+\noindent Jenkins handled this by splitting the work between a central server and a set of worker machines. Today Jenkins calls them the controller and its agents. The project adopted ``agent'' in 2016 and ``controller'' in 2020. The controller decided what needed to run. The agents did the work. Parallelism introduced its own discipline: tests that silently depended on each other, or on the order in which they ran, started failing once they ran side by side. The automation wasn't just controlling a browser anymore. It was controlling other machines---and discovering every hidden assumption along the way.
 
 \section{6.17 Containers Make Environments Disposable}
 \noindent \initialcap{O}ne of the oldest sentences in software is \textit{``It works on my machine.''} Continuous integration moved the question to a new place: does it work on the build machine? And build machines had their own history. Software installed years ago. Leftover files from earlier runs. Settings nobody remembered changing.
@@ -180,7 +180,7 @@ The logic was economic. A unit test that fails in seconds saves the pipeline fro
 This closed the loop. Testing had always been a prediction about how software would behave. Production monitoring was the observation. The feedback loop that started with a single build now included reality itself.
 
 \section{6.21 Jenkins Becomes Boring}
-\noindent \initialcap{E}ventually, continuous integration stopped being a server a team installed. It became a feature of the place where the code already lived. Hosted services such as Travis CI, CircleCI, GitLab CI, and GitHub Actions let teams describe a pipeline in a small file in the repository and let someone else run the machines.
+\noindent \initialcap{E}ventually, continuous integration stopped being a server a team installed. It became a service connected to the repository, and often a feature of the place where the code already lived. Services such as Travis CI, CircleCI, GitLab CI, and GitHub Actions let teams describe a pipeline in a small file in the repository and let someone else run the machines.
 
 \noindent Jenkins remained widely used, especially in organizations with large existing investments and specific needs. But the idea had won so completely that it no longer needed a dedicated tool to explain it. Nobody had to argue for continuous integration anymore. It was simply expected. This is the same compliment Selenium received: the technology became boring. And boring is what infrastructure looks like when it works.
 

@@ -104,7 +104,7 @@ The agent decides when to use a tool. The tool performs the operation. The resul
 The automation tool has become part of the agent's vocabulary.
 
 \section{8.4 MCP Enters the Story}
-\noindent \initialcap{T}his problem became particularly visible with the rise of the Model Context Protocol, or MCP. The underlying idea is straightforward. Instead of every AI application inventing a completely different way to connect models to external capabilities, tools can expose structured interfaces that models can discover and use.
+\noindent \initialcap{G}iving agents tools raised a practical question: how does a model learn what a tool can do and how to call it? That question became particularly visible with the rise of the Model Context Protocol, or MCP. The underlying idea is straightforward. Instead of every AI application inventing a completely different way to connect models to external capabilities, tools can expose structured interfaces that models can discover and use.
 
 Conceptually:
 \begin{center}
@@ -144,16 +144,16 @@ The new question is:
 Humans are extraordinarily good at filling gaps. Agents fill them too---sometimes with things that aren't true.
 
 \section{8.8 The Story Rhymes}
-\noindent \initialcap{I}n 2004, an engineer at ThoughtWorks got tired of testing a web application by hand. He wrote a JavaScript tool to drive the browser. That tool became Selenium. His name was Jason Huggins.
+\noindent \initialcap{I}n 2004, an engineer at ThoughtWorks needed to test an internal time-and-expenses web application. He wrote a JavaScript tool to drive the browser. That tool became Selenium. His name was Jason Huggins.
 
-Two decades later, the same person returned to the same problem with a different user in mind. The new project was called Vibium. As Huggins put it: \textit{``I started the Selenium project 21 years ago. Vibium is what I'd build if I started over today.''}
+Two decades later, the same person returned to the same problem with a different user in mind. The new project was called Vibium. Announcing its first version on Hacker News in December 2025, Huggins wrote: \textit{``I started the Selenium project 21 years ago. Vibium is what I'd build if I started over today with AI agents in mind.''}
 
 History does not repeat itself very often. But it rhymes. The first time, the question was whether a human could stop clicking through the browser by hand. This time, the question was whether a machine could click through the browser on a human's behalf---and prove that it had done the right thing. The browser was the same kind of place. The person at the keyboard had changed. Sometimes there wasn't a person at the keyboard at all.
 
 \section{8.9 What Vibium Is}
 \noindent \initialcap{A}t its simplest, Vibium is browser automation designed for AI agents first and humans second, without abandoning either. Its project page describes it in one line: \textit{the verification layer for coding agents.}
 
-The architecture is deliberately plain. A single small binary manages the browser, so there is no tangle of drivers and dependencies to install. It speaks WebDriver BiDi, the modern standard for talking to browsers. It includes a built-in MCP server, so an agent can discover and use the browser as a tool without custom glue code. And it offers client libraries for JavaScript and TypeScript, Python, and Java, for humans who still want to write the script themselves.
+The architecture is deliberately plain. A single small binary manages the browser, so there is no tangle of drivers and dependencies to install. It speaks WebDriver BiDi, the bidirectional browser automation protocol being standardized at the W3C. It includes a built-in MCP server, so an agent can discover and use the browser as a tool without custom glue code. And it offers client libraries for JavaScript and TypeScript, Python, and Java, for humans who still want to write the script themselves.
 
 Conceptually:
 \begin{center}
@@ -170,7 +170,7 @@ The shape is almost the same. The thing on the left has changed.
 
 WebDriver BiDi was the standards world's answer: keep the interoperability of WebDriver, add the two-way, event-driven communication that modern tools needed. The browser could now tell the automation what was happening instead of waiting to be asked.
 
-Vibium built on that standard rather than around it. Huggins was clear that Selenium was not obsolete; he described depending on it as a base layer and pointed to BiDi as part of its evolution. The lesson from Part II returns: \textbf{standards outlive products.} An agent tool built on an open protocol can outlast the agent frameworks that call it.
+Vibium built on that standard rather than around it. Asked in a September 2025 podcast interview whether Selenium was obsolete, Huggins said no: he was depending on it as the base layer for his new work, which he described as, in part, an awareness campaign for WebDriver BiDi. The lesson from Part II returns: \textbf{standards outlive products.} An agent tool built on an open protocol can outlast the agent frameworks that call it.
 
 \section{8.11 Deterministic Tools, Nondeterministic Minds}
 \noindent \initialcap{A}n AI model is not a deterministic machine in the way a loom or a batch job is. Ask it the same question twice and it may take two different paths. That is part of what makes it useful. It is also what makes it dangerous as a direct operator of software.
@@ -197,7 +197,7 @@ This is Rule Thirteen from later in the book arriving early: \textbf{the machine
 \end{quote}
 Did it? Or did it click the button, see a page change, and conclude success? Did it reach the confirmation page, or an error page with a friendly design? Did it test the flow, or describe what it expected to happen?
 
-A statement is not evidence. An agent's confidence is not a test result. This is why Vibium's own framing puts verification at the center: the job is not only to act in the browser, but to check claims against what the browser actually shows---screenshots, page state, recordings. The machine's report has to point to something the human can inspect.
+A statement is not evidence. An agent's confidence is not a test result. Vibium's own framing puts verification at the center: the job is not only to act in the browser, but to check claims against what the browser actually shows---screenshots, page state, recordings. The machine's report has to point to something the human can inspect.
 \begin{center}
 \textit{Act $\rightarrow$ Observe $\rightarrow$ Verify $\rightarrow$ Show the evidence}
 \end{center}
@@ -215,7 +215,7 @@ The machine may know \textit{how} to perform an action without being authorized 
 \begin{center}
 \textit{Human defines the goal and the limits $\rightarrow$ Agent works $\rightarrow$ Human reviews the evidence}
 \end{center}
-Huggins has described the ambition with a driving metaphor: something more like a self-driving car that still has a steering wheel than an autopilot that removes human control. The steering wheel matters. The best agentic automation is not the kind that never needs a human. It is the kind that knows exactly when to ask for one.
+Huggins has described the ambition with a driving metaphor: a self-driving car that still has a steering wheel, one a person can still drive by switching the self-driving feature off. The steering wheel matters. The best agentic automation is not the kind that never needs a human. It is the kind that knows exactly when to ask for one.
 
 \section{8.16 The Cost of Autonomy}
 \noindent \initialcap{A}utonomy is not free. Every decision an agent makes is a small computation that costs money and time. An agent exploring a page may take ten actions where a script would take three. It may take a different route on Tuesday than it took on Monday, which makes failures harder to reproduce. It may be brilliant on a new workflow and wasteful on a boring one.
@@ -227,7 +227,7 @@ That leads to a practical conclusion that sounds almost old-fashioned: \textbf{o
 \begin{center}
 \textit{Can automation itself become a tool for machines?}
 \end{center}
-It is fitting that the question came back to the browser, and back to the person who first made the browser programmable. The automation boundary had moved again. For the first time, the thing on the other side of the boundary could move too.
+It is fitting that the question came back to the browser, and back to the person who had started Selenium. The automation boundary had moved again. For the first time, the thing on the other side of the boundary could move too.
 
 \section{8.18 The One-Sentence History}
 \noindent \initialcap{I}f Part VIII had to fit in a single sentence, it would be this:
@@ -240,7 +240,7 @@ It is fitting that the question came back to the browser, and back to the person
 
 \noindent \initialcap{T}he lessons from Part VIII:
 \begin{enumerate}
-    \item \textbf{The user of automation changed.} For the first time in history, a major consumer of automation tools is no longer a human developer or tester, but an AI agent.
+    \item \textbf{The user of automation changed.} Automation tools gained a new kind of user: alongside human developers and testers, AI agents now operate them too.
     \item \textbf{Intent replaces procedure.} Humans supply high-level goals; machines dynamically construct the sequence of actions.
     \item \textbf{Tools are designed for machines.} Protocols like MCP allow models to discover and operate software capabilities programmatically.
     \item \textbf{The browser becomes a workspace.} Browsers transition from human documents and script targets into interactive environments for AI agents.

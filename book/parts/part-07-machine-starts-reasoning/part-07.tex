@@ -121,12 +121,12 @@ The class name may change tomorrow. The human meaning probably won't. The user s
 
 Modern frameworks increasingly encouraged locators based on the application's semantics. For example:
 \begin{center}
-\texttt{getByRole("button", \{ name: "Buy now" \})}
+\texttt{page.getByRole("button", \{ name: "Buy now" \})}
 \end{center}
 Now the test describes something closer to what a human means. Not \textit{Find this particular piece of HTML}, but \textit{Find the button named ``Buy now''}. The distinction matters. The more the automation expresses intent rather than implementation, the less brittle it can become.
 
 \section{7.8 Automation Moves Toward Meaning}
-\noindent \initialcap{T}his was happening everywhere. Old style: \texttt{\#submit-button-7}. More semantic style: \texttt{button[name="Submit"]}. Or: \texttt{getByRole("button", \{ name: "Submit" \})}. 
+\noindent \initialcap{T}his was happening everywhere. Old style: \texttt{\#submit-button-7}, an ID that only the code knows about. Semantic style: \texttt{page.getByRole("button", \{ name: "Submit" \})}, the button a user would describe as ``Submit.'' 
 
 The automation is moving upward in abstraction. That mirrors the entire history of the book: the machine began with coordinates, then objects, then selectors, now semantics. Each generation tries to describe the target at a higher level.
 
@@ -140,7 +140,7 @@ A screen reader doesn't need to think: \textit{There is a div with a particular 
 
 Playwright's test runner made assertions patient too. Instead of asking once, an assertion such as:
 \begin{center}
-\texttt{expect(page.getByText("Saved")).toBeVisible()}
+\texttt{await expect(page.getByText("Saved")).toBeVisible()}
 \end{center}
 keeps checking until the condition becomes true or a timeout expires. The verification is expressed as a condition about the page, not as a snapshot of a single moment. That changed the shape of the test. The action waits for the page. The assertion waits for the result. The human describes what should become true.
 
@@ -157,10 +157,10 @@ Playwright made isolated contexts lightweight and fast. A single browser instanc
 \section{7.13 Isolation by Default}
 \noindent \initialcap{C}heap contexts made a cultural change possible. If a fresh browser session costs almost nothing, every test can start with one. No leftover cookies. No logged-in user from the previous test. No shopping cart that remembers yesterday.
 
-Shared state had been one of the oldest sources of flakiness, going back to the first batch jobs that assumed a clean machine. Test A passes alone. Test B passes alone. Run them together, in a particular order, and B fails because A left something behind. Isolation by default turned a best practice that teams had to enforce into the tool's starting assumption. And if a suite needed a logged-in user, it could save authenticated state once and load it into each new context, rather than logging in through the UI a thousand times.
+Shared state had long been one of the most common sources of flakiness. Test A passes alone. Test B passes alone. Run them together, in a particular order, and B fails because A left something behind. Isolation by default turned a best practice that teams had to enforce into the tool's starting assumption. And if a suite needed a logged-in user, it could save authenticated state once and load it into each new context, rather than logging in through the UI a thousand times.
 
 \section{7.14 Network Interception Becomes First-Class}
-\noindent \initialcap{W}eb applications communicate constantly with backends via APIs, WebSockets, and background fetches. Testing them often required dealing with network flakiness, slow responses, or external service dependencies. Earlier teams often solved this with a separate proxy server sitting between the browser and the internet, configured by hand and maintained as yet another piece of infrastructure.
+\noindent \initialcap{W}eb applications communicate constantly with backends via APIs, WebSockets, and background fetches. Testing them often required dealing with network flakiness, slow responses, or external service dependencies. Some earlier teams solved this with a separate proxy server sitting between the browser and the internet, configured by hand and maintained as yet another piece of infrastructure.
 
 Playwright built network interception directly into the core framework. Tests could intercept requests, mock responses, modify headers, simulate offline conditions, or track API traffic alongside UI interactions. A test could check that the page displays an error when the payment service returns a failure, without needing a payment service that fails on demand. The lessons of Part V had arrived inside the browser test. Automation was no longer just watching the screen; it was participating in the network traffic that created the screen.
 
@@ -207,7 +207,7 @@ The tool was an exceptionally sophisticated assistant. But the human was still t
     \item \textbf{Helpful tools can hide problems.} A framework that waits patiently can also tolerate real slowness; reliability and truthfulness are different properties.
     \item \textbf{The control layer is a design choice.} Standard protocols trade depth for independence; engine-level access trades independence for depth.
     \item \textbf{Semantics beat implementation selectors.} Locators based on roles and accessibility trees are more resilient than fragile CSS classes or XPaths.
-    \item \textbf{Isolation should be the default.} Cheap, independent browser contexts remove one of the oldest sources of flaky automation: shared state.
+    \item \textbf{Isolation should be the default.} Cheap, independent browser contexts remove one of the most common sources of flaky automation: shared state.
     \item \textbf{The browser is a distributed runtime.} Modern apps require automation to handle async requests, network traffic, and isolated contexts natively.
     \item \textbf{Observability is essential for scale.} Traces, snapshots, and network logs turn remote test debugging from a mystery into data.
     \item \textbf{Old ideas return when the layer underneath improves.} Record and playback came back as a code generator, not as the product.

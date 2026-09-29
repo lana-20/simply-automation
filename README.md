@@ -1,4 +1,4 @@
-<img width="1024" alt="Simply Automation cover: a pilot stands on a red flying craft docked at a towering yellow wall" src="https://github.com/lana-20/simply-automation/blob/main/site/assets/share-card.jpg" />
+<img width="1024" alt="Simply Automation by Serene Dipster: the title and author beside the book cover, free to read online under CC BY 4.0" src="https://github.com/lana-20/simply-automation/blob/main/site/assets/share-card.jpg" />
 
 
 # Simply Automation
