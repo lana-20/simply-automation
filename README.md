@@ -160,6 +160,7 @@ book/                 The manuscript, in LaTeX
   appendices/         Timeline, the seven tools, glossary, graveyard, further reading
   cover-front.png     Front cover
   cover-wrap.png      Full wraparound cover (back, spine, front)
+  cover/              Print cover: 4x artwork master, build script, fonts, print PDF
 site/                 The web edition: build script, styles, assets
 docs/                 Generated website (built by site/build.py, not committed)
 ```
@@ -178,6 +179,18 @@ open docs/index.html
 Every push to `main` rebuilds and publishes the site through GitHub Pages (see `.github/workflows/pages.yml`).
 
 Each `.tex` file under `book/` is also a standalone LaTeX document for print; files that use `fontspec` need XeLaTeX or LuaLaTeX.
+
+### Print cover
+
+The print cover is built to the printer's template from a 4x upscale of the cover art (Real-ESRGAN):
+
+```sh
+pip install Pillow numpy
+python3 book/cover/build_cover.py --pages 152        # 6x9, KDP white paper
+python3 book/cover/build_cover.py --spine 0.42       # or the spine width from your printer's template
+```
+
+The spine is rebuilt at the exact width for the page count. The barcode box on the back is left clear for the printer's ISBN barcode. Re-run with the final page count once the interior is typeset.
 
 ---
 
