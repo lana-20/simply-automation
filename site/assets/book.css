@@ -494,3 +494,15 @@ tr:first-child th { font-family: var(--caps); font-size: 0.76rem; letter-spacing
 .participate + .pager { margin-top: 2rem; }
 .prose .epigraph p { hyphens: manual; -webkit-hyphens: manual; text-wrap: balance; }
 .prose h2 + p.has-initial, .prose h3 + p.has-initial { margin-top: 1em; }
+
+/* Chapter illustration, under the masthead */
+.plate { margin: 0 0 2.6rem; }
+.plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  box-shadow: 0 1px 0 var(--line), 0 18px 40px -26px rgba(20, 16, 10, 0.55);
+}
+@media (min-width: 64rem) { .plate { margin-inline: -2rem; } }

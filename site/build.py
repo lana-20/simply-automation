@@ -10,6 +10,7 @@ center, itemize, enumerate, description, tabularx tables, and inline
 """
 
 import html
+import json
 from urllib.parse import quote
 import re
 import shutil
@@ -18,6 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 BOOK = ROOT / "book"
 SITE = ROOT / "site"
+ILLUSTRATIONS = SITE / "illustrations.json"
 OUT = ROOT / "docs"
 
 TITLE = "Simply Automation"
@@ -225,6 +227,19 @@ def inline(s):
     return re.sub(r"[ \t]+", " ", "".join(out))
 
 
+def add_initial(body):
+    """Wrap a paragraph's first letter in a drop cap, as \\initialcap does in Parts I–VIII.
+
+    Leaves the paragraph alone if it already has one, or opens with markup, a digit or punctuation
+    (a drop cap there reads badly)."""
+    if body.startswith('<span class="initial">'):
+        return body
+    m = re.match(r"([A-Za-z])", body)
+    if not m:
+        return body
+    return f'<span class="initial">{m.group(1)}</span>' + body[1:]
+
+
 def slugify(text):
     text = re.sub(r"<[^>]+>", "", text)
     text = html.unescape(text).lower()
@@ -243,6 +258,7 @@ class Converter:
         self.item_open = []      # per list: is an <li>/<dd> currently open?
         self.table_rows = None
         self.toc = []            # (level, id, text)
+        self.cap_next = True     # next top-level paragraph opens a chapter or section
         self.ids = set()
 
     def flush(self):
@@ -260,11 +276,15 @@ class Converter:
         elif env == "center":
             self.html.append(f'<p class="center">{body}</p>')
         else:
+            if self.cap_next and not self.stack:
+                body = add_initial(body)
+            self.cap_next = False
             cls = ' class="has-initial"' if body.startswith('<span class="initial">') else ""
             self.html.append(f"<p{cls}>{body}</p>")
 
     def heading(self, level, raw):
         self.flush()
+        self.cap_next = True
         text = inline(raw).strip()
         num = None
         m = re.match(r"^(\d+\.\d+)\s+(.*)$", text)
@@ -289,6 +309,8 @@ class Converter:
 
     def begin(self, env, rest):
         self.flush()
+        if env != "center":
+            self.cap_next = False
         if env in ("itemize", "enumerate", "description"):
             tag = {"itemize": "ul", "enumerate": "ol", "description": "dl"}[env]
             self.html.append(f"<{tag}>")
@@ -528,6 +550,17 @@ def drop_masthead_headings(body_html, toc, ch):
     return body_html, [t for t in toc if t[1] not in dropped]
 
 
+def plate(ch):
+    """The chapter illustration under the masthead, if one has been published for this chapter."""
+    img = SITE / "assets/illustrations" / f"{ch['slug']}.jpg"
+    if not img.exists():
+        return ""
+    alts = json.loads(ILLUSTRATIONS.read_text(encoding="utf-8")) if ILLUSTRATIONS.exists() else {}
+    alt = alts.get(ch["slug"], f"Illustration for {ch['label']}: {ch['title']}")
+    return (f'<figure class="plate"><img src="assets/illustrations/{ch["slug"]}.jpg" width="1400" height="933" '
+            f'alt="{html.escape(alt)}" decoding="async"></figure>')
+
+
 def build_chapter(idx, ch):
     body_html, toc = convert(BOOK / ch["src"])
     body_html, toc = drop_masthead_headings(body_html, toc, ch)
@@ -573,6 +606,7 @@ def build_chapter(idx, ch):
       {heading_sub}
       <div class="rule" aria-hidden="true"><span></span></div>
     </header>
+    {plate(ch)}
     <article class="prose">
 {body_html}
     </article>
@@ -686,9 +720,8 @@ def build_index():
 def main():
     if OUT.exists():
         shutil.rmtree(OUT)
-    (OUT / "assets").mkdir(parents=True)
-    for f in (SITE / "assets").iterdir():
-        shutil.copy2(f, OUT / "assets" / f.name)
+    OUT.mkdir()
+    shutil.copytree(SITE / "assets", OUT / "assets")
     for idx, ch in enumerate(CHAPTERS):
         (OUT / f"{ch['slug']}.html").write_text(build_chapter(idx, ch), encoding="utf-8")
     (OUT / "index.html").write_text(build_index(), encoding="utf-8")
