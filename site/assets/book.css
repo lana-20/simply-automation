@@ -245,11 +245,15 @@ tr:first-child th { font-family: var(--caps); font-size: 0.76rem; letter-spacing
   float: left;
   font-family: var(--display);
   font-weight: 600;
-  font-size: 3.6em;
-  line-height: 0.82;
-  padding: 0.08em 0.1em 0 0;
+  /* Two lines of body text tall: 2 × 1.62 line-height ≈ 3.24em. */
+  font-size: 3.35em;
+  line-height: 0.97;
+  margin: 0.04em 0.12em 0 0;
   color: var(--rust);
 }
+/* The paragraph grows to contain its drop cap, so a short opening line never
+   lets the letter hang into the list, quote or heading that follows. */
+.prose p.has-initial { display: flow-root; }
 
 .prose blockquote {
   margin-inline: 0;
@@ -489,3 +493,4 @@ tr:first-child th { font-family: var(--caps); font-size: 0.76rem; letter-spacing
 .participate-links a { font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
 .participate + .pager { margin-top: 2rem; }
 .prose .epigraph p { hyphens: manual; -webkit-hyphens: manual; text-wrap: balance; }
+.prose h2 + p.has-initial, .prose h3 + p.has-initial { margin-top: 1em; }

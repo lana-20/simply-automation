@@ -170,9 +170,29 @@ This question will become particularly important in the age of AI. For now, the 
 \noindent \initialcap{W}ebDriver's historical contribution is easy to underestimate because it eventually became ordinary. But consider what it achieved: a browser became remotely controllable through a standardized interface. That interface could be implemented across browsers. Programming languages could use it. Testing frameworks could build on it. CI systems could execute it. Cloud providers could host it. Organizations could build entire automation strategies around it. That is not merely a testing feature. It is infrastructure.
 
 \section{3.23 The Layer Cake}
-\noindent \initialcap{B}y this point, a modern automation stack could look something like:
+\noindent \initialcap{B}y this point, a single click in a test passed through a whole stack of layers. Each one hands the command to the next:
 \begin{quote}
-Application $\downarrow$ Browser $\downarrow$ WebDriver $\downarrow$ Selenium $\downarrow$ Test framework $\downarrow$ CI system $\downarrow$ Infrastructure $\downarrow$ Cloud
+\centering
+\textbf{Test framework} (your test code)\\
+$\downarrow$ \textit{calls}\\
+\textbf{Selenium} (the client library)\\
+$\downarrow$ \textit{sends a WebDriver command to}\\
+\textbf{Browser driver} (chromedriver, geckodriver)\\
+$\downarrow$ \textit{controls}\\
+\textbf{Browser}\\
+$\downarrow$ \textit{runs}\\
+\textbf{Application}
+\end{quote}
+And all of it has to run somewhere:
+\begin{quote}
+\centering
+\textbf{Test suite}\\
+$\downarrow$ \textit{runs on}\\
+\textbf{CI system}\\
+$\downarrow$ \textit{runs on}\\
+\textbf{Machines and containers}\\
+$\downarrow$ \textit{often rented from}\\
+\textbf{A cloud provider}
 \end{quote}
 Each layer abstracts something. Each layer also introduces another possible failure. That is the price of modern software. We solve complexity by stacking abstractions on top of it.
 

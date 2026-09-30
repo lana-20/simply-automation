@@ -260,7 +260,8 @@ class Converter:
         elif env == "center":
             self.html.append(f'<p class="center">{body}</p>')
         else:
-            self.html.append(f"<p>{body}</p>")
+            cls = ' class="has-initial"' if body.startswith('<span class="initial">') else ""
+            self.html.append(f"<p{cls}>{body}</p>")
 
     def heading(self, level, raw):
         self.flush()
